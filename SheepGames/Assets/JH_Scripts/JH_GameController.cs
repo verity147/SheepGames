@@ -20,6 +20,7 @@ public class JH_GameController : MonoBehaviour {
     private Transform tempProj;
     private Transform tempWall;
     private Transform tempPlayer;
+    private Transform[] wallChildren;
     private List<Vector3> backgroundStartPos;
     private List<float> parallaxMag;
 
@@ -69,6 +70,14 @@ public class JH_GameController : MonoBehaviour {
             staticVCam.MoveToTopOfPrioritySubqueue();
     }
 
+    internal void ChangeWallCollision()
+    {
+        ///changes collision to !CollidePlayer for all child elements
+        foreach (Transform child in wallChildren)
+        {
+            child.gameObject.layer = 9;
+        }
+    }
 
     public void SpawnNewPlayer()
     {
@@ -96,6 +105,7 @@ public class JH_GameController : MonoBehaviour {
         tempProj = Instantiate(projPrefab, transform.position, Quaternion.identity);
         tempPlayer = Instantiate(playerPrefab, transform.position, Quaternion.identity);
         tempWall = Instantiate(wallPrefab, wallPos, Quaternion.identity);
+        wallChildren = tempWall.GetComponentsInChildren<Transform>();
         movingVCam.Follow = tempPlayer;
         staticVCam.MoveToTopOfPrioritySubqueue();
 

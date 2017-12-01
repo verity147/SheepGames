@@ -71,6 +71,7 @@ public class JH_PlayerBody : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         anim.SetBool("flyBlend", false);//instead start collision animation here
+        gameController.ChangeWallCollision(); //trigger with animation, when the collision animation is sufficiently far along
         //if (collision.relativeVelocity.magnitude > 2) to adjust animation to force of impact
     }
 
