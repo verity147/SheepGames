@@ -12,7 +12,7 @@ public class JH_GameController : MonoBehaviour {
     public Camera mCam; /// main camera
     public CinemachineVirtualCameraBase staticVCam;
     public CinemachineVirtualCameraBase movingVCam;
-    public float smoothFactor = 1f;
+    public float smoothFactor;
 
 
     private Vector3 wallPos;
@@ -21,6 +21,7 @@ public class JH_GameController : MonoBehaviour {
     private Transform tempWall;
     private Transform tempPlayer;
     private List<Vector3> backgroundStartPos;
+    private List<float> parallaxMag;
 
     //use this script to retain trail from previous tries
 
@@ -30,13 +31,14 @@ public class JH_GameController : MonoBehaviour {
         prevCamPos = movingVCam.transform.position;
 
         backgroundStartPos = new List<Vector3>();
-
+        parallaxMag = new List<float>();
         foreach(Transform obj in toBeMovedInParallax)
             {
                 backgroundStartPos.Add(obj.position);
+                parallaxMag.Add(smoothFactor);
+                smoothFactor *= 0.3f;
             }
         SpawnNewPlayer();
-        staticVCam.MoveToTopOfPrioritySubqueue();
     }
 
 
@@ -46,10 +48,12 @@ public class JH_GameController : MonoBehaviour {
         if(mCam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.Name == movingVCam.Name)
         {
             camDist = Mathf.Abs(movingVCam.transform.position.x - prevCamPos.x);
-            foreach(Transform bgElement in toBeMovedInParallax)
+            for (int i = 0; i < toBeMovedInParallax.Length; i++)
             {
-                float nextX = bgElement.position.x - camDist; //greater z equals smaller nextX
-                bgElement.position = new Vector3(nextX, bgElement.position.y, bgElement.position.z);
+                float nextX = toBeMovedInParallax[i].position.x - camDist; //greater z equals smaller nextX
+                toBeMovedInParallax[i].position = new Vector3 (Mathf.Lerp(toBeMovedInParallax[i].position.x, nextX, parallaxMag[i]*Time.deltaTime),
+                                                  toBeMovedInParallax[i].position.y,
+                                                  toBeMovedInParallax[i].position.z);
             }
         }
             prevCamPos = movingVCam.transform.position;
@@ -93,8 +97,7 @@ public class JH_GameController : MonoBehaviour {
         tempPlayer = Instantiate(playerPrefab, transform.position, Quaternion.identity);
         tempWall = Instantiate(wallPrefab, wallPos, Quaternion.identity);
         movingVCam.Follow = tempPlayer;
-        //prevCamPos = movingVCam.transform.position;
-        SwitchCamera();
+        staticVCam.MoveToTopOfPrioritySubqueue();
 
     }
 
