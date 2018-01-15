@@ -1,13 +1,16 @@
 fileFormatVersion: 2
-guid: baf453458c6c4074498da2ff9eb058a7
-timeCreated: 1504705691
+guid: fe4638a2646e62f4e99d8788102705ca
+timeCreated: 1516021183
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: JH_Jumper_faces_0
-    21300002: JH_Jumper_faces_1
-    21300004: JH_Jumper_faces_2
-    21300006: JH_Jumper_faces_3
+    21300000: JH_Jumper_grumpy
+    21300002: JH_Jumper_happy
+    21300004: JH_Jumper_shock
+    21300006: JH_Jumper_serious
+    21300008: JH_Jumper_earR
+    21300010: JH_Jumper_earSL
+  externalObjects: {}
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -34,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 2
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -49,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 200
+  spritePixelsToUnits: 250
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -61,6 +64,7 @@ TextureImporter:
   platformSettings:
   - buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -69,6 +73,7 @@ TextureImporter:
     overridden: 0
   - buildTarget: Standalone
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -77,6 +82,7 @@ TextureImporter:
     overridden: 0
   - buildTarget: iPhone
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -85,6 +91,7 @@ TextureImporter:
     overridden: 0
   - buildTarget: Android
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -93,6 +100,7 @@ TextureImporter:
     overridden: 0
   - buildTarget: Windows Store Apps
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -101,6 +109,7 @@ TextureImporter:
     overridden: 0
   - buildTarget: WebGL
     maxTextureSize: 2048
+    resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
@@ -111,57 +120,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: JH_Jumper_faces_0
+      name: JH_Jumper_grumpy
       rect:
         serializedVersion: 2
-        x: 112
-        y: 715
-        width: 361
-        height: 293
+        x: 54
+        y: 196
+        width: 327
+        height: 298
       alignment: 9
-      pivot: {x: 0.59413016, y: 0.37202635}
+      pivot: {x: 0.25, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: JH_Jumper_faces_1
+      name: JH_Jumper_happy
       rect:
         serializedVersion: 2
-        x: 586
-        y: 704
-        width: 430
-        height: 289
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 647
+        y: 16
+        width: 324
+        height: 296
+      alignment: 9
+      pivot: {x: 0.25, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: JH_Jumper_faces_2
+      name: JH_Jumper_shock
       rect:
         serializedVersion: 2
-        x: 596
-        y: 259
-        width: 415
-        height: 313
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 638
+        y: 354
+        width: 325
+        height: 297
+      alignment: 9
+      pivot: {x: 0.25, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: JH_Jumper_faces_3
+      name: JH_Jumper_serious
       rect:
         serializedVersion: 2
-        x: 121
-        y: 338
-        width: 279
-        height: 240
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 632
+        y: 714
+        width: 326
+        height: 296
+      alignment: 9
+      pivot: {x: 0.25, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: JH_Jumper_earR
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 530
+        width: 161
+        height: 264
+      alignment: 9
+      pivot: {x: 0.8298123, y: 0.8228755}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: JH_Jumper_earSL
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 514
+        width: 163
+        height: 320
+      alignment: 9
+      pivot: {x: 0.28885993, y: 0.8472736}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

@@ -25,6 +25,7 @@ public class JH_GameController : MonoBehaviour {
     private List<float> parallaxMag;
 
     //use this script to retain trail from previous tries
+    //determine which wall gets used in which level
 
     private void Start()
     {
@@ -72,6 +73,7 @@ public class JH_GameController : MonoBehaviour {
 
     internal void ChangeWallCollision()
     {
+        //better to trigger from player animationEvent
         ///changes collision to !CollidePlayer for all child elements
         foreach (Transform child in wallChildren)
         {
@@ -86,7 +88,7 @@ public class JH_GameController : MonoBehaviour {
             {
                 toBeMovedInParallax[i].position = backgroundStartPos[i];
             }
-        //reset HeatherBundle
+        ///Heatherbundle is reset as part of Wall
         if (tempPlayer)
         {
             Destroy(tempPlayer.gameObject);
