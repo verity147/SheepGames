@@ -15,6 +15,7 @@ public class JH_ScoreCalculator : MonoBehaviour {
 
     void Start () {
         //import current Score
+        //score needs to be reset on retry and kept for the next level
         stonePointPenalty = stonePointPenaltyStart;
 	}
     public void ResetPointPenalty()
@@ -25,16 +26,21 @@ public class JH_ScoreCalculator : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collider2D) 
     {
+        print(collider2D.tag);
         if(collider2D.tag == "JH_Stone")
         {
             score -= stonePointPenalty;
-            stonePointPenalty += stonePointPenaltyStart;
+            //stonePointPenalty += stonePointPenaltyStart;
             scoreText.text = "Score: " + score.ToString();
         }
         else if(collider2D.tag != "JH_Stone" && collider2D.tag != "Player")
         {
             score += winPointBonus;
             scoreText.text = "Score: " + score.ToString();
+        }
+        if (collider2D.GetComponent<SpriteRenderer>())
+        {
+            collider2D.GetComponent<SpriteRenderer>().color = Color.red;
         }
 
     }
