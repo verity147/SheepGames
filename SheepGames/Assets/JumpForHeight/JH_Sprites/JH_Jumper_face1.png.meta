@@ -1,15 +1,16 @@
 fileFormatVersion: 2
 guid: fe4638a2646e62f4e99d8788102705ca
-timeCreated: 1516101478
+timeCreated: 1516371576
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: JH_Jumper_grumpy
-    21300002: JH_Jumper_happy
-    21300004: JH_Jumper_shock
+    21300000: JH_Jumper_earR
+    21300002: JH_Jumper_face1_0
+    21300004: JH_Jumper_earSL
     21300006: JH_Jumper_serious
-    21300008: JH_Jumper_earR
-    21300010: JH_Jumper_earSL
+    21300008: JH_Jumper_shock
+    21300010: JH_Jumper_grumpy
+    21300012: JH_Jumper_happy
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -42,7 +43,7 @@ TextureImporter:
     mipBias: -1
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: -1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -120,62 +121,6 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: JH_Jumper_grumpy
-      rect:
-        serializedVersion: 2
-        x: 50
-        y: 196
-        width: 337
-        height: 298
-      alignment: 9
-      pivot: {x: 0.25, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: JH_Jumper_happy
-      rect:
-        serializedVersion: 2
-        x: 645
-        y: 16
-        width: 330
-        height: 296
-      alignment: 9
-      pivot: {x: 0.25, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: JH_Jumper_shock
-      rect:
-        serializedVersion: 2
-        x: 638
-        y: 354
-        width: 333
-        height: 297
-      alignment: 9
-      pivot: {x: 0.25, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: JH_Jumper_serious
-      rect:
-        serializedVersion: 2
-        x: 632
-        y: 714
-        width: 334
-        height: 296
-      alignment: 9
-      pivot: {x: 0.25, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
       name: JH_Jumper_earR
       rect:
         serializedVersion: 2
@@ -184,7 +129,21 @@ TextureImporter:
         width: 161
         height: 270
       alignment: 9
-      pivot: {x: 0.8298123, y: 0.8228755}
+      pivot: {x: 0.82, y: 0.82}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: JH_Jumper_face1_0
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 182
+        width: 393
+        height: 322
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -198,7 +157,63 @@ TextureImporter:
         width: 170
         height: 326
       alignment: 9
-      pivot: {x: 0.28885993, y: 0.8472736}
+      pivot: {x: 0.3, y: 0.85}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: JH_Jumper_serious
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 714
+        width: 343
+        height: 297
+      alignment: 9
+      pivot: {x: 0.25, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: JH_Jumper_shock
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 347
+        width: 349
+        height: 304
+      alignment: 9
+      pivot: {x: 0.25, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: JH_Jumper_grumpy
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 190
+        width: 337
+        height: 308
+      alignment: 9
+      pivot: {x: 0.25, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: JH_Jumper_happy
+      rect:
+        serializedVersion: 2
+        x: 643
+        y: 6
+        width: 334
+        height: 306
+      alignment: 9
+      pivot: {x: 0.25, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
