@@ -1,14 +1,12 @@
 fileFormatVersion: 2
-guid: 95960b6881ed9fe4496d39569bbef0af
-timeCreated: 1517222370
+guid: 2f765e8838d60174f835e2421a461dfe
+timeCreated: 1517221723
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: JH_Jumper_sad
-    21300002: JH_Jumper_okay
-    21300004: JH_Jumper_earLF
-    21300006: JH_Jumper_concentrated
-    21300008: JH_Jumper_face2_loser
+    21300000: JH_Jumper_loser_body
+    21300002: JH_Jumper_loser_hair
+    21300004: JH_Jumper_loser_face
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -51,7 +49,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 250
+  spritePixelsToUnits: 180
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -119,69 +117,41 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: JH_Jumper_sad
+      name: JH_Jumper_loser_body
       rect:
         serializedVersion: 2
-        x: 21
-        y: 21
-        width: 267
-        height: 292
+        x: 26
+        y: 543
+        width: 488
+        height: 459
       alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: JH_Jumper_okay
+      name: JH_Jumper_loser_hair
       rect:
         serializedVersion: 2
-        x: 23
-        y: 351
-        width: 266
-        height: 295
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 643
+        y: 911
+        width: 242
+        height: 74
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: JH_Jumper_earLF
+      name: JH_Jumper_loser_face
       rect:
         serializedVersion: 2
-        x: 313
-        y: 678
-        width: 138
-        height: 326
-      alignment: 9
-      pivot: {x: 0.34277233, y: 0.86908597}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: JH_Jumper_concentrated
-      rect:
-        serializedVersion: 2
-        x: 373
-        y: 358
-        width: 338
-        height: 298
-      alignment: 9
-      pivot: {x: 0.25, y: 0.25}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: JH_Jumper_face2_loser
-      rect:
-        serializedVersion: 2
-        x: 381
-        y: 38
-        width: 299
-        height: 278
+        x: 668
+        y: 616
+        width: 204
+        height: 220
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
       border: {x: 0, y: 0, z: 0, w: 0}

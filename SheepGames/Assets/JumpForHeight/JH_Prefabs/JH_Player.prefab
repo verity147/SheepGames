@@ -381,7 +381,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1123363698767384}
   m_LocalRotation: {x: -0, y: -0, z: 0.040975403, w: 0.9991602}
-  m_LocalPosition: {x: 0.56, y: -0.53, z: 0}
+  m_LocalPosition: {x: 1.06, y: 0.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4915548590924738}
@@ -570,7 +570,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1915110302599912}
   m_LocalRotation: {x: -0, y: -0, z: -0.021090377, w: 0.99977756}
-  m_LocalPosition: {x: 0.76, y: -0.5, z: 0}
+  m_LocalPosition: {x: 1.17, y: 0.11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4980642251850628}
@@ -657,8 +657,8 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.25, y: 0.25}
-    oldSize: {x: 1.36, y: 1.188}
-    newSize: {x: 1.36, y: 1.188}
+    oldSize: {x: 1.372, y: 1.188}
+    newSize: {x: 1.372, y: 1.188}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -826,24 +826,24 @@ CompositeCollider2D:
         Y: -4743276
   - m_Collider: {fileID: 61940628709362224}
     m_ColliderPaths:
-    - - X: 4121875
-        Y: -7027245
-      - X: 3725389
-        Y: -2201334
-      - X: 1789449
-        Y: -2360387
-      - X: 2185935
-        Y: -7186298
+    - - X: 6621875
+        Y: -3527246
+      - X: 6225388
+        Y: 1298664
+      - X: 4289449
+        Y: 1139611
+      - X: 4685935
+        Y: -3686298
   - m_Collider: {fileID: 61328635615617568}
     m_ColliderPaths:
-    - - X: 3600749
-        Y: -10871295
-      - X: 3126303
-        Y: -7638961
-      - X: 2102286
-        Y: -7789267
-      - X: 2576732
-        Y: -11021601
+    - - X: 6100749
+        Y: -7371293
+      - X: 5626303
+        Y: -4138959
+      - X: 4602286
+        Y: -4289266
+      - X: 5076732
+        Y: -7521599
   - m_Collider: {fileID: 61058564420777724}
     m_ColliderPaths:
     - - X: 13673220
@@ -882,8 +882,8 @@ CompositeCollider2D:
         Y: -181029
   m_CompositePaths:
     m_Paths:
-    - - {x: 0.41218752, y: -0.7027245}
-      - {x: 0.3927845, y: -0.4665574}
+    - - {x: 0.6100749, y: -0.73712933}
+      - {x: 0.5695089, y: -0.4607586}
       - {x: 1.21151, y: -0.4396925}
       - {x: 1.217029, y: -0.6860032}
       - {x: 1.4001582, y: -0.6818998}
@@ -900,16 +900,12 @@ CompositeCollider2D:
       - {x: 1.2925494, y: 0.3085764}
       - {x: 0.1315442, y: 0.27048022}
       - {x: 0.1559837, y: -0.4743276}
-      - {x: 0.1984078, y: -0.4729355}
-      - {x: 0.21859351, y: -0.71862984}
+      - {x: 0.4654023, y: -0.4641746}
+      - {x: 0.5076732, y: -0.7521599}
     - - {x: 1.367322, y: -1.029753}
       - {x: 1.3601501, y: -0.7096817}
       - {x: 1.2305646, y: -0.7125854}
       - {x: 1.2377363, y: -1.0326567}
-    - - {x: 0.3600749, y: -1.0871295}
-      - {x: 0.3126303, y: -0.7638961}
-      - {x: 0.2102286, y: -0.77892673}
-      - {x: 0.2576732, y: -1.1021601}
   m_VertexDistance: 0.0005
 --- !u!95 &95328835589744926
 Animator:
@@ -1194,7 +1190,7 @@ SpriteRenderer:
   m_SortingLayerID: 658809369
   m_SortingLayer: 3
   m_SortingOrder: 18
-  m_Sprite: {fileID: 21300008, guid: fe4638a2646e62f4e99d8788102705ca, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fe4638a2646e62f4e99d8788102705ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1369,7 +1365,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 658809369
   m_SortingLayer: 3
-  m_SortingOrder: 10
+  m_SortingOrder: 11
   m_Sprite: {fileID: 21300010, guid: e0234f64e5de0c448bd3db94f3d2bc60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1677,7 +1673,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 658809369
   m_SortingLayer: 3
-  m_SortingOrder: 10
+  m_SortingOrder: 11
   m_Sprite: {fileID: 21300012, guid: e0234f64e5de0c448bd3db94f3d2bc60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1727,7 +1723,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.36, y: 1.188}
+  m_Size: {x: 1.372, y: 1.188}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
