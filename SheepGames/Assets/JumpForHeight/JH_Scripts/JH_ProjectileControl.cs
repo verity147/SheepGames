@@ -8,9 +8,8 @@ public class JH_ProjectileControl : MonoBehaviour
     public float maxDragDist = 2f;
 
     internal bool isPressed = false;
-    internal Vector2 flightVel;
 
-    private bool readyToFly = false;
+
     private Rigidbody2D projectileRB;
     internal SpringJoint2D projSpringJoint;
     private Vector3 startPos;
@@ -52,12 +51,16 @@ public class JH_ProjectileControl : MonoBehaviour
                 projectileRB.position = mousePos;
             }
         }
-        if (projSpringJoint.enabled == true && transform.position.x > startPos.x && readyToFly == true)
-        {
-            OnRunUp();
-        }
+        
         lastFrameVel = projectileRB.velocity;
 
+        if(transform.position.x > gameController.transform.position.x)
+        {
+            projSpringJoint.enabled = false;
+            player.flightVel = lastFrameVel;
+            player.MovePlayerToStart();
+            StartCoroutine(WaitAndDestroy());
+        }
     }
 
     private void OnMouseDown()
@@ -71,10 +74,8 @@ public class JH_ProjectileControl : MonoBehaviour
         ///if player was only moved a negligible distance, respawn without doing a jump and without adding to score
         if (dragDist > 0.5f)
         {
-            //count towards score
             projectileRB.isKinematic = false;
-            readyToFly = true;
-            player.timeForRunUp = true;
+            OnRunUp();
         }
         else
         {
@@ -85,13 +86,7 @@ public class JH_ProjectileControl : MonoBehaviour
 
     private void OnRunUp()
     {
-        readyToFly = false;
-        projSpringJoint.enabled = false;
-        flightVel = lastFrameVel;
         ///give playerBody the momentum acquired and disable self
-        player.timeForRunUp = false;
-        player.TakeOff();
-        StartCoroutine(WaitAndDestroy());
     }
 
     private IEnumerator WaitAndDestroy()

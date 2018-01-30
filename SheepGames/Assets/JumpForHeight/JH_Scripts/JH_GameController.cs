@@ -17,6 +17,7 @@ public class JH_GameController : MonoBehaviour {
 
     private Vector3 wallPos;
     private Vector3 prevCamPos;
+    private Vector3 projSpawnPos;
     private Transform tempProj;
     private Transform tempWall;
     private Transform tempPlayer;
@@ -40,6 +41,10 @@ public class JH_GameController : MonoBehaviour {
                 parallaxMag.Add(smoothFactor);
                 smoothFactor *= 0.3f;
             }
+
+        ///Projectile self destroys when it gets to the right of Start so its position is set to ensure it always spawns left
+        projSpawnPos = transform.position - new Vector3(0.01f, 0f, 0f);
+
         SpawnNewPlayer();
     }
 
@@ -104,8 +109,9 @@ public class JH_GameController : MonoBehaviour {
             Destroy(tempWall.gameObject);
         }
 
-        tempProj = Instantiate(projPrefab, transform.position, Quaternion.identity);
+        tempProj = Instantiate(projPrefab, projSpawnPos, Quaternion.identity);
         tempPlayer = Instantiate(playerPrefab, playerPrefab.transform.position, Quaternion.identity);
+        tempPlayer.GetComponent<CompositeCollider2D>().enabled = false;
         tempWall = Instantiate(wallPrefab, wallPos, Quaternion.identity);
         wallChildren = tempWall.GetComponentsInChildren<Transform>();
         movingVCam.Follow = tempPlayer;
