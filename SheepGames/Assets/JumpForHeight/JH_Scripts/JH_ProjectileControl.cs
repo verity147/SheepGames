@@ -14,7 +14,7 @@ public class JH_ProjectileControl : MonoBehaviour
     private Rigidbody2D projectileRB;
     internal SpringJoint2D projSpringJoint;
     private Vector3 startPos;
-    private JH_PlayerBody playerBody;
+    private JH_PlayerBody player;
     private JH_GameController gameController;
     private Vector2 startJumpPos;
     private Vector2 mousePos;
@@ -23,7 +23,7 @@ public class JH_ProjectileControl : MonoBehaviour
 
     private void Start()
     {
-        playerBody = FindObjectOfType<JH_PlayerBody>();
+        player = FindObjectOfType<JH_PlayerBody>();
         gameController = FindObjectOfType<JH_GameController>();
         projectileRB = GetComponent<Rigidbody2D>();
         projSpringJoint = GetComponent<SpringJoint2D>();
@@ -74,7 +74,7 @@ public class JH_ProjectileControl : MonoBehaviour
             //count towards score
             projectileRB.isKinematic = false;
             readyToFly = true;
-            playerBody.timeForRunUp = true;
+            player.timeForRunUp = true;
         }
         else
         {
@@ -89,8 +89,8 @@ public class JH_ProjectileControl : MonoBehaviour
         projSpringJoint.enabled = false;
         flightVel = lastFrameVel;
         ///give playerBody the momentum acquired and disable self
-        playerBody.timeForRunUp = false;
-        playerBody.TakeOff();
+        player.timeForRunUp = false;
+        player.TakeOff();
         StartCoroutine(WaitAndDestroy());
     }
 

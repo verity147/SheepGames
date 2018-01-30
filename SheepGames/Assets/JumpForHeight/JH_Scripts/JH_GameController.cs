@@ -105,7 +105,7 @@ public class JH_GameController : MonoBehaviour {
         }
 
         tempProj = Instantiate(projPrefab, transform.position, Quaternion.identity);
-        tempPlayer = Instantiate(playerPrefab, transform.position, Quaternion.identity);
+        tempPlayer = Instantiate(playerPrefab, playerPrefab.transform.position, Quaternion.identity);
         tempWall = Instantiate(wallPrefab, wallPos, Quaternion.identity);
         wallChildren = tempWall.GetComponentsInChildren<Transform>();
         movingVCam.Follow = tempPlayer;
