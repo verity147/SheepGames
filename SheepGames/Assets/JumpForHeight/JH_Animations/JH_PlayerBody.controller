@@ -32,26 +32,26 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: crash
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: success
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
   - m_Name: collided
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: lost
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   - m_Name: overshot
-    m_Type: 9
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: success
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -105,6 +105,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 3
     m_ConditionEvent: moveSpeed
     m_EventTreshold: 0.01
+  - m_ConditionMode: 2
+    m_ConditionEvent: overshot
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102910209503653476}
   m_Solo: 0
@@ -127,7 +130,13 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: collided
+    m_ConditionEvent: lost
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: overshot
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: success
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102546067799170096}
@@ -198,6 +207,12 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: overshot
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: lost
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: success
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102188515105262304}
   m_Solo: 0
@@ -206,7 +221,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.75
+  m_ExitTime: 0.99
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -270,6 +285,12 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: success
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: lost
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: overshot
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102286166453943730}
   m_Solo: 0
@@ -316,7 +337,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: success
+    m_ConditionEvent: collided
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102091212689400092}
@@ -605,7 +626,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -120, y: -60, z: 0}
   m_EntryPosition: {x: -120, y: 12, z: 0}
-  m_ExitPosition: {x: 816, y: 156, z: 0}
+  m_ExitPosition: {x: 816, y: -228, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102271708278171326}
 --- !u!1107 &1107936961514234200

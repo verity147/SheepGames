@@ -24,7 +24,7 @@ public class JH_GameController : MonoBehaviour {
     internal Transform[] playerParts;
     internal Transform[] wallChildren;
     private List<Vector3> backgroundStartPos;
-    private List<float> parallaxMag;
+    private List<float> parallaxMag; /// Parallax magnitude
 
     //use this script to retain trail from previous tries
     //determine which wall gets used in which level
@@ -79,8 +79,7 @@ public class JH_GameController : MonoBehaviour {
 
     internal void ChangeCollision(Transform[] objectToChange, int layerIndex)
     {
-        //better to trigger from player animationEvent
-        ///changes collision to !CollidePlayer for all child elements
+        ///gets called to change wall collision, player collision
         foreach (Transform child in objectToChange)
         {
             child.gameObject.layer = layerIndex;
@@ -117,7 +116,6 @@ public class JH_GameController : MonoBehaviour {
         playerParts = tempPlayer.GetComponentsInChildren<Transform>();
         movingVCam.Follow = tempPlayer;
         staticVCam.MoveToTopOfPrioritySubqueue();
-
     }
 
 }

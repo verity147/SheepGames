@@ -92,7 +92,36 @@ public class JH_PlayerBody : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-         //if (collision.relativeVelocity.magnitude > 2) to adjust animation to force of impact
+        anim.SetTrigger("collided");
+        int result = 0;
+        //if (overshot) result = 0;
+        //if (won) result = 1;
+        //if (lost) result = 2;
+        switch(result)
+        {
+            case 0:
+                anim.SetBool("overshot", true);
+                anim.SetBool("success", false);
+                anim.SetBool("lost", false);
+                break;
+            case 1:
+                anim.SetBool("overshot", false);
+                anim.SetBool("success", true);
+                anim.SetBool("lost", false);
+                break;
+            case 2:
+                anim.SetBool("overshot", false);
+                anim.SetBool("success", false);
+                anim.SetBool("lost", true);
+                break;
+            default:
+                anim.SetBool("overshot", true);
+                anim.SetBool("success", false);
+                anim.SetBool("lost", false);
+                break;
+        }
+                //if (collision.relativeVelocity.magnitude > 2) to adjust animation to force of impact
+
     }
 
     private void CallWallCollisionChange()
@@ -100,4 +129,3 @@ public class JH_PlayerBody : MonoBehaviour
         gameController.ChangeCollision(gameController.wallChildren, 9);
     }
 }
-   

@@ -9,8 +9,8 @@ public class JH_ScoreCalculator : MonoBehaviour {
 
     private int score;
     private int newScore;
-    private int stonePointPenaltyStart = 50;
-    private int stonePointPenalty = 50;
+    private int stonePointPenaltyStart = 100;
+    private int stonePointPenalty = 100;
     private int winPointBonus = 1000;
 
     void Start () {
@@ -20,8 +20,9 @@ public class JH_ScoreCalculator : MonoBehaviour {
 	}
     public void ResetPointPenalty()
     {
+        score = 0;
         stonePointPenalty = stonePointPenaltyStart;
-        scoreText.text = "Score: 0";
+        scoreText.text = "Score: " + score.ToString();
     }
 
     private void OnTriggerEnter2D(Collider2D collider2D) 
