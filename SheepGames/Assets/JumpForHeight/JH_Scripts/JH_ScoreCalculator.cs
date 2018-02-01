@@ -26,7 +26,7 @@ public class JH_ScoreCalculator : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collider2D) 
     {
-        print(collider2D.tag);
+        print(collider2D.name);
         if(collider2D.tag == "JH_Stone")
         {
             score -= stonePointPenalty;

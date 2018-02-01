@@ -60,7 +60,8 @@ public class JH_PlayerBody : MonoBehaviour
         if (transform.position.x < startPos.x)
         {
             anim.SetTrigger("playerRelease");
-            playerColl.enabled = true;
+            //call gamecontroller to change layer
+            gameController.ChangeCollision(gameController.playerParts, 8);
             ///x position can put playerBody backwards if runwayDist is too short
             if (projControl.transform.position.x >= transform.position.x)
             {
@@ -91,9 +92,12 @@ public class JH_PlayerBody : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        gameController.ChangeWallCollision(); //trigger with animation, when the collision animation is sufficiently far along
-                                              //if (collision.relativeVelocity.magnitude > 2) to adjust animation to force of impact
-        print(collision);
+         //if (collision.relativeVelocity.magnitude > 2) to adjust animation to force of impact
+    }
+
+    private void CallWallCollisionChange()
+    {
+        gameController.ChangeCollision(gameController.wallChildren, 9);
     }
 }
    
