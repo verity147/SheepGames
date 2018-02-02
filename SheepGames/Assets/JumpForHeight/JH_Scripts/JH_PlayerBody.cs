@@ -93,34 +93,39 @@ public class JH_PlayerBody : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         anim.SetTrigger("collided");
-        int result = 0;
         //if (overshot) result = 0;
         //if (won) result = 1;
         //if (lost) result = 2;
-        switch(result)
+        //if (collision.relativeVelocity.magnitude > 2) to adjust animation to force of impact
+
+    }
+
+    internal void ShowEndAnimation()
+    {
+        int currentScore = gameController.GetComponentInChildren<JH_ScoreCalculator>().score;
+
+        if(currentScore == 0)
         {
-            case 0:
-                anim.SetBool("overshot", true);
-                anim.SetBool("success", false);
-                anim.SetBool("lost", false);
-                break;
-            case 1:
-                anim.SetBool("overshot", false);
-                anim.SetBool("success", true);
-                anim.SetBool("lost", false);
-                break;
-            case 2:
-                anim.SetBool("overshot", false);
-                anim.SetBool("success", false);
-                anim.SetBool("lost", true);
-                break;
-            default:
-                anim.SetBool("overshot", true);
-                anim.SetBool("success", false);
-                anim.SetBool("lost", false);
-                break;
+            anim.SetBool("overshot", true);
+            anim.SetBool("success", false);
+            anim.SetBool("lost", false);
+        }else if(currentScore > 0)
+        {
+            anim.SetBool("overshot", false);
+            anim.SetBool("success", true);
+            anim.SetBool("lost", false);
+        }else if (currentScore < 0)
+        {
+            anim.SetBool("overshot", false);
+            anim.SetBool("success", false);
+            anim.SetBool("lost", true);
         }
-                //if (collision.relativeVelocity.magnitude > 2) to adjust animation to force of impact
+        else
+        {
+            anim.SetBool("overshot", true);
+            anim.SetBool("success", false);
+            anim.SetBool("lost", false);
+        }
 
     }
 

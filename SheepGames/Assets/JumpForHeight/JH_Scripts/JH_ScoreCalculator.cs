@@ -7,41 +7,50 @@ public class JH_ScoreCalculator : MonoBehaviour {
 
     public Text scoreText;
 
-    private int score;
+    internal int score;
     private int newScore;
     private int stonePointPenaltyStart = 100;
     private int stonePointPenalty = 100;
     private int winPointBonus = 1000;
+    private List<GameObject> countedObjects;
 
     void Start () {
         //import current Score
         //score needs to be reset on retry and kept for the next level
+        scoreText.text = "Score: " + score.ToString();
         stonePointPenalty = stonePointPenaltyStart;
-	}
-    public void ResetPointPenalty()
+        countedObjects = new List<GameObject>();
+    }
+    public void ResetScore()
     {
         score = 0;
         stonePointPenalty = stonePointPenaltyStart;
         scoreText.text = "Score: " + score.ToString();
+        countedObjects.Clear();
+        countedObjects.TrimExcess();
     }
 
-    private void OnTriggerEnter2D(Collider2D collider2D) 
+    private void OnTriggerEnter2D(Collider2D obj) 
     {
-        print(collider2D.name);
-        if(collider2D.tag == "JH_Stone")
+        if (!countedObjects.Contains(obj.gameObject))
         {
-            score -= stonePointPenalty;
-            //stonePointPenalty += stonePointPenaltyStart;
-            scoreText.text = "Score: " + score.ToString();
+            countedObjects.Add(obj.gameObject);
+
+            if(obj.tag == "JH_Stone")
+            {
+                score -= stonePointPenalty;
+                //stonePointPenalty += stonePointPenaltyStart;
+                scoreText.text = "Score: " + score.ToString();
+            }
+            else if(obj.tag != "JH_Stone" && obj.tag != "Player")
+            {
+                score += winPointBonus;
+                scoreText.text = "Score: " + score.ToString();
+            }
         }
-        else if(collider2D.tag != "JH_Stone" && collider2D.tag != "Player")
+        if (obj.GetComponent<SpriteRenderer>())
         {
-            score += winPointBonus;
-            scoreText.text = "Score: " + score.ToString();
-        }
-        if (collider2D.GetComponent<SpriteRenderer>())
-        {
-            collider2D.GetComponent<SpriteRenderer>().color = Color.red;
+            obj.GetComponent<SpriteRenderer>().color = Color.red;
         }
 
     }
