@@ -72,10 +72,10 @@ public class JH_GameController : MonoBehaviour {
         if(Input.GetMouseButton(0) && tempProj != null)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //this returns 0,0,0 for unexplicable reasons
             jumpForce = tempProj.gameObject.GetComponent<SpringJoint2D>().GetReactionForce(5f);
-            print(jumpForce);
             //float angle = Mathf.Atan2(jumpForce.y, jumpForce.x) * Mathf.Rad2Deg;
-            DrawTrajectoryPoints(mousePos, jumpForce / tempPlayer.GetComponent<Rigidbody2D>().mass);
+            DrawTrajectoryPoints(mousePos, jumpForce / tempProj.GetComponent<Rigidbody2D>().mass);
         }
     }
 

@@ -8,6 +8,7 @@ public class JH_PlayerBody : MonoBehaviour
 
     public float maxRunwayDist;
     public float runUpDuration;
+    public float jumpPowerMod = 1f;
 
     private JH_ProjectileControl projControl;
     private JH_GameController gameController;
@@ -23,6 +24,10 @@ public class JH_PlayerBody : MonoBehaviour
     private Vector2 lastMousePos = Vector2.zero;
     private Vector3 lastPos = Vector3.zero;
     private Vector2 startPos;
+    private Vector2 currentMousePos = Vector2.zero;
+    private Vector2 jumpForce = Vector2.zero;
+
+    private bool hasJumped = false;
 
     private void Awake()
     {
@@ -40,12 +45,13 @@ public class JH_PlayerBody : MonoBehaviour
     }
     private void Update()
     {
-        Vector2 currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         ///if mousebutton is pressed on projectile and it's left of Start and 
         if (projControl.isPressed && (currentMousePos.x <= (startPos.x) && (currentMousePos.x > maxRunLeft)))
         {            
             playerRB.MovePosition(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y));
         }
+
         if (projControl.isPressed)
         {
             speed = (lastPos - transform.position).magnitude;
@@ -53,8 +59,32 @@ public class JH_PlayerBody : MonoBehaviour
             //lastMousePos = currentMousePos;
             lastPos = transform.position;
         }
-        ///run up after mouse is released
+
     }
+
+    private void OnMouseDrag()
+    {
+        if (hasJumped)
+        {
+            return;
+        }
+        if (currentMousePos.x <= (startPos.x) && (currentMousePos.x > maxRunLeft))
+        {
+            playerRB.MovePosition(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y));
+        }
+        speed = (lastPos - transform.position).magnitude;
+        anim.SetFloat("moveSpeed", speed);
+        lastPos = transform.position;
+    }
+
+    private void OnMouseUp()
+    {
+        hasJumped = true;
+        jumpForce = (new Vector2(currentMousePos.x, currentMousePos.y) - new Vector2(transform.position.x, transform.position.y)) * jumpPowerMod;
+        print(jumpForce);
+        MovePlayerToStart();
+    }
+
     internal void MovePlayerToStart()
     {
         if (transform.position.x < startPos.x)
@@ -63,9 +93,9 @@ public class JH_PlayerBody : MonoBehaviour
             //call gamecontroller to change layer
             gameController.ChangeCollision(gameController.playerParts, 8);
             ///x position can put playerBody backwards if runwayDist is too short
-            if (projControl.transform.position.x >= transform.position.x)
+            if (gameController.transform.position.x >= transform.position.x)
             {
-                float distance = projControl.transform.position.x - transform.position.x;
+                float distance = gameController.transform.position.x - transform.position.x;
                 float speed = distance / runUpDuration;
                 playerRB.velocity = new Vector2(speed, 0f);
             }
@@ -79,7 +109,7 @@ public class JH_PlayerBody : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Player right of Start 2");
+            Debug.LogWarning("Player never moved left");
         }
     }
     internal void TakeOff()
@@ -87,7 +117,10 @@ public class JH_PlayerBody : MonoBehaviour
         ///speed and physics are applied 
         anim.SetTrigger("fly");
         playerRB.isKinematic = false;
-        playerRB.velocity = flightVel;
+        //playerRB.velocity = flightVel;
+        //playerRB.velocity = Vector2.zero;
+        playerRB.AddForce(jumpForce, ForceMode2D.Impulse);
+        print(playerRB.velocity);
         gameController.SwitchCamera();
     }
     private void OnCollisionEnter2D(Collision2D collision)
@@ -99,6 +132,7 @@ public class JH_PlayerBody : MonoBehaviour
         //if (collision.relativeVelocity.magnitude > 2) to adjust animation to force of impact
 
     }
+
 
     internal void ShowEndAnimation()
     {
