@@ -18,7 +18,7 @@ public class JH_GameController : MonoBehaviour {
     public float smoothFactor;
 
     private int numberOfTrajPoints = 30;
-    private Vector2 jumpForce;
+    private Vector2 playerJumpForce;
     private Vector3 wallPos;
     private Vector3 prevCamPos;
     private Vector3 projSpawnPos;
@@ -69,17 +69,10 @@ public class JH_GameController : MonoBehaviour {
 
     private void Update()
     {
-        if(Input.GetMouseButton(0) && tempProj != null)
-        {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //this returns 0,0,0 for unexplicable reasons
-            jumpForce = tempProj.gameObject.GetComponent<SpringJoint2D>().GetReactionForce(5f);
-            //float angle = Mathf.Atan2(jumpForce.y, jumpForce.x) * Mathf.Rad2Deg;
-            DrawTrajectoryPoints(mousePos, jumpForce / tempProj.GetComponent<Rigidbody2D>().mass);
-        }
+
     }
 
-    private void DrawTrajectoryPoints(Vector3 fromPos, Vector3 pointVelocity)
+    internal void DrawTrajectoryPoints(Vector3 fromPos, Vector3 pointVelocity)
     {
         float pointVelRoot = Mathf.Sqrt((pointVelocity.x * pointVelocity.x) + (pointVelocity.y * pointVelocity.y));
         float angle = Mathf.Rad2Deg * (Mathf.Atan2(pointVelocity.y, pointVelocity.x));
@@ -89,9 +82,10 @@ public class JH_GameController : MonoBehaviour {
         {
             float dx = pointVelRoot * count * Mathf.Cos(angle * Mathf.Deg2Rad);
             float dy = pointVelRoot * count * Mathf.Sin(angle * Mathf.Deg2Rad) - (Physics2D.gravity.magnitude * count * count / 2.0f);
-            Vector3 pos = new Vector3(fromPos.x + dx, fromPos.y + dy, 2);
+            Vector2 pos = new Vector2(fromPos.x + dx, fromPos.y + dy);
             trajectoryPoints[i].transform.position = pos;
             trajectoryPoints[i].GetComponent<SpriteRenderer>().enabled = true;
+            //does the following rotate the individual points arounf their own z only?
             trajectoryPoints[i].transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(pointVelocity.y - (Physics.gravity.magnitude) * count, pointVelocity.x) * Mathf.Rad2Deg);
             count += 0.1f;
         }
@@ -157,7 +151,7 @@ public class JH_GameController : MonoBehaviour {
         }
 
         tempProj = Instantiate(projPrefab, projSpawnPos, Quaternion.identity, transform);
-        tempPlayer = Instantiate(playerPrefab, playerPrefab.transform.position, Quaternion.identity);
+        tempPlayer = Instantiate(playerPrefab, playerPrefab.transform.position, Quaternion.identity, transform);
         tempWall = Instantiate(wallPrefab, wallPos, Quaternion.identity);
         wallChildren = tempWall.GetComponentsInChildren<Transform>();
         playerParts = tempPlayer.GetComponentsInChildren<Transform>();

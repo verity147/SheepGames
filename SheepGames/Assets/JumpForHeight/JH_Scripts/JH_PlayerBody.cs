@@ -25,7 +25,7 @@ public class JH_PlayerBody : MonoBehaviour
     private Vector3 lastPos = Vector3.zero;
     private Vector2 startPos;
     private Vector2 currentMousePos = Vector2.zero;
-    private Vector2 jumpForce = Vector2.zero;
+    internal Vector2 jumpForce = Vector2.zero;
 
     private bool hasJumped = false;
 
@@ -37,7 +37,7 @@ public class JH_PlayerBody : MonoBehaviour
         playerRB = GetComponent<Rigidbody2D>();
         playerColl = GetComponent <CompositeCollider2D>();
         playerColl.enabled = false;
-        startPos = transform.position;
+        startPos = gameController.transform.position;
     }
     private void Start()
     {
@@ -46,42 +46,29 @@ public class JH_PlayerBody : MonoBehaviour
     private void Update()
     {
         currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        ///if mousebutton is pressed on projectile and it's left of Start and 
-        if (projControl.isPressed && (currentMousePos.x <= (startPos.x) && (currentMousePos.x > maxRunLeft)))
-        {            
-            playerRB.MovePosition(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y));
-        }
-
-        if (projControl.isPressed)
-        {
-            speed = (lastPos - transform.position).magnitude;
-            anim.SetFloat("moveSpeed", speed);
-            //lastMousePos = currentMousePos;
-            lastPos = transform.position;
-        }
-
     }
 
     private void OnMouseDrag()
     {
-        if (hasJumped)
+        if (!hasJumped)
         {
-            return;
+            if (currentMousePos.x <= startPos.x && currentMousePos.x > maxRunLeft)
+            {
+                playerRB.MovePosition(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y));
+                speed = (lastPos - transform.position).magnitude;
+                anim.SetFloat("moveSpeed", speed);
+                lastPos = transform.position;
+            }
+            jumpForce = (new Vector2(startPos.x, startPos.y) - new Vector2(currentMousePos.x, currentMousePos.y)) * jumpPowerMod;
+            //gameController.DrawTrajectoryPoints(currentMousePos, jumpForce / playerRB.mass);
         }
-        if (currentMousePos.x <= (startPos.x) && (currentMousePos.x > maxRunLeft))
-        {
-            playerRB.MovePosition(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y));
-        }
-        speed = (lastPos - transform.position).magnitude;
-        anim.SetFloat("moveSpeed", speed);
-        lastPos = transform.position;
     }
+
 
     private void OnMouseUp()
     {
         hasJumped = true;
-        jumpForce = (new Vector2(currentMousePos.x, currentMousePos.y) - new Vector2(transform.position.x, transform.position.y)) * jumpPowerMod;
-        print(jumpForce);
+        jumpForce = (new Vector2(startPos.x, startPos.y) - new Vector2(currentMousePos.x, currentMousePos.y)) * jumpPowerMod;
         MovePlayerToStart();
     }
 
@@ -90,7 +77,7 @@ public class JH_PlayerBody : MonoBehaviour
         if (transform.position.x < startPos.x)
         {
             anim.SetTrigger("playerRelease");
-            //call gamecontroller to change layer
+            ///call gamecontroller to change layer
             gameController.ChangeCollision(gameController.playerParts, 8);
             ///x position can put playerBody backwards if runwayDist is too short
             if (gameController.transform.position.x >= transform.position.x)
@@ -117,10 +104,7 @@ public class JH_PlayerBody : MonoBehaviour
         ///speed and physics are applied 
         anim.SetTrigger("fly");
         playerRB.isKinematic = false;
-        //playerRB.velocity = flightVel;
-        //playerRB.velocity = Vector2.zero;
         playerRB.AddForce(jumpForce, ForceMode2D.Impulse);
-        print(playerRB.velocity);
         gameController.SwitchCamera();
     }
     private void OnCollisionEnter2D(Collision2D collision)
