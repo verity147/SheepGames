@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System;
 
 public class JH_GameController : MonoBehaviour {
 
@@ -26,6 +27,7 @@ public class JH_GameController : MonoBehaviour {
     private Transform tempPlayer;
     internal Transform[] playerParts;
     internal Transform[] wallChildren;
+    private Transform trajectoryPointsHolder;
     private List<Vector3> backgroundStartPos;
     private List<GameObject> trajectoryPoints;
     private List<float> parallaxMag;
@@ -48,11 +50,14 @@ public class JH_GameController : MonoBehaviour {
                 parallaxMag.Add(smoothFactor);
                 smoothFactor *= 0.3f;
             }
+
+        ///this is only to organize the hierarchy
+        trajectoryPointsHolder = transform.Find("TrajectoryPointsHolder").transform;
         ///fill trajectoryPoints List with objects to display & turn off their renderer
         trajectoryPoints = new List<GameObject>();
         for(int i = 0; i < numberOfTrajPoints; i++)
         {
-            GameObject dot = Instantiate(trajPointPrefab);
+            GameObject dot = Instantiate(trajPointPrefab, trajectoryPointsHolder);
             dot.GetComponent<SpriteRenderer>().enabled = false;
             trajectoryPoints.Insert(i, dot);
         }
@@ -62,6 +67,35 @@ public class JH_GameController : MonoBehaviour {
         SpawnNewPlayer();
     }
 
+    private void Update()
+    {
+        if(Input.GetMouseButton(0) && tempProj != null)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            jumpForce = tempProj.gameObject.GetComponent<SpringJoint2D>().GetReactionForce(5f);
+            print(jumpForce);
+            //float angle = Mathf.Atan2(jumpForce.y, jumpForce.x) * Mathf.Rad2Deg;
+            DrawTrajectoryPoints(mousePos, jumpForce / tempPlayer.GetComponent<Rigidbody2D>().mass);
+        }
+    }
+
+    private void DrawTrajectoryPoints(Vector3 fromPos, Vector3 pointVelocity)
+    {
+        float pointVelRoot = Mathf.Sqrt((pointVelocity.x * pointVelocity.x) + (pointVelocity.y * pointVelocity.y));
+        float angle = Mathf.Rad2Deg * (Mathf.Atan2(pointVelocity.y, pointVelocity.x));
+        float count = 0f;
+        count += 0.1f;
+        for(int i = 0; i < numberOfTrajPoints; i++)
+        {
+            float dx = pointVelRoot * count * Mathf.Cos(angle * Mathf.Deg2Rad);
+            float dy = pointVelRoot * count * Mathf.Sin(angle * Mathf.Deg2Rad) - (Physics2D.gravity.magnitude * count * count / 2.0f);
+            Vector3 pos = new Vector3(fromPos.x + dx, fromPos.y + dy, 2);
+            trajectoryPoints[i].transform.position = pos;
+            trajectoryPoints[i].GetComponent<SpriteRenderer>().enabled = true;
+            trajectoryPoints[i].transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(pointVelocity.y - (Physics.gravity.magnitude) * count, pointVelocity.x) * Mathf.Rad2Deg);
+            count += 0.1f;
+        }
+    }
 
     private void LateUpdate()
     {
@@ -88,16 +122,6 @@ public class JH_GameController : MonoBehaviour {
         }
         else
             staticVCam.MoveToTopOfPrioritySubqueue();
-    }
-
-    private void OnMouseDrag()
-    {
-        if (tempProj != null)
-        {
-            jumpForce = tempProj.gameObject.GetComponent<SpringJoint2D>().GetReactionForce(Time.time);
-            //float angle = Mathf.Atan2(jumpForce.y, jumpForce.x) * Mathf.Rad2Deg;
-            DrawTrajectoryPoints()
-        }
     }
 
     internal void ChangeCollision(Transform[] objectToChange, int layerIndex)
@@ -132,7 +156,7 @@ public class JH_GameController : MonoBehaviour {
             Destroy(tempWall.gameObject);
         }
 
-        tempProj = Instantiate(projPrefab, projSpawnPos, Quaternion.identity);
+        tempProj = Instantiate(projPrefab, projSpawnPos, Quaternion.identity, transform);
         tempPlayer = Instantiate(playerPrefab, playerPrefab.transform.position, Quaternion.identity);
         tempWall = Instantiate(wallPrefab, wallPos, Quaternion.identity);
         wallChildren = tempWall.GetComponentsInChildren<Transform>();
