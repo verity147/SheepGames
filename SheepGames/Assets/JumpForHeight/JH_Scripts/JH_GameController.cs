@@ -5,16 +5,19 @@ using Cinemachine;
 
 public class JH_GameController : MonoBehaviour {
 
+
     public Transform projPrefab;
     public Transform playerPrefab;
     public Transform wallPrefab;
+    public GameObject trajPointPrefab;
     public Transform[] toBeMovedInParallax;
     public Camera mCam; /// main camera
     public CinemachineVirtualCameraBase staticVCam;
     public CinemachineVirtualCameraBase movingVCam;
     public float smoothFactor;
 
-
+    private int numberOfTrajPoints = 30;
+    private Vector2 jumpForce;
     private Vector3 wallPos;
     private Vector3 prevCamPos;
     private Vector3 projSpawnPos;
@@ -24,7 +27,10 @@ public class JH_GameController : MonoBehaviour {
     internal Transform[] playerParts;
     internal Transform[] wallChildren;
     private List<Vector3> backgroundStartPos;
-    private List<float> parallaxMag; /// Parallax magnitude
+    private List<GameObject> trajectoryPoints;
+    private List<float> parallaxMag;
+
+    /// Parallax magnitude
 
     //use this script to retain trail from previous tries
     //determine which wall gets used in which level
@@ -42,7 +48,14 @@ public class JH_GameController : MonoBehaviour {
                 parallaxMag.Add(smoothFactor);
                 smoothFactor *= 0.3f;
             }
-
+        ///fill trajectoryPoints List with objects to display & turn off their renderer
+        trajectoryPoints = new List<GameObject>();
+        for(int i = 0; i < numberOfTrajPoints; i++)
+        {
+            GameObject dot = Instantiate(trajPointPrefab);
+            dot.GetComponent<SpriteRenderer>().enabled = false;
+            trajectoryPoints.Insert(i, dot);
+        }
         ///Projectile self destroys when it gets to the right of Start so its position is set to ensure it always spawns left
         projSpawnPos = transform.position - new Vector3(0.01f, 0f, 0f);
 
@@ -75,6 +88,16 @@ public class JH_GameController : MonoBehaviour {
         }
         else
             staticVCam.MoveToTopOfPrioritySubqueue();
+    }
+
+    private void OnMouseDrag()
+    {
+        if (tempProj != null)
+        {
+            jumpForce = tempProj.gameObject.GetComponent<SpringJoint2D>().GetReactionForce(Time.time);
+            //float angle = Mathf.Atan2(jumpForce.y, jumpForce.x) * Mathf.Rad2Deg;
+            DrawTrajectoryPoints()
+        }
     }
 
     internal void ChangeCollision(Transform[] objectToChange, int layerIndex)
