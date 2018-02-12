@@ -7,7 +7,6 @@ using System;
 public class JH_GameController : MonoBehaviour {
 
 
-    public Transform projPrefab;
     public Transform playerPrefab;
     public Transform wallPrefab;
     public GameObject trajPointPrefab;
@@ -22,7 +21,6 @@ public class JH_GameController : MonoBehaviour {
     private Vector3 wallPos;
     private Vector3 prevCamPos;
     private Vector3 projSpawnPos;
-    private Transform tempProj;
     private Transform tempWall;
     private Transform tempPlayer;
     internal Transform[] playerParts;
@@ -140,17 +138,11 @@ public class JH_GameController : MonoBehaviour {
             Destroy(tempPlayer.gameObject);
         }
 
-        if (tempProj)
-        {
-            Destroy(tempProj.gameObject);
-        }
-
         if (tempWall)
         {
             Destroy(tempWall.gameObject);
         }
 
-        tempProj = Instantiate(projPrefab, projSpawnPos, Quaternion.identity, transform);
         tempPlayer = Instantiate(playerPrefab, playerPrefab.transform.position, Quaternion.identity, transform);
         tempWall = Instantiate(wallPrefab, wallPos, Quaternion.identity);
         wallChildren = tempWall.GetComponentsInChildren<Transform>();

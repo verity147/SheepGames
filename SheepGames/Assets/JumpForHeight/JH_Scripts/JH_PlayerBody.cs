@@ -10,7 +10,6 @@ public class JH_PlayerBody : MonoBehaviour
     public float runUpDuration;
     public float jumpPowerMod = 1f;
 
-    private JH_ProjectileControl projControl;
     private JH_GameController gameController;
     internal Animator anim;
     private Rigidbody2D playerRB;
@@ -31,7 +30,6 @@ public class JH_PlayerBody : MonoBehaviour
 
     private void Awake()
     {
-        projControl = FindObjectOfType<JH_ProjectileControl>();
         gameController = FindObjectOfType<JH_GameController>();
         anim = GetComponent<Animator>();
         playerRB = GetComponent<Rigidbody2D>();

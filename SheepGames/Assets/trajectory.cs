@@ -53,7 +53,7 @@ public class CannonScript : MonoBehaviour
             Vector3 vel = GetForceFrom(ball.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
             ///degree relative to x-axis
             float angle = Mathf.Atan2(vel.y, vel.x) * Mathf.Rad2Deg;
-            ///degree converted to a rotation around z-axis
+            ///degree converted to a rotation around z-axis 
             transform.eulerAngles = new Vector3(0, 0, angle);
             SetTrajectoryPoints(transform.position, vel / ball.GetComponent<Rigidbody2D>().mass);
         }
