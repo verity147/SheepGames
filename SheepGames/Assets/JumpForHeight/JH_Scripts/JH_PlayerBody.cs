@@ -9,6 +9,7 @@ public class JH_PlayerBody : MonoBehaviour
     public float maxRunwayDist;
     public float runUpDuration;
     public float jumpPowerMod = 1f;
+    public float resetDist = 0.5f;
 
     private JH_GameController gameController;
     internal Animator anim;
@@ -17,16 +18,17 @@ public class JH_PlayerBody : MonoBehaviour
 
     private float speed;
     private float maxRunLeft;
-    internal bool timeForRunUp = false;
-    internal Vector2 flightVel;
 
+    internal bool timeForRunUp = false;
+    private bool hasJumped = false;
+
+    internal Vector2 flightVel;
     private Vector2 lastMousePos = Vector2.zero;
     private Vector3 lastPos = Vector3.zero;
     private Vector2 startPos;
     private Vector2 currentMousePos = Vector2.zero;
     internal Vector2 jumpForce = Vector2.zero;
-
-    private bool hasJumped = false;
+    private float movedDist;
 
     private void Awake()
     {
@@ -50,24 +52,39 @@ public class JH_PlayerBody : MonoBehaviour
     {
         if (!hasJumped)
         {
+            movedDist = Mathf.Abs(transform.position.x - gameController.transform.position.x);
             if (currentMousePos.x <= startPos.x && currentMousePos.x > maxRunLeft)
             {
                 playerRB.MovePosition(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y));
-                speed = (lastPos - transform.position).magnitude;
-                anim.SetFloat("moveSpeed", speed);
-                lastPos = transform.position;
             }
-            jumpForce = (new Vector2(startPos.x, startPos.y) - new Vector2(currentMousePos.x, currentMousePos.y)) * jumpPowerMod;
-            //gameController.DrawTrajectoryPoints(currentMousePos, jumpForce / playerRB.mass);
+            speed = (lastPos - transform.position).magnitude;
+            anim.SetFloat("moveSpeed", speed);
+            lastPos = transform.position;
+            CalculateJumpForce();
+            gameController.DrawTrajectoryPoints(gameController.transform.position, jumpForce / playerRB.mass);
         }
     }
 
 
     private void OnMouseUp()
     {
-        hasJumped = true;
-        jumpForce = (new Vector2(startPos.x, startPos.y) - new Vector2(currentMousePos.x, currentMousePos.y)) * jumpPowerMod;
-        MovePlayerToStart();
+        if (movedDist > resetDist)
+        {
+            hasJumped = true;
+            CalculateJumpForce();
+            MovePlayerToStart();
+        }
+        else
+        {
+            gameController.SpawnNewPlayer();
+        }
+    }
+
+    private void CalculateJumpForce()
+    {
+        float mouseAngle = Mathf.Atan2(currentMousePos.y, currentMousePos.x);
+        Vector2 jumpDirection = new Vector2(Mathf.Abs((Mathf.Cos(mouseAngle))), Mathf.Abs((Mathf.Sin(mouseAngle))));
+        jumpForce = jumpDirection * (movedDist * 10f) * jumpPowerMod;
     }
 
     internal void MovePlayerToStart()
@@ -88,7 +105,7 @@ public class JH_PlayerBody : MonoBehaviour
             {
                 ///if player is somehow to the right of start, respawn
                 gameController.SpawnNewPlayer();
-                Debug.LogWarning("Player right of Start 1");
+                Debug.LogWarning("Player right of Start");
 
             }
         }
@@ -102,17 +119,13 @@ public class JH_PlayerBody : MonoBehaviour
         ///speed and physics are applied 
         anim.SetTrigger("fly");
         playerRB.isKinematic = false;
+        print(jumpForce);
         playerRB.AddForce(jumpForce, ForceMode2D.Impulse);
         gameController.SwitchCamera();
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         anim.SetTrigger("collided");
-        //if (overshot) result = 0;
-        //if (won) result = 1;
-        //if (lost) result = 2;
-        //if (collision.relativeVelocity.magnitude > 2) to adjust animation to force of impact
-
     }
 
 
@@ -125,12 +138,14 @@ public class JH_PlayerBody : MonoBehaviour
             anim.SetBool("overshot", true);
             anim.SetBool("success", false);
             anim.SetBool("lost", false);
-        }else if(currentScore > 0)
+        }
+        else if(currentScore > 0)
         {
             anim.SetBool("overshot", false);
             anim.SetBool("success", true);
             anim.SetBool("lost", false);
-        }else if (currentScore < 0)
+        }
+        else if (currentScore < 0)
         {
             anim.SetBool("overshot", false);
             anim.SetBool("success", false);
@@ -144,7 +159,7 @@ public class JH_PlayerBody : MonoBehaviour
         }
 
     }
-
+    ///called from animation event
     private void CallWallCollisionChange()
     {
         gameController.ChangeCollision(gameController.wallChildren, 9);
