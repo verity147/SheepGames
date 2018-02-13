@@ -7,9 +7,11 @@ public class JH_PlayerBody : MonoBehaviour
 {
 
     public float maxRunwayDist;
+    ///has to be same length as RunUp animation clip
     public float runUpDuration;
     public float jumpPowerMod = 1f;
     public float resetDist = 0.5f;
+    public float moveSpeed = 10f;
 
     private JH_GameController gameController;
     internal Animator anim;
@@ -53,9 +55,22 @@ public class JH_PlayerBody : MonoBehaviour
         if (!hasJumped)
         {
             movedDist = Mathf.Abs(transform.position.x - gameController.transform.position.x);
+
             if (currentMousePos.x <= startPos.x && currentMousePos.x > maxRunLeft)
             {
-                playerRB.MovePosition(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y));
+                transform.position = Vector3.MoveTowards(transform.position, 
+                                                        new Vector2(currentMousePos.x,transform.position.y), 
+                                                        moveSpeed * Time.deltaTime);
+            }else if(currentMousePos.x < maxRunLeft)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, 
+                                                        new Vector2(maxRunLeft, transform.position.y), 
+                                                        moveSpeed * Time.deltaTime);
+            }else if (currentMousePos.x > startPos.x)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, 
+                                                        new Vector2(startPos.x, transform.position.y), 
+                                                        moveSpeed * Time.deltaTime);
             }
             speed = (lastPos - transform.position).magnitude;
             anim.SetFloat("moveSpeed", speed);
