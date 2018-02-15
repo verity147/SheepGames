@@ -16,6 +16,8 @@ public class JH_GameController : MonoBehaviour {
     public CinemachineVirtualCameraBase movingVCam;
     public float smoothFactor;
 
+    private JH_PlayerBody playerBody;
+
     private int numberOfTrajPoints = 30;
     private Vector2 playerJumpForce;
     private Vector3 wallPos;
@@ -29,12 +31,16 @@ public class JH_GameController : MonoBehaviour {
     private List<Vector3> backgroundStartPos;
     private List<GameObject> trajectoryPoints;
     private List<float> parallaxMag;
+    internal bool drawNow = false;
 
     /// Parallax magnitude
 
     //use this script to retain trail from previous tries
     //determine which wall gets used in which level
-
+    private void Awake()
+    {
+        playerBody = FindObjectOfType<JH_PlayerBody>();
+    }
     private void Start()
     {
         wallPos = wallPrefab.position;
@@ -67,26 +73,70 @@ public class JH_GameController : MonoBehaviour {
 
     private void Update()
     {
-
+        if (drawNow)
+        {
+            DrawTrajectoryPoints();
+        }
+        else
+        {
+           foreach(GameObject dot in trajectoryPoints)
+            {
+                dot.GetComponent<SpriteRenderer>().enabled = false;
+            }
+        }
     }
 
-    internal void DrawTrajectoryPoints(Vector3 fromPos, Vector3 pointVelocity)
+    //internal void DrawTrajectoryPoints(Vector3 fromPos, Vector3 pointVelocity)
+    //{
+    //    float pointVelRoot = Mathf.Sqrt((pointVelocity.x * pointVelocity.x) + (pointVelocity.y * pointVelocity.y));
+    //    float angle = Mathf.Rad2Deg * (Mathf.Atan2(pointVelocity.y, pointVelocity.x));
+    //    float count = 0f;
+    //    count += 0.1f;
+    //    for(int i = 0; i < numberOfTrajPoints; i++)
+    //    {
+    //        float dx = pointVelRoot * count * Mathf.Cos(angle * Mathf.Deg2Rad);
+    //        float dy = pointVelRoot * count * Mathf.Sin(angle * Mathf.Deg2Rad) - (Physics2D.gravity.magnitude * count * count / 2.0f);
+    //        Vector2 pos = new Vector2(fromPos.x + dx, fromPos.y + dy);
+    //        trajectoryPoints[i].transform.position = pos;
+    //        trajectoryPoints[i].GetComponent<SpriteRenderer>().enabled = true;
+    //        //does the following rotate the individual points arounf their own z only? A: Yep.
+    //        //trajectoryPoints[i].transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(pointVelocity.y - (Physics.gravity.magnitude) * count, pointVelocity.x) * Mathf.Rad2Deg);
+    //        count += 0.1f;
+    //    }
+    //}
+
+    internal void DrawTrajectoryPoints()
     {
-        float pointVelRoot = Mathf.Sqrt((pointVelocity.x * pointVelocity.x) + (pointVelocity.y * pointVelocity.y));
-        float angle = Mathf.Rad2Deg * (Mathf.Atan2(pointVelocity.y, pointVelocity.x));
-        float count = 0f;
-        count += 0.1f;
-        for(int i = 0; i < numberOfTrajPoints; i++)
+        Vector2[] trajPositions = Plot(playerBody.GetComponent<Rigidbody2D>(), transform.position, playerBody.jumpForce, numberOfTrajPoints);
+        for (int i = 0; i < numberOfTrajPoints; i++)
         {
-            float dx = pointVelRoot * count * Mathf.Cos(angle * Mathf.Deg2Rad);
-            float dy = pointVelRoot * count * Mathf.Sin(angle * Mathf.Deg2Rad) - (Physics2D.gravity.magnitude * count * count / 2.0f);
-            Vector2 pos = new Vector2(fromPos.x + dx, fromPos.y + dy);
-            trajectoryPoints[i].transform.position = pos;
-            trajectoryPoints[i].GetComponent<SpriteRenderer>().enabled = true;
-            //does the following rotate the individual points arounf their own z only?
-            trajectoryPoints[i].transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(pointVelocity.y - (Physics.gravity.magnitude) * count, pointVelocity.x) * Mathf.Rad2Deg);
-            count += 0.1f;
+            GameObject dot = Instantiate(trajPointPrefab, trajPositions[i], Quaternion.identity, trajectoryPointsHolder);
+            trajectoryPoints.Insert(i, dot);
         }
+    }
+
+    // steps = how many points
+    // rigidbody = player
+    // pos = Start ? 
+    // velocity = jumpForce?
+    public Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps)
+    {
+        Vector2[] results = new Vector2[steps];
+
+        float timestep = Time.fixedDeltaTime / Physics2D.velocityIterations;
+        Vector2 gravityAccel = Physics2D.gravity * rigidbody.gravityScale * timestep * timestep;
+        float drag = 1f - timestep * rigidbody.drag;
+        Vector2 moveStep = velocity * timestep;
+
+        for (int i = 0; i < steps; ++i)
+        {
+            moveStep += gravityAccel;
+            moveStep *= drag;
+            pos += moveStep;
+            results[i] = pos;
+        }
+
+        return results;
     }
 
     private void LateUpdate()

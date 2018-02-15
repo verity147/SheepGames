@@ -76,18 +76,19 @@ public class JH_PlayerBody : MonoBehaviour
             anim.SetFloat("moveSpeed", speed);
             lastPos = transform.position;
             CalculateJumpForce();
-            gameController.DrawTrajectoryPoints(gameController.transform.position, jumpForce / playerRB.mass);
+            gameController.drawNow = true;
         }
     }
 
 
     private void OnMouseUp()
     {
+        gameController.drawNow = false;
         if (movedDist > resetDist)
         {
             hasJumped = true;
             CalculateJumpForce();
-            MovePlayerToStart();
+            MovePlayerToStart();            
         }
         else
         {
@@ -97,8 +98,11 @@ public class JH_PlayerBody : MonoBehaviour
 
     private void CalculateJumpForce()
     {
+        ///take mouse angle relative to the x-axis
         float mouseAngle = Mathf.Atan2(currentMousePos.y, currentMousePos.x);
+        ///translate angle into vector
         Vector2 jumpDirection = new Vector2(Mathf.Abs((Mathf.Cos(mouseAngle))), Mathf.Abs((Mathf.Sin(mouseAngle))));
+        ///multiply with player distance from start and power modificator
         jumpForce = jumpDirection * (movedDist * 10f) * jumpPowerMod;
     }
 
