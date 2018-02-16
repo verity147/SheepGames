@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JH_PlayerBody : MonoBehaviour
 {
@@ -10,16 +11,18 @@ public class JH_PlayerBody : MonoBehaviour
     ///has to be same length as RunUp animation clip
     public float runUpDuration;
     public float jumpPowerMod = 1f;
+    public float jumpPowerModX = 1f;
+    public float jumpPowerModY = 1f;
     public float resetDist = 0.5f;
     public float moveSpeed = 10f;
 
     private JH_GameController gameController;
     internal Animator anim;
     private Rigidbody2D playerRB;
-    private Collider2D playerColl;
 
     private float speed;
     private float maxRunLeft;
+    private float movedDist;
 
     internal bool timeForRunUp = false;
     private bool hasJumped = false;
@@ -30,20 +33,20 @@ public class JH_PlayerBody : MonoBehaviour
     private Vector2 startPos;
     private Vector2 currentMousePos = Vector2.zero;
     internal Vector2 jumpForce = Vector2.zero;
-    private float movedDist;
+    private Vector2 jumpPos;
 
     private void Awake()
     {
         gameController = FindObjectOfType<JH_GameController>();
         anim = GetComponent<Animator>();
         playerRB = GetComponent<Rigidbody2D>();
-        playerColl = GetComponent <CompositeCollider2D>();
-        playerColl.enabled = false;
         startPos = gameController.transform.position;
     }
     private void Start()
     {
         maxRunLeft = startPos.x - maxRunwayDist;
+        ///trying to account for the offset the player has from the Start position
+        jumpPos = new Vector2(startPos.x - 0.4f, transform.position.y - 0.2f);
     }
     private void Update()
     {
@@ -76,7 +79,7 @@ public class JH_PlayerBody : MonoBehaviour
             anim.SetFloat("moveSpeed", speed);
             lastPos = transform.position;
             CalculateJumpForce();
-            gameController.drawNow = true;
+            gameController.DrawTrajectoryPoints(jumpPos, jumpForce / playerRB.mass*playerRB.gravityScale);
         }
     }
 
@@ -87,7 +90,6 @@ public class JH_PlayerBody : MonoBehaviour
         if (movedDist > resetDist)
         {
             hasJumped = true;
-            CalculateJumpForce();
             MovePlayerToStart();            
         }
         else
@@ -103,7 +105,11 @@ public class JH_PlayerBody : MonoBehaviour
         ///translate angle into vector
         Vector2 jumpDirection = new Vector2(Mathf.Abs((Mathf.Cos(mouseAngle))), Mathf.Abs((Mathf.Sin(mouseAngle))));
         ///multiply with player distance from start and power modificator
-        jumpForce = jumpDirection * (movedDist * 10f) * jumpPowerMod;
+        //jumpForce = jumpDirection * (movedDist * 10f) * jumpPowerMod;
+        float jumpX = jumpDirection.x * (movedDist * 10f) * jumpPowerModX;
+        float jumpY = jumpDirection.y * (movedDist * 10f) * jumpPowerModY;
+        jumpForce = new Vector2(jumpX, jumpY) * jumpPowerMod;
+
     }
 
     internal void MovePlayerToStart()
@@ -116,7 +122,7 @@ public class JH_PlayerBody : MonoBehaviour
             ///x position can put playerBody backwards if runwayDist is too short
             if (gameController.transform.position.x >= transform.position.x)
             {
-                float distance = gameController.transform.position.x - transform.position.x;
+                float distance = jumpPos.x - transform.position.x;
                 float speed = distance / runUpDuration;
                 playerRB.velocity = new Vector2(speed, 0f);
             }
@@ -125,7 +131,6 @@ public class JH_PlayerBody : MonoBehaviour
                 ///if player is somehow to the right of start, respawn
                 gameController.SpawnNewPlayer();
                 Debug.LogWarning("Player right of Start");
-
             }
         }
         else
@@ -138,7 +143,6 @@ public class JH_PlayerBody : MonoBehaviour
         ///speed and physics are applied 
         anim.SetTrigger("fly");
         playerRB.isKinematic = false;
-        print(jumpForce);
         playerRB.AddForce(jumpForce, ForceMode2D.Impulse);
         gameController.SwitchCamera();
     }
@@ -146,8 +150,7 @@ public class JH_PlayerBody : MonoBehaviour
     {
         anim.SetTrigger("collided");
     }
-
-
+    
     internal void ShowEndAnimation()
     {
         int currentScore = gameController.GetComponentInChildren<JH_ScoreCalculator>().score;
@@ -182,5 +185,19 @@ public class JH_PlayerBody : MonoBehaviour
     private void CallWallCollisionChange()
     {
         gameController.ChangeCollision(gameController.wallChildren, 9);
+    }
+
+    //TEMPORARY UI CALLS FOR TESTING
+    public void ChangeForceValue(string value)
+    {
+       jumpPowerMod = Single.Parse(value);
+    }
+    public void ChangeForceXValue(string value)
+    {
+        jumpPowerModX = Single.Parse(value);
+    }
+    public void ChangeForceYValue(string value)
+    {
+        jumpPowerModY = Single.Parse(value);
     }
 }

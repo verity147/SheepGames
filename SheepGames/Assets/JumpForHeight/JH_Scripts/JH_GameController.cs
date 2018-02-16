@@ -18,7 +18,7 @@ public class JH_GameController : MonoBehaviour {
 
     private JH_PlayerBody playerBody;
 
-    private int numberOfTrajPoints = 30;
+    private int numberOfTrajPoints = 5;
     private Vector2 playerJumpForce;
     private Vector3 wallPos;
     private Vector3 prevCamPos;
@@ -32,6 +32,7 @@ public class JH_GameController : MonoBehaviour {
     private List<GameObject> trajectoryPoints;
     private List<float> parallaxMag;
     internal bool drawNow = false;
+    private Vector2[] trajPositions;
 
     /// Parallax magnitude
 
@@ -65,78 +66,32 @@ public class JH_GameController : MonoBehaviour {
             dot.GetComponent<SpriteRenderer>().enabled = false;
             trajectoryPoints.Insert(i, dot);
         }
-        ///Projectile self destroys when it gets to the right of Start so its position is set to ensure it always spawns left
-        projSpawnPos = transform.position - new Vector3(0.01f, 0f, 0f);
 
         SpawnNewPlayer();
     }
 
     private void Update()
     {
-        if (drawNow)
-        {
-            DrawTrajectoryPoints();
-        }
-        else
-        {
-           foreach(GameObject dot in trajectoryPoints)
-            {
-                dot.GetComponent<SpriteRenderer>().enabled = false;
-            }
-        }
+
     }
 
-    //internal void DrawTrajectoryPoints(Vector3 fromPos, Vector3 pointVelocity)
-    //{
-    //    float pointVelRoot = Mathf.Sqrt((pointVelocity.x * pointVelocity.x) + (pointVelocity.y * pointVelocity.y));
-    //    float angle = Mathf.Rad2Deg * (Mathf.Atan2(pointVelocity.y, pointVelocity.x));
-    //    float count = 0f;
-    //    count += 0.1f;
-    //    for(int i = 0; i < numberOfTrajPoints; i++)
-    //    {
-    //        float dx = pointVelRoot * count * Mathf.Cos(angle * Mathf.Deg2Rad);
-    //        float dy = pointVelRoot * count * Mathf.Sin(angle * Mathf.Deg2Rad) - (Physics2D.gravity.magnitude * count * count / 2.0f);
-    //        Vector2 pos = new Vector2(fromPos.x + dx, fromPos.y + dy);
-    //        trajectoryPoints[i].transform.position = pos;
-    //        trajectoryPoints[i].GetComponent<SpriteRenderer>().enabled = true;
-    //        //does the following rotate the individual points arounf their own z only? A: Yep.
-    //        //trajectoryPoints[i].transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(pointVelocity.y - (Physics.gravity.magnitude) * count, pointVelocity.x) * Mathf.Rad2Deg);
-    //        count += 0.1f;
-    //    }
-    //}
-
-    internal void DrawTrajectoryPoints()
+    internal void DrawTrajectoryPoints(Vector3 fromPos, Vector3 pointVelocity)
     {
-        Vector2[] trajPositions = Plot(playerBody.GetComponent<Rigidbody2D>(), transform.position, playerBody.jumpForce, numberOfTrajPoints);
+        float pointVelRoot = Mathf.Sqrt((pointVelocity.x * pointVelocity.x) + (pointVelocity.y * pointVelocity.y));
+        float angle = Mathf.Rad2Deg * (Mathf.Atan2(pointVelocity.y, pointVelocity.x));
+        float count = 0f;
+        count += 0.1f;
         for (int i = 0; i < numberOfTrajPoints; i++)
         {
-            GameObject dot = Instantiate(trajPointPrefab, trajPositions[i], Quaternion.identity, trajectoryPointsHolder);
-            trajectoryPoints.Insert(i, dot);
+            float dx = pointVelRoot * count * Mathf.Cos(angle * Mathf.Deg2Rad);
+            float dy = pointVelRoot * count * Mathf.Sin(angle * Mathf.Deg2Rad) - (Physics2D.gravity.magnitude * count * count / 2.0f);
+            Vector2 pos = new Vector2(fromPos.x + dx, fromPos.y + dy);
+            trajectoryPoints[i].transform.position = pos;
+            trajectoryPoints[i].GetComponent<SpriteRenderer>().enabled = true;
+            //does the following rotate the individual points arounf their own z only? A: Yep.
+            trajectoryPoints[i].transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(pointVelocity.y - (Physics.gravity.magnitude) * count, pointVelocity.x) * Mathf.Rad2Deg);
+            count += 0.1f;
         }
-    }
-
-    // steps = how many points
-    // rigidbody = player
-    // pos = Start ? 
-    // velocity = jumpForce?
-    public Vector2[] Plot(Rigidbody2D rigidbody, Vector2 pos, Vector2 velocity, int steps)
-    {
-        Vector2[] results = new Vector2[steps];
-
-        float timestep = Time.fixedDeltaTime / Physics2D.velocityIterations;
-        Vector2 gravityAccel = Physics2D.gravity * rigidbody.gravityScale * timestep * timestep;
-        float drag = 1f - timestep * rigidbody.drag;
-        Vector2 moveStep = velocity * timestep;
-
-        for (int i = 0; i < steps; ++i)
-        {
-            moveStep += gravityAccel;
-            moveStep *= drag;
-            pos += moveStep;
-            results[i] = pos;
-        }
-
-        return results;
     }
 
     private void LateUpdate()
@@ -147,7 +102,7 @@ public class JH_GameController : MonoBehaviour {
             camDist = Mathf.Abs(movingVCam.transform.position.x - prevCamPos.x);
             for (int i = 0; i < toBeMovedInParallax.Length; i++)
             {
-                float nextX = toBeMovedInParallax[i].position.x - camDist; //greater z equals smaller nextX
+                float nextX = toBeMovedInParallax[i].position.x - camDist; ///greater z equals smaller nextX
                 toBeMovedInParallax[i].position = new Vector3 (Mathf.Lerp(toBeMovedInParallax[i].position.x, nextX, parallaxMag[i]*Time.deltaTime),
                                                   toBeMovedInParallax[i].position.y,
                                                   toBeMovedInParallax[i].position.z);
