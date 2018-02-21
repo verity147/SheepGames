@@ -7,65 +7,132 @@ public class JH_PlayerBody : MonoBehaviour
 {
 
     public float maxRunwayDist;
+    ///has to be same length as RunUp animation clip
     public float runUpDuration;
+    public float jumpPowerMod = 1f;
+    public float jumpPowerModX = 1f;
+    public float jumpPowerModY = 1f;
+    public float resetDist = 0.5f;
+    public float moveSpeed = 10f;
 
-    private JH_ProjectileControl projControl;
     private JH_GameController gameController;
+    private JH_UIManager uIManager;
     internal Animator anim;
     private Rigidbody2D playerRB;
-    private Collider2D playerColl;
 
     private float speed;
     private float maxRunLeft;
-    internal bool timeForRunUp = false;
-    internal Vector2 flightVel;
+    private float movedDist;
 
-    private Vector2 lastMousePos = Vector2.zero;
+    internal bool timeForRunUp = false;
+    private bool hasJumped = false;
+
+    internal Vector2 flightVel;
     private Vector3 lastPos = Vector3.zero;
     private Vector2 startPos;
+    private Vector2 currentMousePos = Vector2.zero;
+    internal Vector2 jumpForce = Vector2.zero;
+    private Vector2 jumpPos;
 
     private void Awake()
     {
-        projControl = FindObjectOfType<JH_ProjectileControl>();
         gameController = FindObjectOfType<JH_GameController>();
+        uIManager = FindObjectOfType<JH_UIManager>();
         anim = GetComponent<Animator>();
         playerRB = GetComponent<Rigidbody2D>();
-        playerColl = GetComponent <CompositeCollider2D>();
-        playerColl.enabled = false;
-        startPos = transform.position;
+        startPos = gameController.transform.position;
     }
     private void Start()
     {
         maxRunLeft = startPos.x - maxRunwayDist;
+        ///trying to account for the offset the player has from the Start position
+        jumpPos = new Vector2(startPos.x - 0.4f, transform.position.y - 0.2f);
     }
     private void Update()
     {
-        Vector2 currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        ///if mousebutton is pressed on projectile and it's left of Start and 
-        if (projControl.isPressed && (currentMousePos.x <= (startPos.x) && (currentMousePos.x > maxRunLeft)))
-        {            
-            playerRB.MovePosition(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, transform.position.y));
-        }
-        if (projControl.isPressed)
+        currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
+
+    private void OnMouseDown()
+    {
+        if (!hasJumped)
         {
+            uIManager.ToggleExplanation(false);
+        }
+    }
+
+    private void OnMouseDrag()
+    {
+        if (!hasJumped)
+        {
+            movedDist = Mathf.Abs(transform.position.x - gameController.transform.position.x);
+
+            if (currentMousePos.x <= startPos.x && currentMousePos.x > maxRunLeft)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, 
+                                                        new Vector2(currentMousePos.x,transform.position.y), 
+                                                        moveSpeed * Time.deltaTime);
+            }else if(currentMousePos.x < maxRunLeft)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, 
+                                                        new Vector2(maxRunLeft, transform.position.y), 
+                                                        moveSpeed * Time.deltaTime);
+            }else if (currentMousePos.x > startPos.x)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, 
+                                                        new Vector2(startPos.x, transform.position.y), 
+                                                        moveSpeed * Time.deltaTime);
+            }
             speed = (lastPos - transform.position).magnitude;
             anim.SetFloat("moveSpeed", speed);
-            //lastMousePos = currentMousePos;
             lastPos = transform.position;
+            CalculateJumpForce();
+            gameController.DrawTrajectoryPoints(jumpPos, jumpForce / playerRB.mass*playerRB.gravityScale);
         }
-        ///run up after mouse is released
     }
+
+
+    private void OnMouseUp()
+    {
+        gameController.drawNow = false;
+        if (movedDist > resetDist)
+        {
+            hasJumped = true;
+            MovePlayerToStart();            
+        }
+        else
+        {
+            ///if the player has barely moved from spawn it is assumed it was unintentional & give explanation
+            gameController.SpawnNewPlayer();
+            uIManager.ToggleExplanation(true);
+        }
+    }
+
+    private void CalculateJumpForce()
+    {
+        ///take mouse angle relative to the x-axis
+        float mouseAngle = Mathf.Atan2(currentMousePos.y, currentMousePos.x);
+        ///translate angle into vector
+        Vector2 jumpDirection = new Vector2(Mathf.Abs((Mathf.Cos(mouseAngle))), Mathf.Abs((Mathf.Sin(mouseAngle))));
+        ///multiply with player distance from start and power modificator
+        //jumpForce = jumpDirection * (movedDist * 10f) * jumpPowerMod;
+        float jumpX = jumpDirection.x * (movedDist * 10f) * jumpPowerModX;
+        float jumpY = jumpDirection.y * (movedDist * 10f) * jumpPowerModY;
+        jumpForce = new Vector2(jumpX, jumpY) * jumpPowerMod;
+
+    }
+
     internal void MovePlayerToStart()
     {
         if (transform.position.x < startPos.x)
         {
             anim.SetTrigger("playerRelease");
-            //call gamecontroller to change layer
+            ///call gamecontroller to change layer
             gameController.ChangeCollision(gameController.playerParts, 8);
             ///x position can put playerBody backwards if runwayDist is too short
-            if (projControl.transform.position.x >= transform.position.x)
+            if (gameController.transform.position.x >= transform.position.x)
             {
-                float distance = projControl.transform.position.x - transform.position.x;
+                float distance = jumpPos.x - transform.position.x;
                 float speed = distance / runUpDuration;
                 playerRB.velocity = new Vector2(speed, 0f);
             }
@@ -73,13 +140,13 @@ public class JH_PlayerBody : MonoBehaviour
             {
                 ///if player is somehow to the right of start, respawn
                 gameController.SpawnNewPlayer();
-                Debug.LogWarning("Player right of Start 1");
-
+                uIManager.ToggleExplanation(true);
+                Debug.LogWarning("Player right of Start");
             }
         }
         else
         {
-            Debug.LogWarning("Player right of Start 2");
+            Debug.LogWarning("Player never moved left");
         }
     }
     internal void TakeOff()
@@ -87,19 +154,14 @@ public class JH_PlayerBody : MonoBehaviour
         ///speed and physics are applied 
         anim.SetTrigger("fly");
         playerRB.isKinematic = false;
-        playerRB.velocity = flightVel;
+        playerRB.AddForce(jumpForce, ForceMode2D.Impulse);
         gameController.SwitchCamera();
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         anim.SetTrigger("collided");
-        //if (overshot) result = 0;
-        //if (won) result = 1;
-        //if (lost) result = 2;
-        //if (collision.relativeVelocity.magnitude > 2) to adjust animation to force of impact
-
     }
-
+    
     internal void ShowEndAnimation()
     {
         int currentScore = gameController.GetComponentInChildren<JH_ScoreCalculator>().score;
@@ -109,12 +171,14 @@ public class JH_PlayerBody : MonoBehaviour
             anim.SetBool("overshot", true);
             anim.SetBool("success", false);
             anim.SetBool("lost", false);
-        }else if(currentScore > 0)
+        }
+        else if(currentScore > 0)
         {
             anim.SetBool("overshot", false);
             anim.SetBool("success", true);
             anim.SetBool("lost", false);
-        }else if (currentScore < 0)
+        }
+        else if (currentScore < 0)
         {
             anim.SetBool("overshot", false);
             anim.SetBool("success", false);
@@ -128,9 +192,23 @@ public class JH_PlayerBody : MonoBehaviour
         }
 
     }
-
+    ///called from animation event
     private void CallWallCollisionChange()
     {
         gameController.ChangeCollision(gameController.wallChildren, 9);
+    }
+
+    //TEMPORARY UI CALLS FOR TESTING
+    public void ChangeForceValue(string value)
+    {
+       jumpPowerMod = Single.Parse(value);
+    }
+    public void ChangeForceXValue(string value)
+    {
+        jumpPowerModX = Single.Parse(value);
+    }
+    public void ChangeForceYValue(string value)
+    {
+        jumpPowerModY = Single.Parse(value);
     }
 }
