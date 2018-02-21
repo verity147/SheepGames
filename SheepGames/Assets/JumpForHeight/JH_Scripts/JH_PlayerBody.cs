@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class JH_PlayerBody : MonoBehaviour
 {
@@ -17,6 +16,7 @@ public class JH_PlayerBody : MonoBehaviour
     public float moveSpeed = 10f;
 
     private JH_GameController gameController;
+    private JH_UIManager uIManager;
     internal Animator anim;
     private Rigidbody2D playerRB;
 
@@ -28,7 +28,6 @@ public class JH_PlayerBody : MonoBehaviour
     private bool hasJumped = false;
 
     internal Vector2 flightVel;
-    private Vector2 lastMousePos = Vector2.zero;
     private Vector3 lastPos = Vector3.zero;
     private Vector2 startPos;
     private Vector2 currentMousePos = Vector2.zero;
@@ -38,6 +37,7 @@ public class JH_PlayerBody : MonoBehaviour
     private void Awake()
     {
         gameController = FindObjectOfType<JH_GameController>();
+        uIManager = FindObjectOfType<JH_UIManager>();
         anim = GetComponent<Animator>();
         playerRB = GetComponent<Rigidbody2D>();
         startPos = gameController.transform.position;
@@ -51,6 +51,14 @@ public class JH_PlayerBody : MonoBehaviour
     private void Update()
     {
         currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
+
+    private void OnMouseDown()
+    {
+        if (!hasJumped)
+        {
+            uIManager.ToggleExplanation(false);
+        }
     }
 
     private void OnMouseDrag()
@@ -94,8 +102,9 @@ public class JH_PlayerBody : MonoBehaviour
         }
         else
         {
-            ///if the player has barely moved from spawn it is assumed it was unintentional
-            gameController.SpawnNewPlayer(true);
+            ///if the player has barely moved from spawn it is assumed it was unintentional & give explanation
+            gameController.SpawnNewPlayer();
+            uIManager.ToggleExplanation(true);
         }
     }
 
@@ -130,7 +139,8 @@ public class JH_PlayerBody : MonoBehaviour
             else
             {
                 ///if player is somehow to the right of start, respawn
-                gameController.SpawnNewPlayer(true);
+                gameController.SpawnNewPlayer();
+                uIManager.ToggleExplanation(true);
                 Debug.LogWarning("Player right of Start");
             }
         }

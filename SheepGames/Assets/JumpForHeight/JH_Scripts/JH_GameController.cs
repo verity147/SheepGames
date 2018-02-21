@@ -16,7 +16,7 @@ public class JH_GameController : MonoBehaviour {
     public CinemachineVirtualCameraBase movingVCam;
     public float smoothFactor;
 
-    private JH_PlayerBody playerBody;
+    private JH_UIManager uIManager;
 
     private int numberOfTrajPoints = 5;
     private Vector2 playerJumpForce;
@@ -38,10 +38,7 @@ public class JH_GameController : MonoBehaviour {
 
     //use this script to retain trail from previous tries
     //determine which wall gets used in which level
-    private void Awake()
-    {
-        playerBody = FindObjectOfType<JH_PlayerBody>();
-    }
+
     private void Start()
     {
         wallPos = wallPrefab.position;
@@ -67,7 +64,7 @@ public class JH_GameController : MonoBehaviour {
             trajectoryPoints.Insert(i, dot);
         }
 
-        SpawnNewPlayer(false);
+        SpawnNewPlayer();
     }
 
     private void Update()
@@ -130,7 +127,7 @@ public class JH_GameController : MonoBehaviour {
         }
     }
 
-    public void SpawnNewPlayer(bool explanation)
+    public void SpawnNewPlayer()
     {
         ///reset backgrounds
        for(int i = 0; i < toBeMovedInParallax.Length; i++)
@@ -153,11 +150,7 @@ public class JH_GameController : MonoBehaviour {
         playerParts = tempPlayer.GetComponentsInChildren<Transform>();
         movingVCam.Follow = tempPlayer;
         staticVCam.MoveToTopOfPrioritySubqueue();
-        if(explanation == true)
-        {
-            //give player explanation via speech bubble
-            print("you dummy, it ain't working that way!");
-        }
+
     }
 
 }
