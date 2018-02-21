@@ -67,7 +67,7 @@ public class JH_GameController : MonoBehaviour {
             trajectoryPoints.Insert(i, dot);
         }
 
-        SpawnNewPlayer();
+        SpawnNewPlayer(false);
     }
 
     private void Update()
@@ -130,7 +130,7 @@ public class JH_GameController : MonoBehaviour {
         }
     }
 
-    public void SpawnNewPlayer()
+    public void SpawnNewPlayer(bool explanation)
     {
         ///reset backgrounds
        for(int i = 0; i < toBeMovedInParallax.Length; i++)
@@ -147,13 +147,17 @@ public class JH_GameController : MonoBehaviour {
         {
             Destroy(tempWall.gameObject);
         }
-
         tempPlayer = Instantiate(playerPrefab, playerPrefab.transform.position, Quaternion.identity, transform);
         tempWall = Instantiate(wallPrefab, wallPos, Quaternion.identity);
         wallChildren = tempWall.GetComponentsInChildren<Transform>();
         playerParts = tempPlayer.GetComponentsInChildren<Transform>();
         movingVCam.Follow = tempPlayer;
         staticVCam.MoveToTopOfPrioritySubqueue();
+        if(explanation == true)
+        {
+            //give player explanation via speech bubble
+            print("you dummy, it ain't working that way!");
+        }
     }
 
 }

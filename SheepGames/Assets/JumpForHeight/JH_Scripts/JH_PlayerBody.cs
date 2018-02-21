@@ -94,7 +94,8 @@ public class JH_PlayerBody : MonoBehaviour
         }
         else
         {
-            gameController.SpawnNewPlayer();
+            ///if the player has barely moved from spawn it is assumed it was unintentional
+            gameController.SpawnNewPlayer(true);
         }
     }
 
@@ -129,7 +130,7 @@ public class JH_PlayerBody : MonoBehaviour
             else
             {
                 ///if player is somehow to the right of start, respawn
-                gameController.SpawnNewPlayer();
+                gameController.SpawnNewPlayer(true);
                 Debug.LogWarning("Player right of Start");
             }
         }
