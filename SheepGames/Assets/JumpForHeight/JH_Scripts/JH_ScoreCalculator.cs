@@ -8,6 +8,7 @@ public class JH_ScoreCalculator : MonoBehaviour {
     public Text scoreText;
 
     internal int score;
+
     private int newScore;
     private int stonePointPenaltyStart = 100;
     private int stonePointPenalty = 100;
@@ -28,6 +29,7 @@ public class JH_ScoreCalculator : MonoBehaviour {
         scoreText.text = "Score: " + score.ToString();
         countedObjects.Clear();
         countedObjects.TrimExcess();
+        LoadScore();
     }
 
     private void OnTriggerEnter2D(Collider2D obj) 
@@ -53,5 +55,15 @@ public class JH_ScoreCalculator : MonoBehaviour {
             obj.GetComponent<SpriteRenderer>().color = Color.red;
         }
 
+    }
+
+    public void SaveScore()
+    {
+        SaveLoadManager.Save(this);
+    }
+
+    public void LoadScore()
+    {
+        print("Last Round: "+SaveLoadManager.Load());
     }
 }
