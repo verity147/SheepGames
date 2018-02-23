@@ -10,22 +10,25 @@ public static class SaveLoadManager {
     //first backup old savefile in case something goes wrong, then save, then delete old backup
     //also build backup restore function
 
-    public static void Save(SaveData dataToSave)
+
+
+    public static void Save()
     {
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream stream = new FileStream(Path.Combine(Application.persistentDataPath, "/player.save"), FileMode.Create);
-
+        FileStream stream = new FileStream(Path.Combine(Application.persistentDataPath, "player.save"), FileMode.Create);
         SaveData data = new SaveData();
+        data.playerDict = DataCollector.playerDict;
         bf.Serialize(stream, data);
         stream.Close();
+        Debug.Log("yo");
     }
 
     public static int Load()
     {
-        if (File.Exists(Path.Combine(Application.persistentDataPath, "/player.save")))
+        if (File.Exists(Path.Combine(Application.persistentDataPath, "player.save")))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream stream = new FileStream(Path.Combine(Application.persistentDataPath, "/player.save"), FileMode.Open);
+            FileStream stream = new FileStream(Path.Combine(Application.persistentDataPath, "player.save"), FileMode.Open);
 
             SaveData data = bf.Deserialize(stream) as SaveData;
             stream.Close();
@@ -38,13 +41,18 @@ public static class SaveLoadManager {
         }
     }
 
-    public static bool CheckPlayerName(string newPlayer)
+    public static bool CheckForExistingFile()
     {
-        foreach (string key in )
+        if(File.Exists(Path.Combine(Application.persistentDataPath, "player.save")))
         {
-
+            Debug.Log(Path.Combine(Application.persistentDataPath, "player.save"));
+            return true;
+        }else
+        {
+            return false;
         }
     }
+
 
 }
     //sorts all player with their highscore List
@@ -57,16 +65,9 @@ public static class SaveLoadManager {
 [Serializable]
 public class SaveData{
 
-    public Dictionary<string, Dictionary<int, int>> playerDict;
+    public Dictionary<string, Dictionary<string, int>> playerDict;
     public int latestScore;
 
 }
 
 
-public class SaveDataCollector
-{
-    public Dictionary<string, int[]> playerDict;
-
-
-
-}

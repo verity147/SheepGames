@@ -9,8 +9,15 @@ public class MainMenuController : MonoBehaviour {
 		
 	}
 	
-    public void DeterminePlayer(string playerName)
+    public void SetPlayerName(string playerName)
     {
+        DataCollector.currentPlayer = playerName;
+    }
 
+    public void ShowDict()
+    {
+        DataCollector.CheckForSaveFile();
+        print(DataCollector.playerDict);
+        SaveLoadManager.Save();
     }
 }
