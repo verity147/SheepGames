@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneManager : MonoBehaviour {
+public class SceneHandler : MonoBehaviour {
 
     private void Update()
     {
@@ -11,5 +11,10 @@ public class SceneManager : MonoBehaviour {
         {
             Application.Quit();
         }
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadSceneAsync("MainMenu");
     }
 }
