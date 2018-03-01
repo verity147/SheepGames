@@ -14,6 +14,7 @@ public static class SaveLoadManager {
 
     public static void Save()
     {
+        Debug.Log("called save()");
         BinaryFormatter bf = new BinaryFormatter();
         FileStream stream = new FileStream(Path.Combine(Application.persistentDataPath, "SheepGames.save"), FileMode.Create);
         SaveData data = new SaveData

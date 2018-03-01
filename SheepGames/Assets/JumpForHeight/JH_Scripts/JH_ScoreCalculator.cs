@@ -29,7 +29,6 @@ public class JH_ScoreCalculator : MonoBehaviour {
         scoreText.text = "Score: " + score.ToString();
         countedObjects.Clear();
         countedObjects.TrimExcess();
-        //LoadScore();
     }
 
     private void OnTriggerEnter2D(Collider2D obj) 

@@ -17,4 +17,15 @@ public class SceneHandler : MonoBehaviour {
     {
         SceneManager.LoadSceneAsync("MainMenu");
     }
+
+    public void LoadLevel(string name)
+    {
+        SceneManager.LoadSceneAsync(name);
+    }
+
+    public static string FindActiveSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
+    
 }

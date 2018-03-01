@@ -165,8 +165,7 @@ public class JH_PlayerBody : MonoBehaviour
     internal void ShowEndAnimation()
     {
         int currentScore = gameController.GetComponentInChildren<JH_ScoreCalculator>().score;
-        //gameController.GetComponentInChildren<JH_ScoreCalculator>().SaveScore();
-
+        DataCollector.UpdateScore(currentScore);
 
         if (currentScore == 0)
         {
