@@ -6,23 +6,25 @@ using UnityEngine;
 
 public static class DataCollector
 {
+    ///click + to enhance
+    #region Pre-populated savegame data
     private static string[] exampleNames = { "Carl", "Patrick", "Hans" };
     private static string[] levelNames = { "JH_GameLV_01", "JH_GameLV_02", "JH_GameLV_03" };
     private static int[] pointValues = { 100, 300, 600 };
+    #endregion
 
-    public static Dictionary<string, Dictionary<string, int>> playerDict;
+    public static Dictionary<string, Dictionary<string, int>> tempPlayerDict;
     public static string currentPlayer = "NONE";
-    public static int currentScore;
 
-    public static void CheckForSaveFile()
+
+    public static bool CheckForSaveFile()
     {
-        if (SaveLoadManager.CheckForExistingFile())
+        if (SaveLoadManager.CheckForExistingFile() == true)
         {
-            Debug.Log("hi");
-            return;
-        }else
-        {
-            playerDict = new Dictionary<string, Dictionary<string, int>>();
+            Debug.Log("found it!");
+            return true;
+        }else{
+            tempPlayerDict = new Dictionary<string, Dictionary<string, int>>();
 
             for (int i = 0; i < exampleNames.Length; i++)
             {
@@ -31,14 +33,15 @@ public static class DataCollector
                 {
                     levelDict.Add(levelNames[j], pointValues[j]);
                 }
-                playerDict.Add(exampleNames[i], levelDict);
+                tempPlayerDict.Add(exampleNames[i], levelDict);
             }
+            return false;
         }
     }
 
     public static bool CheckForPlayer()
     {
-        foreach(KeyValuePair<string, Dictionary<string, int>> entry in playerDict)
+        foreach(KeyValuePair<string, Dictionary<string, int>> entry in tempPlayerDict)
         {
             if(entry.Key == currentPlayer)
             {

@@ -15,37 +15,39 @@ public static class SaveLoadManager {
     public static void Save()
     {
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream stream = new FileStream(Path.Combine(Application.persistentDataPath, "player.save"), FileMode.Create);
-        SaveData data = new SaveData();
-        data.playerDict = DataCollector.playerDict;
+        FileStream stream = new FileStream(Path.Combine(Application.persistentDataPath, "SheepGames.save"), FileMode.Create);
+        SaveData data = new SaveData
+        {
+            playerDict = DataCollector.tempPlayerDict
+        };
         bf.Serialize(stream, data);
         stream.Close();
-        Debug.Log("yo");
     }
 
-    public static int Load()
+    public static void Load()
     {
-        if (File.Exists(Path.Combine(Application.persistentDataPath, "player.save")))
+        if (File.Exists(Path.Combine(Application.persistentDataPath, "SheepGames.save")))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream stream = new FileStream(Path.Combine(Application.persistentDataPath, "player.save"), FileMode.Open);
+            FileStream stream = new FileStream(Path.Combine(Application.persistentDataPath, "SheepGames.save"), FileMode.Open);
 
             SaveData data = bf.Deserialize(stream) as SaveData;
             stream.Close();
-            return data.latestScore;
+            DataCollector.tempPlayerDict = new Dictionary<string, Dictionary<string, int>>();
+            DataCollector.tempPlayerDict = data.playerDict;
+            return;
         }
         else
         {
             Debug.LogError("No Savefile found!");
-            return new int(); 
+            return; 
         }
     }
 
     public static bool CheckForExistingFile()
     {
-        if(File.Exists(Path.Combine(Application.persistentDataPath, "player.save")))
+        if(File.Exists(Path.Combine(Application.persistentDataPath, "SheepGames.save")))
         {
-            Debug.Log(Path.Combine(Application.persistentDataPath, "player.save"));
             return true;
         }else
         {
@@ -55,18 +57,11 @@ public static class SaveLoadManager {
 
 
 }
-    //sorts all player with their highscore List
-    //generate a new array and playerDict entry if the playername cannot be found in playerDict
-    //everytime a player ends a level, compare his score to the one saved and if it's larger, overwrite it
-    //sort the entries with their playername for each level into a new dictionary and sort by value
-    //save
-    //display as highscore with some ui manager function
 
 [Serializable]
 public class SaveData{
 
     public Dictionary<string, Dictionary<string, int>> playerDict;
-    public int latestScore;
 
 }
 
