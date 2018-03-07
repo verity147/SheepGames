@@ -23,7 +23,7 @@ public class MainMenuController : MonoBehaviour {
             ICollection coll = kvp.Value;
             foreach (KeyValuePair<string, int>item in coll)
             {
-                Debug.Log("Player: "+player+"; Level: "+item.Key+": "+item.Value);
+                Debug.Log("Player: " + player + "; Level: " + item.Key + ": " + item.Value);
             }
         }
     }

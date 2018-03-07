@@ -19,13 +19,13 @@ public static class DataCollector
     public static string currentLevel = "UNDETERMINED";
 
 
-    public static bool CheckForSaveFile()
+    public static void CheckForSaveFile()
     {
         if (SaveLoadManager.CheckForExistingFile() == true)
         {
             Debug.Log("File found");
             SaveLoadManager.Load();
-            return true;
+            return;
         }else{
             Debug.Log("new file");
             tempPlayerDict = new Dictionary<string, Dictionary<string, int>>();
@@ -40,8 +40,6 @@ public static class DataCollector
                 tempPlayerDict.Add(exampleNames[i], levelDict);
             }
             SaveLoadManager.Save();
-            SaveLoadManager.Load();
-            return false;
         }
     }
 
@@ -49,12 +47,14 @@ public static class DataCollector
     {
         foreach(KeyValuePair<string, Dictionary<string, int>> entry in tempPlayerDict)
         {
+            ///if player already exists, just load the savegame and end function
             if(entry.Key == currentPlayer)
             {
                 SaveLoadManager.Load();
                 return;
             }
         }
+        ///else write the new player into the tempDict with placeholder scores of -100000 so he doesn't show up in the highscore list
         Dictionary<string, int> levelDict = new Dictionary<string, int>();
         for (int j = 0; j < levelNames.Length; j++)
         {
@@ -62,8 +62,7 @@ public static class DataCollector
             levelDict.Add(levelNames[j], -100000);
         }
         tempPlayerDict.Add(currentPlayer, levelDict);
-        SaveLoadManager.Save();
-        
+        SaveLoadManager.Save();        
     }
 
     public static void UpdateScore(int newScore)
@@ -82,7 +81,7 @@ public static class DataCollector
         {
             Debug.Log("Score wasn't high enough!");
         }
-        foreach (KeyValuePair<string, Dictionary<string, int>> kvp in DataCollector.tempPlayerDict)
+        foreach (KeyValuePair<string, Dictionary<string, int>> kvp in tempPlayerDict)
         {
             string player = kvp.Key;
             //print(player);
@@ -94,5 +93,12 @@ public static class DataCollector
         }
     }
 
+    public static void UpdateScoreboard()
+    {
+        List<int> scoreList;
 
+        //fill, sort, return first ten
+
+        //scoreList = new List<int>(tempPlayerDict.)
+    }
 }

@@ -165,7 +165,14 @@ public class JH_PlayerBody : MonoBehaviour
     internal void ShowEndAnimation()
     {
         int currentScore = gameController.GetComponentInChildren<JH_ScoreCalculator>().score;
-        DataCollector.UpdateScore(currentScore);
+        if(DataCollector.currentPlayer != null)
+        {
+            DataCollector.UpdateScore(currentScore);
+        }
+        else
+        {
+            Debug.LogError("No current player found, couldn't save score");
+        }
 
         if (currentScore == 0)
         {

@@ -27,13 +27,15 @@ public static class SaveLoadManager {
 
     public static void Load()
     {
-        if (File.Exists(Path.Combine(Application.persistentDataPath, "SheepGames.save")))
+        if (CheckForExistingFile() == true)
         {
+            ///open file on disk
             BinaryFormatter bf = new BinaryFormatter();
             FileStream stream = new FileStream(Path.Combine(Application.persistentDataPath, "SheepGames.save"), FileMode.Open);
-
+            ///turn data into readable Savedata object
             SaveData data = bf.Deserialize(stream) as SaveData;
             stream.Close();
+            ///store savedata in DataCollector.tempPlayerDict
             DataCollector.tempPlayerDict = new Dictionary<string, Dictionary<string, int>>();
             DataCollector.tempPlayerDict = data.playerDict;
             return;

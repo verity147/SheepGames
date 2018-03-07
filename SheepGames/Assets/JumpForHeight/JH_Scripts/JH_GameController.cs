@@ -127,6 +127,8 @@ public class JH_GameController : MonoBehaviour {
         }
     }
 
+    
+
     public void SpawnNewPlayer()
     {
         ///reset backgrounds
