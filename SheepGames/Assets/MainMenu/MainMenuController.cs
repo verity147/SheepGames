@@ -8,7 +8,7 @@ public class MainMenuController : MonoBehaviour {
     {
         DataCollector.currentPlayer = playerName;
         DataCollector.CheckForSaveFile();
-        DataCollector.CheckForPlayer();       
+        //DataCollector.CheckForPlayer();       
     }
 
     ///DEBUG FUNCTION 
