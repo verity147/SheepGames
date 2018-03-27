@@ -18,6 +18,7 @@ public static class DataCollector
     public static int currentScore = -1000000;
     public static string currentLevel = "UNDETERMINED";
 
+    private static int oldScore;
 
     public static void CheckForSaveFile()
     {
@@ -43,46 +44,22 @@ public static class DataCollector
         }
     }
 
-    //public static void CheckForPlayer()
-    //{
-    //    foreach(KeyValuePair<string, Dictionary<string, int>> entry in tempPlayerDict)
-    //    {
-    //        ///if player already exists, just load the savegame and end function
-    //        if(entry.Key == currentPlayer)
-    //        {
-    //            SaveLoadManager.Load();
-    //            return;
-    //        }
-    //    }
-    //    ///else write the new player into the tempDict with placeholder scores of -100000 so he doesn't show up in the highscore list
-    //    Dictionary<string, int> levelDict = new Dictionary<string, int>();
-    //    for (int j = 0; j < levelNames.Length; j++)
-    //    {
-    //        Debug.Log("adding name");
-    //        levelDict.Add(levelNames[j], -100000);
-    //    }
-    //    tempPlayerDict.Add(currentPlayer, levelDict);
-    //    SaveLoadManager.Save();        
-    //}
-
     public static void UpdateScore(int newScore)
     {
-        Debug.Log("i got here");
         currentLevel = SceneHandler.FindActiveSceneName();
-
-        int oldScore = -1000000;
-
+        currentScore = newScore;
+        ///if the player has player this level before and therefore has a saved score...
         if (tempPlayerDict[currentLevel].ContainsKey(currentPlayer))
         {
             oldScore = tempPlayerDict[currentLevel][currentPlayer];
+            ///...compare to the new score and if it is not the same, save it
             if (newScore > oldScore)
             {
                 tempPlayerDict[currentLevel][currentPlayer] = newScore;
-                SaveLoadManager.Save();
             }
             else
             {
-                Debug.Log("Score wasn't high enough!");
+                Debug.Log("Score was too low!");
             }
         }
         else
@@ -91,6 +68,7 @@ public static class DataCollector
         }
         SaveLoadManager.Save();
 
+        #region DEBUG ONLY
         foreach (KeyValuePair<string, Dictionary<string, int>> kvp in tempPlayerDict)
         {
             string player = kvp.Key;
@@ -101,14 +79,27 @@ public static class DataCollector
                 Debug.Log("Level: " + player + "; Player: " + item.Key + ": " + item.Value);
             }
         }
+        List<KeyValuePair<string, int>> test = SortScoreboard(currentLevel);
+        foreach(var item in test)
+        {
+            Debug.Log(item);
+        }
+        #endregion
     }
 
-    public static void UpdateScoreboard()
+    public static List<KeyValuePair<string, int>> SortScoreboard(string level)
     {
-        List<int> scoreList;
+        //fill, sort, return first ten, trim list
+        
+        List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>(tempPlayerDict[level]);
 
-        //fill, sort, return first ten
+        list.Sort(Compare);
+        list.RemoveAt(10);
+        return list;
+    }
 
-        //scoreList = new List<int>(tempPlayerDict.)
+    private static int Compare(KeyValuePair<string, int> a, KeyValuePair<string, int> b)
+    {
+        return b.Value.CompareTo(a.Value);
     }
 }

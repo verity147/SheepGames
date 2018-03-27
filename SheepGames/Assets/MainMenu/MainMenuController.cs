@@ -7,8 +7,7 @@ public class MainMenuController : MonoBehaviour {
     public void SetPlayerName(string playerName)
     {
         DataCollector.currentPlayer = playerName;
-        DataCollector.CheckForSaveFile();
-        //DataCollector.CheckForPlayer();       
+        DataCollector.CheckForSaveFile(); 
     }
 
     ///DEBUG FUNCTION 
