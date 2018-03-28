@@ -9,7 +9,7 @@ public static class DataCollector
     ///click + to enhance
     #region Pre-populated savegame data
     private static string[] exampleNames = { "Carl", "Patrick", "Hans", "Otto" };
-    private static string[] levelNames = { "JH_GameLV_01", "JH_GameLV_02", "JH_GameLV_03" };
+    private static string[] levelNames = { "JH_GameLV_01", "JH_GameLV_02", "JH_GameLV_03" , "JH_Total", "ALL_Total"};
     private static int[] pointValues = { 100, 300, 600, 725 };
     #endregion
 
@@ -17,8 +17,12 @@ public static class DataCollector
     public static string currentPlayer = "NONE";
     public static int currentScore = -1000000;
     public static string currentLevel = "UNDETERMINED";
+    public static int currentGameTotal;
 
     private static int oldScore;
+    private static int oldGameTotal;
+    private static int oldTotal;
+
 
     public static void CheckForSaveFile()
     {
@@ -66,6 +70,7 @@ public static class DataCollector
         {
             tempPlayerDict[currentLevel].Add(currentPlayer, newScore);
         }
+        CalculateTotalScore(FindGame());
         SaveLoadManager.Save();
 
         #region DEBUG ONLY
@@ -84,22 +89,71 @@ public static class DataCollector
         {
             Debug.Log(item);
         }
+        Debug.Log("Name: " + currentPlayer);
         #endregion
     }
 
     public static List<KeyValuePair<string, int>> SortScoreboard(string level)
-    {
-        //fill, sort, return first ten, trim list
-        
+    {    
         List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>(tempPlayerDict[level]);
 
         list.Sort(Compare);
-        list.RemoveAt(10);
         return list;
     }
 
     private static int Compare(KeyValuePair<string, int> a, KeyValuePair<string, int> b)
     {
         return b.Value.CompareTo(a.Value);
+    }
+
+    private static string FindGame()
+    {
+        string game;
+        if (currentLevel.Contains("JH"))
+        {
+            game = "JH_Total";
+        }else if (currentLevel.Contains("PP"))
+        {
+            game = "PP_Total";
+        }else if (currentLevel.Contains("HR"))
+        {
+            game = "HR_Total";
+        }else if (currentLevel.Contains("PW"))
+        {
+            game = "PW_Total";
+        }
+        else
+        {
+            Debug.LogError("Could not detect game to add up total");
+            game = "NONE";
+        }
+
+        return game;
+    }
+
+    public static void CalculateTotalScore(string game)
+    {
+        oldGameTotal = tempPlayerDict[game][currentPlayer];
+        oldTotal = tempPlayerDict["ALL_Total"][currentPlayer];
+
+        ///resets the per game total to 0 if it's the first level of any game
+        if (currentLevel.Contains("01"))
+        {
+            currentGameTotal = 0;
+        }
+        currentGameTotal += currentScore;
+
+        ///checks if the new total beats the old and overwrites it if so per game
+        if(currentGameTotal > oldGameTotal)
+        {
+            tempPlayerDict[game][currentPlayer] = currentGameTotal;
+        }
+
+        ///checks if the new total beats the old and overwrites it if so
+        int newTotal = tempPlayerDict["JH_Total"][currentPlayer]; //+ the other games' totals
+        if (newTotal > oldTotal)
+        {
+            tempPlayerDict["ALL_Total"][currentPlayer] = newTotal;
+        }
     }
 }
