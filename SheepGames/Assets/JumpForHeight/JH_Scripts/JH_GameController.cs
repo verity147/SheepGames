@@ -30,11 +30,10 @@ public class JH_GameController : MonoBehaviour {
     private Transform trajectoryPointsHolder;
     private List<Vector3> backgroundStartPos;
     private List<GameObject> trajectoryPoints;
-    private List<float> parallaxMag;
+    private List<float> parallaxMag;    /// Parallax magnitude
     internal bool drawNow = false;
     private Vector2[] trajPositions;
 
-    /// Parallax magnitude
 
     //use this script to retain trail from previous tries
     //determine which wall gets used in which level
@@ -65,11 +64,6 @@ public class JH_GameController : MonoBehaviour {
         }
 
         SpawnNewPlayer();
-    }
-
-    private void Update()
-    {
-
     }
 
     internal void DrawTrajectoryPoints(Vector3 fromPos, Vector3 pointVelocity)
@@ -120,7 +114,7 @@ public class JH_GameController : MonoBehaviour {
 
     internal void ChangeCollision(Transform[] objectToChange, int layerIndex)
     {
-        ///gets called to change wall collision, player collision
+        ///gets called to change wall collision
         foreach (Transform child in objectToChange)
         {
             child.gameObject.layer = layerIndex;

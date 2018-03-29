@@ -51,7 +51,6 @@ public static class DataCollector
     public static void UpdateScore(int newScore)
     {
         currentLevel = SceneHandler.FindActiveSceneName();
-        currentScore = newScore;
         ///if the player has player this level before and therefore has a saved score...
         if (tempPlayerDict[currentLevel].ContainsKey(currentPlayer))
         {
@@ -60,6 +59,7 @@ public static class DataCollector
             if (newScore > oldScore)
             {
                 tempPlayerDict[currentLevel][currentPlayer] = newScore;
+                currentScore = newScore;
             }
             else
             {
@@ -70,7 +70,6 @@ public static class DataCollector
         {
             tempPlayerDict[currentLevel].Add(currentPlayer, newScore);
         }
-        CalculateTotalScore(FindGame());
         SaveLoadManager.Save();
 
         #region DEBUG ONLY
@@ -131,8 +130,9 @@ public static class DataCollector
         return game;
     }
 
-    public static void CalculateTotalScore(string game)
+    public static void CalculateTotalScore()
     {
+        string game = FindGame();
         oldGameTotal = tempPlayerDict[game][currentPlayer];
         oldTotal = tempPlayerDict["ALL_Total"][currentPlayer];
 
@@ -155,5 +155,6 @@ public static class DataCollector
         {
             tempPlayerDict["ALL_Total"][currentPlayer] = newTotal;
         }
+        SaveLoadManager.Save();
     }
 }

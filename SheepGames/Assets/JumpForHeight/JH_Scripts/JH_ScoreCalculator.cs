@@ -56,4 +56,5 @@ public class JH_ScoreCalculator : MonoBehaviour {
 
     }
 
+
 }

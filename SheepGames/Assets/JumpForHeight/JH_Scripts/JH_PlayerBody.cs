@@ -98,7 +98,8 @@ public class JH_PlayerBody : MonoBehaviour
         if (movedDist > resetDist)
         {
             hasJumped = true;
-            MovePlayerToStart();            
+            MovePlayerToStart();      
+            uIManager.CountTries();
         }
         else
         {
@@ -115,7 +116,6 @@ public class JH_PlayerBody : MonoBehaviour
         ///translate angle into vector
         Vector2 jumpDirection = new Vector2(Mathf.Abs((Mathf.Cos(mouseAngle))), Mathf.Abs((Mathf.Sin(mouseAngle))));
         ///multiply with player distance from start and power modificator
-        //jumpForce = jumpDirection * (movedDist * 10f) * jumpPowerMod;
         float jumpX = jumpDirection.x * (movedDist * 10f) * jumpPowerModX;
         float jumpY = jumpDirection.y * (movedDist * 10f) * jumpPowerModY;
         jumpForce = new Vector2(jumpX, jumpY) * jumpPowerMod;
@@ -127,8 +127,6 @@ public class JH_PlayerBody : MonoBehaviour
         if (transform.position.x < startPos.x)
         {
             anim.SetTrigger("playerRelease");
-            ///call gamecontroller to change layer
-            gameController.ChangeCollision(gameController.playerParts, 8);
             ///x position can put playerBody backwards if runwayDist is too short
             if (gameController.transform.position.x >= transform.position.x)
             {
@@ -156,6 +154,7 @@ public class JH_PlayerBody : MonoBehaviour
         playerRB.isKinematic = false;
         playerRB.AddForce(jumpForce, ForceMode2D.Impulse);
         gameController.SwitchCamera();
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
