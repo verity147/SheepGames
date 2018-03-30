@@ -9,6 +9,7 @@ public class MainMenuController : MonoBehaviour {
     public TMP_InputField nameInput;
     public GameObject nameInputObject;
 
+
     public void SetPlayerName()
     {
         DataCollector.currentPlayer = nameInput.text;
