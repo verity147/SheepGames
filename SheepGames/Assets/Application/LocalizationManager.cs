@@ -13,6 +13,7 @@ using System.IO;
 public class LocalizationManager : MonoBehaviour {
 
     public static LocalizationManager instance;
+    public SceneHandler sceneHandler;
 
     private Dictionary<string, string> localizedText;
 
@@ -71,6 +72,6 @@ public class LocalizationManager : MonoBehaviour {
         {
             yield return null;
         }
-        SceneHandler.sceneHandler.LoadLevel("MainMenu");
+        sceneHandler.LoadLevel("MainMenu");
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 
@@ -50,7 +51,7 @@ public static class DataCollector
 
     public static void UpdateScore(int newScore)
     {
-        currentLevel = SceneHandler.FindActiveSceneName();
+        currentLevel = SceneManager.GetActiveScene().name;
         ///if the player has player this level before and therefore has a saved score...
         if (tempPlayerDict[currentLevel].ContainsKey(currentPlayer))
         {

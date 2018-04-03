@@ -5,22 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneHandler : MonoBehaviour {
 
-    public static SceneHandler sceneHandler;
-
-    private void Awake()
-    {
-        if (sceneHandler == null)
-        {
-            sceneHandler = this;
-        }
-        else if (sceneHandler != this)
-        {
-            Destroy(gameObject);
-        }
-
-        DontDestroyOnLoad(gameObject);
-    }
-
+    //just for test builds
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -32,18 +17,11 @@ public class SceneHandler : MonoBehaviour {
     public void LoadLocalizationMenu()
     {
         SceneManager.LoadSceneAsync("LocalizationChoice");
-    }
-
-    
+    }    
 
     public void LoadLevel(string name)
     {
         SceneManager.LoadSceneAsync(name);
     }
-
-    public static string FindActiveSceneName()
-    {
-        return SceneManager.GetActiveScene().name;
-    }
-    
+   
 }
