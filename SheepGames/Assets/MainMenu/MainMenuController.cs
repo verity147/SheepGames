@@ -7,15 +7,28 @@ using TMPro;
 public class MainMenuController : MonoBehaviour {
 
     public TMP_InputField nameInput;
-    public GameObject nameInputObject;
+
+    public GameObject nameInputMenu;
     public GameObject optionsMenu;
     public GameObject creditsMenu;
     public GameObject highscoreMenu;
+    public GameObject confirmQuitMenu;
+
     private GameObject[] menus;
+    private GameObject localizationManager;
+
+    private void Awake()
+    {
+        if(DataCollector.currentPlayer == "NONE")
+        {
+            SetMenuActive(nameInputMenu);
+        }
+    }
 
     private void Start()
     {
-        menus = new GameObject[] { nameInputObject, optionsMenu, creditsMenu, highscoreMenu };
+        menus = new GameObject[] { nameInputMenu, optionsMenu, creditsMenu, highscoreMenu, confirmQuitMenu };
+        localizationManager = FindObjectOfType<LocalizationManager>().gameObject;
     }
 
     public void SetMenuActive(GameObject menu)
@@ -40,9 +53,35 @@ public class MainMenuController : MonoBehaviour {
     public void SetPlayerName()
     {
         DataCollector.currentPlayer = nameInput.text;
-        DataCollector.CheckForSaveFile();
-        nameInputObject.SetActive(false);
+        print(DataCollector.currentPlayer);
+        if (DataCollector.currentPlayer != "NONE" && DataCollector.currentPlayer.Length >=1)
+        {
+            DataCollector.CheckForSaveFile();
+            BackToMainMenu();
+        }
+        else
+        {
+            Debug.Log("You need to enter a name");
+            return;
+        }
     }
 
+    public void ChangeLanguage(string file)
+    {
+        localizationManager.GetComponent<LocalizationManager>().LoadLocalization(file);
+    }
 
+    public void OpenWebsite(string url)
+    {
+        Application.OpenURL(url);
+    }
+
+    public void QuitGame()
+    {
+        if (DataCollector.tempPlayerDict != null)
+        {
+            SaveLoadManager.Save();
+        }
+        Application.Quit();
+    }
 }

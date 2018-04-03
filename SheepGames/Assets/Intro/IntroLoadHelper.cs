@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class IntroLoadHelper : MonoBehaviour {
 
+    public SceneHandler sceneHandler;
+
     public void NotifySceneHandler()
     {
-        FindObjectOfType<SceneHandler>().LoadLocalizationMenu();
+        sceneHandler.LoadLocalizationMenu();
     }
 }
