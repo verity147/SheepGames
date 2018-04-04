@@ -53,15 +53,24 @@ public class MainMenuController : MonoBehaviour {
     public void SetPlayerName()
     {
         DataCollector.currentPlayer = nameInput.text;
-        print(DataCollector.currentPlayer);
+
         if (DataCollector.currentPlayer != "NONE" && DataCollector.currentPlayer.Length >=1)
         {
             DataCollector.CheckForSaveFile();
             BackToMainMenu();
+            foreach (KeyValuePair<string, Dictionary<string, int>> kvp in DataCollector.tempPlayerDict)
+            {
+                string player = kvp.Key;
+                ICollection coll = kvp.Value;
+                foreach (KeyValuePair<string, int> item in coll)
+                {
+                    Debug.Log("Player: " + player + "; Level: " + item.Key + ": " + item.Value);
+                }
+            }
         }
         else
         {
-            Debug.Log("You need to enter a name");
+            Debug.LogWarning("You need to enter a name");
             return;
         }
     }

@@ -19,6 +19,7 @@ public static class DataCollector
     public static int currentScore = -1000000;
     public static string currentLevel = "UNDETERMINED";
     public static int currentGameTotal;
+    public const string TOTAL_SCORE = "ALL_Total";
 
     private static int oldScore;
     private static int oldGameTotal;
@@ -81,7 +82,7 @@ public static class DataCollector
             ICollection coll = kvp.Value;
             foreach (KeyValuePair<string, int> item in coll)
             {
-                Debug.Log("Player: " + player + "; Level: " + item.Key + ": " + item.Value);
+                Debug.Log("Level: " + player + "; Player: " + item.Key + ": " + item.Value);
             }
         }
         //List<KeyValuePair<string, int>> test = SortScoreboard(currentLevel);
@@ -143,18 +144,18 @@ public static class DataCollector
         else
         {
             oldGameTotal = 0;
-            tempPlayerDict[game][currentPlayer] = oldGameTotal;
+            tempPlayerDict[game].Add(currentPlayer, oldGameTotal);            
         }
 
         ///catch for first time players who do not have a total yet
         if (tempPlayerDict["ALL_Total"].ContainsKey(currentPlayer))
         {
-            oldTotal = tempPlayerDict["ALL_Total"][currentPlayer];
+            oldTotal = tempPlayerDict[TOTAL_SCORE][currentPlayer];
         }
         else
         {
             oldTotal = 0;
-            tempPlayerDict[game][currentPlayer] = oldTotal;
+            tempPlayerDict[TOTAL_SCORE].Add(currentPlayer, oldTotal);
         }
 
         ///resets the per game total to 0 if it's the first level of any game
@@ -174,7 +175,7 @@ public static class DataCollector
         int newTotal = tempPlayerDict["JH_Total"][currentPlayer]; //+ the other games' totals
         if (newTotal > oldTotal)
         {
-            tempPlayerDict["ALL_Total"][currentPlayer] = newTotal;
+            tempPlayerDict[TOTAL_SCORE][currentPlayer] = newTotal;
         }
         SaveLoadManager.Save();
     }

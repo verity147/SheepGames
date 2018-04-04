@@ -49,16 +49,8 @@ public static class SaveLoadManager {
 
     public static bool CheckForExistingFile()
     {
-        if(File.Exists(Path.Combine(Application.persistentDataPath, "SheepGames.save")))
-        {
-            return true;
-        }else
-        {
-            return false;
-        }
+        return File.Exists(Path.Combine(Application.persistentDataPath, "SheepGames.save"));
     }
-
-
 }
 
 [Serializable]
