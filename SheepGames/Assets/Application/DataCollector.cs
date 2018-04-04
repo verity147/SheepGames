@@ -81,15 +81,15 @@ public static class DataCollector
             ICollection coll = kvp.Value;
             foreach (KeyValuePair<string, int> item in coll)
             {
-                Debug.Log("Level: " + player + "; Player: " + item.Key + ": " + item.Value);
+                Debug.Log("Player: " + player + "; Level: " + item.Key + ": " + item.Value);
             }
         }
-        List<KeyValuePair<string, int>> test = SortScoreboard(currentLevel);
-        foreach(var item in test)
-        {
-            Debug.Log(item);
-        }
-        Debug.Log("Name: " + currentPlayer);
+        //List<KeyValuePair<string, int>> test = SortScoreboard(currentLevel);
+        //foreach(var item in test)
+        //{
+        //    Debug.Log(item);
+        //}
+        //Debug.Log("Name: " + currentPlayer);
         #endregion
     }
 
@@ -134,8 +134,28 @@ public static class DataCollector
     public static void CalculateTotalScore()
     {
         string game = FindGame();
-        oldGameTotal = tempPlayerDict[game][currentPlayer];
-        oldTotal = tempPlayerDict["ALL_Total"][currentPlayer];
+
+        ///catch for first time players who do not have a game total yet
+        if (tempPlayerDict[game].ContainsKey(currentPlayer))
+        {
+            oldGameTotal = tempPlayerDict[game][currentPlayer];
+        }
+        else
+        {
+            oldGameTotal = 0;
+            tempPlayerDict[game][currentPlayer] = oldGameTotal;
+        }
+
+        ///catch for first time players who do not have a total yet
+        if (tempPlayerDict["ALL_Total"].ContainsKey(currentPlayer))
+        {
+            oldTotal = tempPlayerDict["ALL_Total"][currentPlayer];
+        }
+        else
+        {
+            oldTotal = 0;
+            tempPlayerDict[game][currentPlayer] = oldTotal;
+        }
 
         ///resets the per game total to 0 if it's the first level of any game
         if (currentLevel.Contains("01"))
