@@ -8,42 +8,63 @@ public class PopulateHighscore : MonoBehaviour {
 
     public GameObject nameText;
     public GameObject valueText;
-    public RectTransform parentRect;
+    public GameObject contentPrefab;
+    public RectTransform viewportRect;
     public int highscoreLength;
 
     private GridLayoutGroup grid;
 
     private void Awake()
     {
-        grid = GetComponent<GridLayoutGroup>();
+        grid = GetComponentInChildren<GridLayoutGroup>();
     }
 
     private void Start ()
     {
-        grid.cellSize = new Vector2(parentRect.rect.width / 2, grid.cellSize.y);
-        PopulateGrid("JH_GameLV_01");
-	}
-
-    public void PopulateGrid(string game)
-    {
-        foreach(KeyValuePair<string, int> entry in DataCollector.tempPlayerDict[game])
+        print(DataCollector.gameLevels.Count);
+        foreach(KeyValuePair<string,string[]> pair in DataCollector.gameLevels)
         {
-            GameObject entryName = Instantiate(nameText, transform);
+            //print(pair.Key);
+            print(pair.Key + " :" + pair.Value[0]);
+        }
+        //change to Total later 
+        NewGrid("JumpForHeight");
+    }
+
+    public void NewGrid(string game)
+    {
+        
+        Destroy(grid.gameObject);
+        grid = Instantiate(contentPrefab, viewportRect.transform).GetComponent<GridLayoutGroup>();
+        grid.cellSize = new Vector2(viewportRect.rect.width / 2, grid.cellSize.y);
+        PopulateGrid(game);
+    }
+
+    private void PopulateGrid(string game)
+    {
+        //take List GetScoreTotals instead of tempPlayerDict from DataCollector!!!
+        List<KeyValuePair<string, int>> result = DataCollector.GetGameTotals(DataCollector.gameLevels[game]);
+        foreach (KeyValuePair<string, int> entry in result)
+        {
+            GameObject entryName = Instantiate(nameText, grid.transform);
             entryName.GetComponent<TMP_Text>().text = entry.Key;
-            GameObject entryValue = Instantiate(valueText, transform);
+            GameObject entryValue = Instantiate(valueText, grid.transform);
             valueText.GetComponent<TMP_Text>().text = entry.Value.ToString();
         }
     }
 
-    private List<KeyValuePair<string, string>> BuildScoreList(string game)
+    public void PopulateTotal()
     {
-        return new List<KeyValuePair<string, string>>();
+        Destroy(grid.gameObject);
+        grid = Instantiate(contentPrefab, viewportRect.transform).GetComponent<GridLayoutGroup>();
+        grid.cellSize = new Vector2(viewportRect.rect.width / 2, grid.cellSize.y);
+        List<KeyValuePair<string, int>> result = DataCollector.GetScoreTotal();
+        foreach (KeyValuePair<string, int> entry in result)
+        {
+            GameObject entryName = Instantiate(nameText, grid.transform);
+            entryName.GetComponent<TMP_Text>().text = entry.Key;
+            GameObject entryValue = Instantiate(valueText, grid.transform);
+            valueText.GetComponent<TMP_Text>().text = entry.Value.ToString();
+        }
     }
 }
-
-
-//make list
-//sort list
-//instantiate prefab
-//assign value to prefab
-//show prefab

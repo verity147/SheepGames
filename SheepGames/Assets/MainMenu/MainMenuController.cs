@@ -19,6 +19,7 @@ public class MainMenuController : MonoBehaviour {
 
     private void Awake()
     {
+        localizationManager = FindObjectOfType<LocalizationManager>().gameObject;
         if(DataCollector.currentPlayer == "NONE")
         {
             SetMenuActive(nameInputMenu);
@@ -28,7 +29,6 @@ public class MainMenuController : MonoBehaviour {
     private void Start()
     {
         menus = new GameObject[] { nameInputMenu, optionsMenu, creditsMenu, highscoreMenu, confirmQuitMenu };
-        localizationManager = FindObjectOfType<LocalizationManager>().gameObject;
     }
 
     public void SetMenuActive(GameObject menu)
@@ -91,6 +91,7 @@ public class MainMenuController : MonoBehaviour {
         {
             SaveLoadManager.Save();
         }
+        print("Quit");
         Application.Quit();
     }
 }

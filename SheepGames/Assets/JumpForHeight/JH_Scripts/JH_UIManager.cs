@@ -24,7 +24,7 @@ public class JH_UIManager : MonoBehaviour
         if (tries >= maxTries)
         {
             //hide retry button
-            DataCollector.CalculateTotalScore();
+            //DataCollector.CalculateTotalScore();
         }
     }
 }
