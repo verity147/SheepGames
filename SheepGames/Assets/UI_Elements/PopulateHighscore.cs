@@ -21,12 +21,6 @@ public class PopulateHighscore : MonoBehaviour {
 
     private void Start ()
     {
-        print(DataCollector.gameLevels.Count);
-        foreach(KeyValuePair<string,string[]> pair in DataCollector.gameLevels)
-        {
-            //print(pair.Key);
-            print(pair.Key + " :" + pair.Value[0]);
-        }
         //change to Total later 
         NewGrid("JumpForHeight");
     }
@@ -42,14 +36,18 @@ public class PopulateHighscore : MonoBehaviour {
 
     private void PopulateGrid(string game)
     {
-        //take List GetScoreTotals instead of tempPlayerDict from DataCollector!!!
         List<KeyValuePair<string, int>> result = DataCollector.GetGameTotals(DataCollector.gameLevels[game]);
+        GameObject entryName;
+        GameObject entryValue;
+        ///puts 1. etc in front of names
+        int count = 1;
         foreach (KeyValuePair<string, int> entry in result)
         {
-            GameObject entryName = Instantiate(nameText, grid.transform);
-            entryName.GetComponent<TMP_Text>().text = entry.Key;
-            GameObject entryValue = Instantiate(valueText, grid.transform);
-            valueText.GetComponent<TMP_Text>().text = entry.Value.ToString();
+            entryName = Instantiate(nameText, grid.transform);
+            entryName.GetComponent<TMP_Text>().text = string.Concat(count.ToString(),". ", entry.Key);
+            entryValue = Instantiate(valueText, grid.transform);
+            entryValue.GetComponent<TMP_Text>().text = entry.Value.ToString();
+            count++;
         }
     }
 

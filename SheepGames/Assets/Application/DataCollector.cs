@@ -11,7 +11,7 @@ public static class DataCollector
     ///click + to enhance
     #region Pre-populated savegame data
     private static string[] exampleNames = { "Carl", "Patrick", "Hans", "Otto" };
-    private static string[] levelNames = { "JH_GameLV_01", "JH_GameLV_02", "JH_GameLV_03" , "JH_Total", "ALL_Total"};
+    private static string[] levelNames = { "JH_GameLV_01", "JH_GameLV_02", "JH_GameLV_03" };
     private static int[] pointValues = { 100, 800, 600, 725 };
     #endregion
 
@@ -146,7 +146,7 @@ public static class DataCollector
         scoreTotals.Sort(Compare);
         return scoreTotals;
     }
-
+    #region Score total, redo
     ///calculate the overall total highscore
     public static List<KeyValuePair<string,int>> GetScoreTotal()
     {        
@@ -193,7 +193,7 @@ public static class DataCollector
         totals.Sort(Compare);
         return totals;   
     }
-
+    #endregion
     public static List<KeyValuePair<string, int>> SortScore(string level)
     {    
         List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>(tempPlayerDict[level]);
@@ -204,7 +204,7 @@ public static class DataCollector
 
     private static int Compare(KeyValuePair<string, int> a, KeyValuePair<string, int> b)
     {
-        return a.Value.CompareTo(b.Value);
+        return b.Value.CompareTo(a.Value);
     }
 
     private static string FindGame()
