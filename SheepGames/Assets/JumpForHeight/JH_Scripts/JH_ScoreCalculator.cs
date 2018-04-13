@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class JH_ScoreCalculator : MonoBehaviour {
 
     public Text scoreText;
+    public Canvas gameCanvas;
 
     internal int score;
 

@@ -33,6 +33,7 @@ public class JH_PlayerBody : MonoBehaviour
     private Vector2 currentMousePos = Vector2.zero;
     internal Vector2 jumpForce = Vector2.zero;
     private Vector2 jumpPos;
+    private float waitForEndMenu = 3f;
 
     private void Awake()
     {
@@ -198,7 +199,15 @@ public class JH_PlayerBody : MonoBehaviour
             anim.SetBool("lost", false);
         }
 
+        StartCoroutine(ShowEndMenu());
     }
+
+    private IEnumerator ShowEndMenu()
+    {
+        yield return new WaitForSecondsRealtime(waitForEndMenu);
+        uIManager.BuildLevelEndMenu();
+    }
+
     ///called from animation event
     private void CallWallCollisionChange()
     {

@@ -18,7 +18,7 @@ public class JH_GameController : MonoBehaviour {
 
     private JH_UIManager uIManager;
 
-    private int numberOfTrajPoints = 5;
+    private int numberOfTrajPoints = 4;
     private Vector2 playerJumpForce;
     private Vector3 wallPos;
     private Vector3 prevCamPos;
@@ -34,8 +34,6 @@ public class JH_GameController : MonoBehaviour {
     internal bool drawNow = false;
     private Vector2[] trajPositions;
 
-
-    //use this script to retain trail from previous tries
     //determine which wall gets used in which level
 
     private void Start()
@@ -119,12 +117,15 @@ public class JH_GameController : MonoBehaviour {
         {
             child.gameObject.layer = layerIndex;
         }
-    }
-
-    
+    }    
 
     public void SpawnNewPlayer()
     {
+        ///hide trajectory points
+        foreach(GameObject point in trajectoryPoints)
+        {
+            point.GetComponent<SpriteRenderer>().enabled = false;
+        }
         ///reset backgrounds
        for(int i = 0; i < toBeMovedInParallax.Length; i++)
             {
@@ -146,7 +147,6 @@ public class JH_GameController : MonoBehaviour {
         playerParts = tempPlayer.GetComponentsInChildren<Transform>();
         movingVCam.Follow = tempPlayer;
         staticVCam.MoveToTopOfPrioritySubqueue();
-
     }
 
 }

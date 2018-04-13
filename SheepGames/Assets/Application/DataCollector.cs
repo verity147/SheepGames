@@ -22,7 +22,7 @@ public static class DataCollector
     public static int currentGameTotal;
     public const string TOTAL_SCORE = "ALL_Total";
 
-    private static int oldScore;
+    internal static int oldScore = -1000000;
     private static int oldGameTotal;
     private static int oldTotal;
 
@@ -161,9 +161,8 @@ public static class DataCollector
 
         Dictionary<string, int>[] gameTotals = { jhTotal, pwTotal, ppTotal, hrTotal };
 
-        int count = Mathf.Max(jhTotal.Count, pwTotal.Count, ppTotal.Count, hrTotal.Count);
         /// for each entry in the longest dictionary ( = the level with the most different players)
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < jhTotal.Count; i++)
         {
             ///one player is chosen from the highscorelist for one game...
             ///if someone has not played one of the games, he's not qualified for the highscore anyways
@@ -194,10 +193,16 @@ public static class DataCollector
         return totals;   
     }
     #endregion
+
     public static List<KeyValuePair<string, int>> SortScore(string level)
     {    
         List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>(tempPlayerDict[level]);
-
+        int i = 0;
+        foreach(KeyValuePair<string,int> entry in list)
+        {
+            i++;
+            Debug.LogFormat("{0}. Player: {1}, Score: {2}", i, entry.Key, entry.Value);
+        }
         list.Sort(Compare);
         return list;
     }
@@ -231,52 +236,4 @@ public static class DataCollector
 
         return game;
     }
-
-    //public static void CalculateTotalScore()
-    //{
-    //    string game = FindGame();
-
-    //    ///catch for first time players who do not have a game total yet
-    //    if (tempPlayerDict[game].ContainsKey(currentPlayer))
-    //    {
-    //        oldGameTotal = tempPlayerDict[game][currentPlayer];
-    //    }
-    //    else
-    //    {
-    //        oldGameTotal = 0;
-    //        tempPlayerDict[game].Add(currentPlayer, oldGameTotal);            
-    //    }
-
-    //    ///catch for first time players who do not have a total yet
-    //    if (tempPlayerDict["ALL_Total"].ContainsKey(currentPlayer))
-    //    {
-    //        oldTotal = tempPlayerDict[TOTAL_SCORE][currentPlayer];
-    //    }
-    //    else
-    //    {
-    //        oldTotal = 0;
-    //        tempPlayerDict[TOTAL_SCORE].Add(currentPlayer, oldTotal);
-    //    }
-
-    //    ///resets the per game total to 0 if it's the first level of any game
-    //    if (currentLevel.Contains("01"))
-    //    {
-    //        currentGameTotal = 0;
-    //    }
-    //    currentGameTotal += currentScore;
-
-    //    ///checks if the new total beats the old and overwrites it if so per game
-    //    if(currentGameTotal > oldGameTotal)
-    //    {
-    //        tempPlayerDict[game][currentPlayer] = currentGameTotal;
-    //    }
-
-    //    ///checks if the new total beats the old and overwrites it if so
-    //    int newTotal = tempPlayerDict["JH_Total"][currentPlayer]; //+ the other games' totals
-    //    if (newTotal > oldTotal)
-    //    {
-    //        tempPlayerDict[TOTAL_SCORE][currentPlayer] = newTotal;
-    //    }
-    //    SaveLoadManager.Save();
-    //}
 }

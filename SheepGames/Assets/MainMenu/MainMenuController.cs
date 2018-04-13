@@ -20,7 +20,7 @@ public class MainMenuController : MonoBehaviour {
     private void Awake()
     {
         localizationManager = FindObjectOfType<LocalizationManager>().gameObject;
-        if(DataCollector.currentPlayer == "NONE")
+        if(DataCollector.currentPlayer == "NONE" || DataCollector.currentPlayer == null)
         {
             SetMenuActive(nameInputMenu);
         }
@@ -70,6 +70,8 @@ public class MainMenuController : MonoBehaviour {
         }
         else
         {
+            ///put focus back to input field
+            nameInput.ActivateInputField();
             Debug.LogWarning("You need to enter a name");
             return;
         }

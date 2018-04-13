@@ -14,6 +14,11 @@ public class SceneHandler : MonoBehaviour {
         }
     }
 
+    public string GetSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
+
     public void LoadLocalizationMenu()
     {
         SceneManager.LoadSceneAsync("LocalizationChoice");
