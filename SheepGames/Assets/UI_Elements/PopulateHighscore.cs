@@ -23,7 +23,7 @@ public class PopulateHighscore : MonoBehaviour {
     private void Start ()
     {
         //change to Total later 
-        NewGrid("JumpForHeight");
+        //NewGrid("JumpForHeight");
     }
 
     public void NewGrid(string game)

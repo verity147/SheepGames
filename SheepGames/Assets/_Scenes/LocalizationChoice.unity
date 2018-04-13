@@ -373,7 +373,7 @@ Prefab:
     - target: {fileID: 223389870488525938, guid: c2806a452495c75429be26dba26630be,
         type: 2}
       propertyPath: m_AdditionalShaderChannelsFlag
-      value: 0
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c2806a452495c75429be26dba26630be, type: 2}
@@ -389,6 +389,7 @@ GameObject:
   - component: {fileID: 1429803345}
   - component: {fileID: 1429803344}
   - component: {fileID: 1429803343}
+  - component: {fileID: 1429803347}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -459,6 +460,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1429803347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1429803342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 32443c6e4e9b56b46b69cfa03f4242be, type: 2}
 --- !u!1001 &1456260512
 Prefab:
   m_ObjectHideFlags: 0
@@ -677,7 +690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.453, g: 0.453, b: 0.453, a: 0.872}
+  m_Color: {r: 0.097, g: 0.097, b: 0.097, a: 0.578}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

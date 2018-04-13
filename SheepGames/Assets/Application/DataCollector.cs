@@ -76,6 +76,7 @@ public static class DataCollector
             {
                 tempPlayerDict[currentLevel][currentPlayer] = newScore;
                 currentScore = newScore;
+                Debug.Log("Current Score: " + currentScore);
             }
             else
             {
@@ -128,6 +129,7 @@ public static class DataCollector
                 ///...with a check if the player has completed each level of said game and only includes him if he does
                 if (tempPlayerDict[level].ContainsKey(player))
                 {
+                    Debug.LogWarning("Adding scores");
                     playerScore += tempPlayerDict[level][player];
                 }
                 else
