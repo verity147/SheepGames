@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class JH_PlayerBody : MonoBehaviour
 {
-
     public float maxRunwayDist;
     ///has to be same length as RunUp animation clip
     public float runUpDuration;
@@ -33,7 +32,6 @@ public class JH_PlayerBody : MonoBehaviour
     private Vector2 currentMousePos = Vector2.zero;
     internal Vector2 jumpForce = Vector2.zero;
     private Vector2 jumpPos;
-    private float waitForEndMenu = 3f;
 
     private void Awake()
     {
@@ -165,6 +163,7 @@ public class JH_PlayerBody : MonoBehaviour
     internal void ShowEndAnimation()
     {
         int currentScore = gameController.GetComponentInChildren<JH_ScoreCalculator>().score;
+        uIManager.ShowScore(currentScore);
         if(DataCollector.currentPlayer != null)
         {
             DataCollector.UpdateScore(currentScore);
@@ -198,14 +197,7 @@ public class JH_PlayerBody : MonoBehaviour
             anim.SetBool("success", false);
             anim.SetBool("lost", false);
         }
-
-        StartCoroutine(ShowEndMenu());
-    }
-
-    private IEnumerator ShowEndMenu()
-    {
-        yield return new WaitForSecondsRealtime(waitForEndMenu);
-        uIManager.BuildLevelEndMenu();
+        uIManager.gameEndButton.SetActive(true);
     }
 
     ///called from animation event

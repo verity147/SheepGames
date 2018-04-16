@@ -14,6 +14,8 @@ public class JH_UIManager : MonoBehaviour
     public SceneHandler sceneHandler;
     public GameObject retryButton;
     public GameObject endOfGameMenu;
+    public GameObject showScore;
+    public GameObject gameEndButton;
 
     private LocalizationManager localizationManager;
     private PopulateHighscore populateHighscore;
@@ -25,6 +27,7 @@ public class JH_UIManager : MonoBehaviour
     private string noPreviousScoreKey = "FirstScore_T";
     private string newScoreBetterKey = "newScoreBetter_T";
     private string oldScoreBetterKey = "oldScoreBetter_T";
+    private string scoreTextKey = "ShowGameScore_T";
     #endregion
 
     private void Awake()
@@ -48,6 +51,14 @@ public class JH_UIManager : MonoBehaviour
         }
     }
 
+    internal void ShowScore(int score)
+    {
+        showScore.SetActive(true);
+        string scoreText;
+        scoreText = string.Format(localizationManager.GetLocalizedText(scoreTextKey), score.ToString());
+        showScore.GetComponent<TMP_Text>().text = scoreText;
+    }
+
     internal void BuildLevelEndMenu()
     {
         endOfGameMenu.SetActive(true);
@@ -55,6 +66,7 @@ public class JH_UIManager : MonoBehaviour
         int newScore = DataCollector.currentScore;
         string bestScoreText;
 
+        populateHighscore.NewGrid();
         populateHighscore.NewLevelScore(sceneHandler.GetSceneName());
 
         if(oldScore == newScore)

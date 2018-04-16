@@ -114,7 +114,7 @@ public static class DataCollector
     {
         ///this list will hold the results
         List<KeyValuePair<string, int>> scoreTotals = new List<KeyValuePair<string, int>>();
-        ///gets the first level of results in form of a kvp list (first level will definitely have every player)
+        ///gets the results of the first level in form of a kvp list (first level will definitely have every player)
         List<KeyValuePair<string, int>> levelScore = new List<KeyValuePair<string, int>>(tempPlayerDict[levels[0]]);
         ///for the entire list...
         for (int j = 0; j < levelScore.Count; j++)
@@ -148,7 +148,6 @@ public static class DataCollector
         scoreTotals.Sort(Compare);
         return scoreTotals;
     }
-    #region Score total, redo
     ///calculate the overall total highscore
     public static List<KeyValuePair<string,int>> GetScoreTotal()
     {        
@@ -194,7 +193,6 @@ public static class DataCollector
         totals.Sort(Compare);
         return totals;   
     }
-    #endregion
 
     public static List<KeyValuePair<string, int>> SortScore(string level)
     {    

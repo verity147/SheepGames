@@ -26,22 +26,24 @@ public class PopulateHighscore : MonoBehaviour {
         //NewGrid("JumpForHeight");
     }
 
-    public void NewGrid(string game)
-    {        
-        Destroy(grid.gameObject);
-        grid = Instantiate(contentPrefab, viewportRect.transform).GetComponent<GridLayoutGroup>();
-        grid.cellSize = new Vector2(viewportRect.rect.width / 2, grid.cellSize.y);
-        GetComponent<ScrollRect>().content = grid.gameObject.GetComponent<RectTransform>();
-        result = new List<KeyValuePair<string, int>>(DataCollector.GetGameTotals(DataCollector.gameLevels[game]));
-        PopulateGrid(result);
-    }
-
-    public void NewLevelScore(string level)
+    public void NewGrid()
     {
         Destroy(grid.gameObject);
         grid = Instantiate(contentPrefab, viewportRect.transform).GetComponent<GridLayoutGroup>();
         grid.cellSize = new Vector2(viewportRect.rect.width / 2, grid.cellSize.y);
         GetComponent<ScrollRect>().content = grid.gameObject.GetComponent<RectTransform>();
+    }
+
+    ///sorts score PER GAME
+    public void NewGameScore(string game)
+    {
+        result = new List<KeyValuePair<string, int>>(DataCollector.GetGameTotals(DataCollector.gameLevels[game]));
+        PopulateGrid(result);
+    }
+
+    ///sorts score PER LEVEL
+    public void NewLevelScore(string level)
+    {
         result = new List<KeyValuePair<string, int>>(DataCollector.SortScore(level));
         PopulateGrid(result);        
     }
@@ -64,16 +66,15 @@ public class PopulateHighscore : MonoBehaviour {
 
     public void PopulateTotal()
     {
-        Destroy(grid.gameObject);
-        grid = Instantiate(contentPrefab, viewportRect.transform).GetComponent<GridLayoutGroup>();
-        grid.cellSize = new Vector2(viewportRect.rect.width / 2, grid.cellSize.y);
         List<KeyValuePair<string, int>> result = DataCollector.GetScoreTotal();
+        int count = 1;
         foreach (KeyValuePair<string, int> entry in result)
         {
             GameObject entryName = Instantiate(nameText, grid.transform);
-            entryName.GetComponent<TMP_Text>().text = entry.Key;
+            entryName.GetComponent<TMP_Text>().text = string.Concat(count.ToString(), ". ", entry.Key);
             GameObject entryValue = Instantiate(valueText, grid.transform);
             entryValue.GetComponent<TMP_Text>().text = entry.Value.ToString();
+            count++;
         }
     }
 }
