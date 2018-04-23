@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4209701696338368}
   - component: {fileID: 212774687324128430}
   - component: {fileID: 95825687996165714}
+  - component: {fileID: 114864660627738680}
   m_Layer: 0
   m_Name: DECO_brownface
   m_TagString: Untagged
@@ -58,6 +59,20 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114864660627738680
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1266998124965942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e86d3505cfb53342966b8c87d01cfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animPause: 0
+  triggers: []
+  random: 0
 --- !u!212 &212774687324128430
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -92,7 +107,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b481917c90c39444e88b6b2b3170a7de, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d28e33f612b585b43b42b8ddec655042, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

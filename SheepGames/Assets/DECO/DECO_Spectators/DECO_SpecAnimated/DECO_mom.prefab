@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4720885481975640}
   - component: {fileID: 212139398759470208}
   - component: {fileID: 95285045411312822}
+  - component: {fileID: 114363267044279090}
   m_Layer: 0
   m_Name: DECO_mom
   m_TagString: Untagged
@@ -58,6 +59,21 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114363267044279090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1892874268358048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e86d3505cfb53342966b8c87d01cfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animPause: 5
+  triggers:
+  - wrangle
+  random: 0
 --- !u!212 &212139398759470208
 SpriteRenderer:
   m_ObjectHideFlags: 1

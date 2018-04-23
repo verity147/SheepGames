@@ -7,7 +7,6 @@ using TMPro;
 public class MainMenuController : MonoBehaviour {
 
     public TMP_InputField nameInput;
-
     public GameObject nameInputMenu;
     public GameObject optionsMenu;
     public GameObject creditsMenu;
