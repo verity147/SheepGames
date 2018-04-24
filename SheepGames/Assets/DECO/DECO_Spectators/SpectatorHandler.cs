@@ -35,6 +35,7 @@ public class SpectatorHandler : MonoBehaviour {
             {
                 anim.SetTrigger(randomAnim);
                 timePassed = 0f;
+                animPause = Random.Range(animPause - 20f, animPause + 20f);
             }
         }
         timePassed += Time.deltaTime;
