@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class JH_ScoreCalculator : MonoBehaviour {
 
-    public Text scoreText;
 
     internal int score;
 
@@ -18,7 +17,6 @@ public class JH_ScoreCalculator : MonoBehaviour {
     void Start () {
         //import current Score
         //score needs to be reset on retry and kept for the next level
-        scoreText.text = "Score: " + score.ToString();
         stonePointPenalty = stonePointPenaltyStart;
         countedObjects = new List<GameObject>();
     }
@@ -26,7 +24,6 @@ public class JH_ScoreCalculator : MonoBehaviour {
     {
         score = 0;
         stonePointPenalty = stonePointPenaltyStart;
-        scoreText.text = "Score: " + score.ToString();
         countedObjects.Clear();
         countedObjects.TrimExcess();
     }
@@ -41,12 +38,10 @@ public class JH_ScoreCalculator : MonoBehaviour {
             {
                 score -= stonePointPenalty;
                 //stonePointPenalty += stonePointPenaltyStart;
-                scoreText.text = "Score: " + score.ToString();
             }
             else if(obj.tag != "JH_Stone" && obj.tag != "Player")
             {
                 score += winPointBonus;
-                scoreText.text = "Score: " + score.ToString();
             }
         }
         if (obj.GetComponent<SpriteRenderer>())

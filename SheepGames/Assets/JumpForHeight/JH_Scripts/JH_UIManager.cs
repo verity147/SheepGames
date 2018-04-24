@@ -20,7 +20,7 @@ public class JH_UIManager : MonoBehaviour
     private LocalizationManager localizationManager;
     private PopulateHighscore populateHighscore;
     private int tries = 0;
-    private int maxTries = 2;
+    private int maxTries = 3;
 
     #region LOCALIZATION KEYS
     private string scoresEqualKey = "EqualScore_T";
@@ -59,7 +59,7 @@ public class JH_UIManager : MonoBehaviour
         showScore.GetComponent<TMP_Text>().text = scoreText;
     }
 
-    internal void BuildLevelEndMenu()
+    public void BuildLevelEndMenu()
     {
         endOfGameMenu.SetActive(true);
         int oldScore = DataCollector.oldScore;

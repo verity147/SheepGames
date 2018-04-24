@@ -36,6 +36,10 @@ public class MainMenuController : MonoBehaviour {
         {
             menu.SetActive(true);
         }
+        if (menu == optionsMenu)
+        {
+            //optionsMenu.GetComponentInChildren<Slider>().name == "MusicSlider"
+        }
     }
 
     public void BackToMainMenu()

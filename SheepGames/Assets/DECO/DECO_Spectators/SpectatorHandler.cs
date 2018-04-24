@@ -12,11 +12,13 @@ public class SpectatorHandler : MonoBehaviour {
     public bool random = false;
 
     private Animator anim;
+    private AudioSource audioSource;
     private float timePassed = 0f;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         if (anim == null)
         {
             Debug.LogWarningFormat("{0} requires an Animator Component but has none!", gameObject.name);
@@ -39,7 +41,11 @@ public class SpectatorHandler : MonoBehaviour {
             }
         }
         timePassed += Time.deltaTime;
-        print(timePassed);
+    }
+
+    public void PlaySound()
+    {
+        audioSource.Play();
     }
 
 }
