@@ -7,6 +7,7 @@ using TMPro;
 public class MainMenuController : MonoBehaviour {
 
     public TMP_InputField nameInput;
+    public TMP_Dropdown resolutionDrop;
     public GameObject nameInputMenu;
     public GameObject optionsMenu;
     public GameObject creditsMenu;
@@ -15,10 +16,12 @@ public class MainMenuController : MonoBehaviour {
 
     private GameObject[] menus;
     private GameObject localizationManager;
+    private OptionsManager optionsManager;
 
     private void Awake()
     {
         localizationManager = FindObjectOfType<LocalizationManager>().gameObject;
+        optionsManager = FindObjectOfType<OptionsManager>();
         if(DataCollector.currentPlayer == "NONE" || DataCollector.currentPlayer == null)
         {
             SetMenuActive(nameInputMenu);
@@ -28,6 +31,10 @@ public class MainMenuController : MonoBehaviour {
     private void Start()
     {
         menus = new GameObject[] { nameInputMenu, optionsMenu, creditsMenu, highscoreMenu, confirmQuitMenu };
+        resolutionDrop.ClearOptions();
+        resolutionDrop.AddOptions(optionsManager.resolutionsList);
+        resolutionDrop.value = optionsManager.currentResIndex;
+        resolutionDrop.RefreshShownValue();
     }
 
     public void SetMenuActive(GameObject menu)
