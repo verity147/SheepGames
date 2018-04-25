@@ -72,6 +72,6 @@ public class LocalizationManager : MonoBehaviour {
         {
             yield return null;
         }
-        sceneHandler.LoadLevel("MainMenu");
+        sceneHandler.LoadLevel("04_MainMenu");
     }
 }

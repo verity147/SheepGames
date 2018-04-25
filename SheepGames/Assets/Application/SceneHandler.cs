@@ -21,7 +21,7 @@ public class SceneHandler : MonoBehaviour {
 
     public void LoadLocalizationMenu()
     {
-        SceneManager.LoadSceneAsync("LocalizationChoice");
+        SceneManager.LoadSceneAsync("03_LocalizationChoice");
     }    
 
     public void LoadLevel(string name)

@@ -13,7 +13,6 @@ public class OptionsManager : MonoBehaviour {
 
     private void Awake()
     {
-        //audioMixer = FindObjectOfType<AudioMixer>();
         DontDestroyOnLoad(gameObject);
     }
 
@@ -53,6 +52,19 @@ public class OptionsManager : MonoBehaviour {
     public void SetResolution(int index)
     {
         Resolution resolution = resolutions[currentResIndex];
-        Screen.SetResolution(resolution.width,resolution.height, Screen.fullScreen);
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+
+    public void SetFullscreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
+        if (isFullscreen)
+        {
+            PlayerPrefsManager.SetFullscreen(1);
+        }
+        else
+        {
+            PlayerPrefsManager.SetFullscreen(0);
+        }
     }
 }
