@@ -37,7 +37,6 @@ public class JH_ScoreCalculator : MonoBehaviour {
             if(obj.tag == "JH_Stone")
             {
                 score -= stonePointPenalty;
-                //stonePointPenalty += stonePointPenaltyStart;
             }
             else if(obj.tag != "JH_Stone" && obj.tag != "Player")
             {

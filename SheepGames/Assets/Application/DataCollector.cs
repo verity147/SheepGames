@@ -44,7 +44,6 @@ public static class DataCollector
     {
         if (SaveLoadManager.CheckForExistingFile() == true)
         {
-            Debug.Log("File found");
             SaveLoadManager.Load();
             return;
         }else{

@@ -118,7 +118,6 @@ public class JH_PlayerBody : MonoBehaviour
         float jumpX = jumpDirection.x * (movedDist * 10f) * jumpPowerModX;
         float jumpY = jumpDirection.y * (movedDist * 10f) * jumpPowerModY;
         jumpForce = new Vector2(jumpX, jumpY) * jumpPowerMod;
-
     }
 
     internal void MovePlayerToStart()

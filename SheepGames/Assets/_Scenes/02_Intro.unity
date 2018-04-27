@@ -214,6 +214,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 82352871512155074, guid: 01468cacb0136b24599c19e240a64cb0,
+        type: 2}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 82352871512155074, guid: 01468cacb0136b24599c19e240a64cb0,
+        type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2955447864140b34e883cd1ec8a0b9e6, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 01468cacb0136b24599c19e240a64cb0, type: 2}
   m_IsPrefabParent: 0
@@ -313,7 +323,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneHandler: {fileID: 114219062982071270, guid: 7db6cf3357d28f246b2072329c306432,
     type: 2}
-  locManager: {fileID: 1951814435}
 --- !u!1 &1698828348
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,12 +438,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a3bb4c85f9f00704493a48a2c0f68d96, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1951814435 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114930527541316096, guid: a3bb4c85f9f00704493a48a2c0f68d96,
-    type: 2}
-  m_PrefabInternal: {fileID: 1951814434}
-  m_Script: {fileID: 11500000, guid: e78c831d6141d624fa58723cf02d5243, type: 3}
 --- !u!1 &1984964850
 GameObject:
   m_ObjectHideFlags: 0

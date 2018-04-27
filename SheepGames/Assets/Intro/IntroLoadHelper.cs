@@ -10,7 +10,6 @@ public class IntroLoadHelper : MonoBehaviour {
     public void NotifySceneHandler()
     {
         LocalizationManager.localizationManager.enabled = true;
-        print(PlayerPrefsManager.GetLangage());
         if(String.IsNullOrEmpty(PlayerPrefsManager.GetLangage()))
         {
             sceneHandler.LoadLocalizationMenu();

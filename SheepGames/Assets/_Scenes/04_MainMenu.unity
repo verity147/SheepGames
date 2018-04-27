@@ -695,7 +695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 103721e5e963dc742a5dc987c15b5259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: Done_B
+  key: Confirm_B
 --- !u!1001 &85979484
 Prefab:
   m_ObjectHideFlags: 0
@@ -1402,12 +1402,12 @@ Prefab:
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224875783259960400, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
@@ -1760,12 +1760,12 @@ Prefab:
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224875783259960400, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
@@ -2431,6 +2431,11 @@ Prefab:
       propertyPath: m_textInfo.lineCount
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
+        type: 2}
+      propertyPath: m_enableWordWrapping
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b, type: 2}
   m_IsPrefabParent: 0
@@ -2494,17 +2499,17 @@ Prefab:
     - target: {fileID: 224069071396963076, guid: a4578521d796ce64d824693c75edfeb3,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -10.1
       objectReference: {fileID: 0}
     - target: {fileID: 224069071396963076, guid: a4578521d796ce64d824693c75edfeb3,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 343.8
+      value: 757.2
       objectReference: {fileID: 0}
     - target: {fileID: 224069071396963076, guid: a4578521d796ce64d824693c75edfeb3,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 163.1
+      value: 506.9
       objectReference: {fileID: 0}
     - target: {fileID: 224069071396963076, guid: a4578521d796ce64d824693c75edfeb3,
         type: 2}
@@ -2554,6 +2559,26 @@ Prefab:
         type: 2}
       propertyPath: key
       value: Credits_T
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160573379850276, guid: a4578521d796ce64d824693c75edfeb3,
+        type: 2}
+      propertyPath: m_fontSize
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160573379850276, guid: a4578521d796ce64d824693c75edfeb3,
+        type: 2}
+      propertyPath: m_textAlignment
+      value: 514
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160573379850276, guid: a4578521d796ce64d824693c75edfeb3,
+        type: 2}
+      propertyPath: m_enableExtraPadding
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160573379850276, guid: a4578521d796ce64d824693c75edfeb3,
+        type: 2}
+      propertyPath: checkPaddingRequired
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a4578521d796ce64d824693c75edfeb3, type: 2}
@@ -2662,12 +2687,12 @@ Prefab:
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
@@ -4837,12 +4862,12 @@ Prefab:
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224875783259960400, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
@@ -7250,12 +7275,12 @@ Prefab:
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224875783259960400, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
@@ -8131,12 +8156,12 @@ Prefab:
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_text
-      value: Options_B
+      value: Einstellungen
       objectReference: {fileID: 0}
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_textInfo.characterCount
-      value: 9
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 224875783259960400, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
@@ -8161,12 +8186,12 @@ Prefab:
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_textInfo.wordCount
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
       propertyPath: m_fontSize
-      value: 24.45
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 114144226766625168, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 2}
@@ -8182,6 +8207,16 @@ Prefab:
         type: 2}
       propertyPath: m_Navigation.m_Mode
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
+        type: 2}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114080992224237938, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
+        type: 2}
+      propertyPath: m_enableWordWrapping
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b, type: 2}
