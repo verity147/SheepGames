@@ -69,9 +69,9 @@ public static class PlayerPrefsManager  {
         return PlayerPrefs.GetInt(RESOLUTION_HEIGHT_KEY);
     }
 
-    public static void SetLanguage(string language)
+    public static void SetLanguage(string languageFile)
     {
-        PlayerPrefs.SetString(LANGUAGE_KEY, language);
+        PlayerPrefs.SetString(LANGUAGE_KEY, languageFile);
     }
 
     public static string GetLangage()

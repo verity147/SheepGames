@@ -11,11 +11,6 @@ public class OptionsManager : MonoBehaviour {
     internal List<string> resolutionsList;
     internal int currentResIndex = 0;
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
-
     private void Start()
     {
         resolutions = Screen.resolutions;
@@ -32,7 +27,6 @@ public class OptionsManager : MonoBehaviour {
                 currentResIndex = i;
             }
         }
-
         audioMixer.SetFloat("MusicVolume", PlayerPrefsManager.GetMusicVolume());
         audioMixer.SetFloat("SFXVolume", PlayerPrefsManager.GetSfxVolume());
     }
@@ -51,6 +45,8 @@ public class OptionsManager : MonoBehaviour {
 
     public void SetResolution(int index)
     {
+        ///resolutions needs to be set a second time because the script forgets it.
+        resolutions = Screen.resolutions;
         Resolution resolution = resolutions[currentResIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
@@ -66,5 +62,11 @@ public class OptionsManager : MonoBehaviour {
         {
             PlayerPrefsManager.SetFullscreen(0);
         }
+    }
+
+    public void SaveLanguageSetting(string filename)
+    {
+        PlayerPrefsManager.SetLanguage(filename);
+        LocalizationManager.localizationManager.LoadLocalization(filename);
     }
 }

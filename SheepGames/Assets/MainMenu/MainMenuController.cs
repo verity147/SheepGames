@@ -8,6 +8,8 @@ public class MainMenuController : MonoBehaviour {
 
     public TMP_InputField nameInput;
     public TMP_Dropdown resolutionDrop;
+    public Slider soundSlider;
+    public Slider musicSlider;
     public GameObject nameInputMenu;
     public GameObject optionsMenu;
     public GameObject creditsMenu;
@@ -15,14 +17,12 @@ public class MainMenuController : MonoBehaviour {
     public GameObject confirmQuitMenu;
 
     private GameObject[] menus;
-    private GameObject localizationManager;
-    private OptionsManager optionsManager;
+    private OptionsManager optManager;
 
     private void Awake()
     {
-        localizationManager = FindObjectOfType<LocalizationManager>().gameObject;
-        optionsManager = FindObjectOfType<OptionsManager>();
-        if(DataCollector.currentPlayer == "NONE" || DataCollector.currentPlayer == null)
+        optManager = FindObjectOfType<OptionsManager>();
+        if (DataCollector.currentPlayer == "NONE" || DataCollector.currentPlayer == null)
         {
             SetMenuActive(nameInputMenu);
         }
@@ -31,10 +31,6 @@ public class MainMenuController : MonoBehaviour {
     private void Start()
     {
         menus = new GameObject[] { nameInputMenu, optionsMenu, creditsMenu, highscoreMenu, confirmQuitMenu };
-        resolutionDrop.ClearOptions();
-        resolutionDrop.AddOptions(optionsManager.resolutionsList);
-        resolutionDrop.value = optionsManager.currentResIndex;
-        resolutionDrop.RefreshShownValue();
     }
 
     public void SetMenuActive(GameObject menu)
@@ -45,7 +41,13 @@ public class MainMenuController : MonoBehaviour {
         }
         if (menu == optionsMenu)
         {
-            //optionsMenu.GetComponentInChildren<Slider>().name == "MusicSlider"
+            //optManager.BuildResolutionOptions();
+            resolutionDrop.ClearOptions();
+            resolutionDrop.AddOptions(optManager.resolutionsList);
+            resolutionDrop.value = optManager.currentResIndex;
+            resolutionDrop.RefreshShownValue();
+            soundSlider.value = PlayerPrefsManager.GetSfxVolume();
+            musicSlider.value = PlayerPrefsManager.GetMusicVolume();
         }
     }
 
@@ -68,15 +70,15 @@ public class MainMenuController : MonoBehaviour {
         {
             DataCollector.CheckForSaveFile();
             BackToMainMenu();
-            foreach (KeyValuePair<string, Dictionary<string, int>> kvp in DataCollector.tempPlayerDict)
-            {
-                string player = kvp.Key;
-                ICollection coll = kvp.Value;
-                foreach (KeyValuePair<string, int> item in coll)
-                {
-                    Debug.Log("Player: " + player + "; Level: " + item.Key + ": " + item.Value);
-                }
-            }
+            //foreach (KeyValuePair<string, Dictionary<string, int>> kvp in DataCollector.tempPlayerDict)
+            //{
+            //    string player = kvp.Key;
+            //    ICollection coll = kvp.Value;
+            //    foreach (KeyValuePair<string, int> item in coll)
+            //    {
+            //        Debug.Log("Player: " + player + "; Level: " + item.Key + ": " + item.Value);
+            //    }
+            //}
         }
         else
         {
@@ -85,11 +87,6 @@ public class MainMenuController : MonoBehaviour {
             Debug.LogWarning("You need to enter a name");
             return;
         }
-    }
-
-    public void ChangeLanguage(string file)
-    {
-        localizationManager.GetComponent<LocalizationManager>().LoadLocalization(file);
     }
 
     public void OpenWebsite(string url)

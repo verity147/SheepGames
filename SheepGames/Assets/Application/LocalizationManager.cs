@@ -12,7 +12,7 @@ using System.IO;
 
 public class LocalizationManager : MonoBehaviour {
 
-    public static LocalizationManager instance;
+    public static LocalizationManager localizationManager;
     public SceneHandler sceneHandler;
 
     private Dictionary<string, string> localizedText;
@@ -22,14 +22,15 @@ public class LocalizationManager : MonoBehaviour {
 
     private void Awake()
     {
-        if(instance == null)
+        ///Localization Manager is needed by every element that holds localized text, 
+        ///so it uses a singleton pattern to ensure it is always available and exists only once
+        if(localizationManager == null)
         {
-            instance = this;
-        }else if (instance !=this)
+            localizationManager = this;
+        }else if (localizationManager !=this)
         {
             Destroy(gameObject);
         }
-
         DontDestroyOnLoad(gameObject);
     }
 
@@ -74,4 +75,5 @@ public class LocalizationManager : MonoBehaviour {
         }
         sceneHandler.LoadLevel("04_MainMenu");
     }
+
 }
