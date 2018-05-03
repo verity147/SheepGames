@@ -10,8 +10,9 @@ public static class DataCollector
 {
     ///click + to enhance
     #region Pre-populated savegame data
-    private static string[] exampleNames = { "Carl", "Patrick", "Hans", "Otto" };
-    private static string[] levelNames = { "JH_GameLV_01", "JH_GameLV_02", "JH_GameLV_03" };
+    private static string[] exampleNames = { "John McMullen", "Jack Cross", "Hamish Pride", "Nathan MacAngus", "Ben McBrick",
+                                             "Megan MacAngus", "Holly McMillen", "Olivia Darksense", "Cat Bluebell", "Janet Kelden" };
+    //private static string[] levelNames = { "JH_GameLV_01", "JH_GameLV_02", "JH_GameLV_03" };
     private static int[] pointValues = { 100, 800, 600, 725 };
     #endregion
 
@@ -50,14 +51,22 @@ public static class DataCollector
             Debug.Log("new file");
             tempPlayerDict = new Dictionary<string, Dictionary<string, int>>();
 
-            for (int i = 0; i < levelNames.Length; i++)
+            ///for each game...
+            foreach(KeyValuePair<string,string[]> levelNames in gameLevels)
             {
-                Dictionary<string, int> scoreDict = new Dictionary<string, int>();
-                for (int j = 0; j < exampleNames.Length; j++)
+                ///...take every level of that game...
+                for (int k = 0; k < levelNames.Value.Length; k++)
                 {
-                    scoreDict.Add(exampleNames[j], pointValues[j]);
+                    Dictionary<string, int> scoreDict = new Dictionary<string, int>();
+                    ///...and add each template player with a certain score to a new dictionary...
+                    for (int j = 0; j < exampleNames.Length; j++)
+                    {
+                        int newScore = Mathf.RoundToInt((Random.Range(100, 900)) / 100) * 100;
+                        scoreDict.Add(exampleNames[j], newScore);
+                    }
+                    ///...then add this new dictionary to the actual savegame data and save
+                    tempPlayerDict.Add(levelNames.Value[k], scoreDict);
                 }
-                tempPlayerDict.Add(levelNames[i], scoreDict);
             }
             SaveLoadManager.Save();
         }
