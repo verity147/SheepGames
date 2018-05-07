@@ -41,13 +41,17 @@ public class MainMenuController : MonoBehaviour {
         }
         if (menu == optionsMenu)
         {
-            //optManager.BuildResolutionOptions();
             resolutionDrop.ClearOptions();
             resolutionDrop.AddOptions(optManager.resolutionsList);
             resolutionDrop.value = optManager.currentResIndex;
             resolutionDrop.RefreshShownValue();
             soundSlider.value = PlayerPrefsManager.GetSfxVolume();
             musicSlider.value = PlayerPrefsManager.GetMusicVolume();
+        }else if (menu == highscoreMenu)
+        {
+            PopulateHighscore populateHighscore = menu.GetComponentInChildren<PopulateHighscore>();
+            populateHighscore.NewGrid();
+            populateHighscore.PopulateTotal();
         }
     }
 
@@ -66,19 +70,10 @@ public class MainMenuController : MonoBehaviour {
     {
         DataCollector.currentPlayer = nameInput.text;
 
-        if (DataCollector.currentPlayer != "NONE" && DataCollector.currentPlayer.Length >=1)
+        if (DataCollector.currentPlayer != "NONE" && DataCollector.currentPlayer.Length > 1)
         {
             DataCollector.CheckForSaveFile();
             BackToMainMenu();
-            //foreach (KeyValuePair<string, Dictionary<string, int>> kvp in DataCollector.tempPlayerDict)
-            //{
-            //    string player = kvp.Key;
-            //    ICollection coll = kvp.Value;
-            //    foreach (KeyValuePair<string, int> item in coll)
-            //    {
-            //        Debug.Log("Player: " + player + "; Level: " + item.Key + ": " + item.Value);
-            //    }
-            //}
         }
         else
         {

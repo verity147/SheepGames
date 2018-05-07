@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpectatorHandler : MonoBehaviour {
 
     public float animPause = 100f;
+    public float animVariation = 20f;
     public string randomAnim;
     public string cheerAnim;
     public string sadAnim;
@@ -14,6 +15,7 @@ public class SpectatorHandler : MonoBehaviour {
     private Animator anim;
     private AudioSource audioSource;
     private float timePassed = 0f;
+    private float animPauseVaried;
 
     private void Awake()
     {
@@ -23,6 +25,7 @@ public class SpectatorHandler : MonoBehaviour {
         {
             Debug.LogWarningFormat("{0} requires an Animator Component but has none!", gameObject.name);
         }
+        animPauseVaried = animPause;
     }
 
     private void Update()
@@ -33,11 +36,11 @@ public class SpectatorHandler : MonoBehaviour {
         if (random)
         {
             ///trigger animations when animPause in seconds has passed
-            if(timePassed >= animPause)
+            if(timePassed >= animPauseVaried)
             {
                 anim.SetTrigger(randomAnim);
                 timePassed = 0f;
-                animPause = Random.Range(animPause - 20f, animPause + 20f);
+                animPauseVaried = Random.Range(animPause - animVariation, animPause + animVariation);
             }
         }
         timePassed += Time.deltaTime;
@@ -47,5 +50,4 @@ public class SpectatorHandler : MonoBehaviour {
     {
         audioSource.Play();
     }
-
 }

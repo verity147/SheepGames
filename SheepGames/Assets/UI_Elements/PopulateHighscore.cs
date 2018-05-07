@@ -44,7 +44,6 @@ public class PopulateHighscore : MonoBehaviour {
     ///sorts score PER LEVEL
     public void NewLevelScore(string level)
     {
-        print("NewLevelScore");
         result = new List<KeyValuePair<string, int>>(DataCollector.SortScore(level));
         PopulateGrid(result);        
     }

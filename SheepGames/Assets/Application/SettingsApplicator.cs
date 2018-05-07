@@ -21,7 +21,7 @@ public class SettingsApplicator : MonoBehaviour {
 
     private IEnumerator ShowLogos()
     {
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(1);
         sceneHandler.LoadLevel("02_Intro");
     }
 }

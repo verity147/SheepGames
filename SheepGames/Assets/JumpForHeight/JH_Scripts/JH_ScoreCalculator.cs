@@ -10,8 +10,8 @@ public class JH_ScoreCalculator : MonoBehaviour {
 
     private int newScore;
     private int stonePointPenaltyStart = 100;
-    private int stonePointPenalty = 100;
-    private int winPointBonus = 1000;
+    internal int stonePointPenalty = 100;
+    internal int winPointBonus = 1000;
     private List<GameObject> countedObjects;
 
     void Start () {

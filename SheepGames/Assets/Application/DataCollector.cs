@@ -12,8 +12,6 @@ public static class DataCollector
     #region Pre-populated savegame data
     private static string[] exampleNames = { "John McMullen", "Jack Cross", "Hamish Pride", "Nathan MacAngus", "Ben McBrick",
                                              "Megan MacAngus", "Holly McMillen", "Olivia Darksense", "Cat Bluebell", "Janet Kelden" };
-    //private static string[] levelNames = { "JH_GameLV_01", "JH_GameLV_02", "JH_GameLV_03" };
-    private static int[] pointValues = { 100, 800, 600, 725 };
     #endregion
 
     public static Dictionary<string, Dictionary<string, int>> tempPlayerDict;
@@ -75,39 +73,49 @@ public static class DataCollector
     public static void UpdateScore(int newScore)
     {
         currentLevel = SceneManager.GetActiveScene().name;
-        ///if the player has player this level before and therefore has a saved score...
-        if (tempPlayerDict[currentLevel].ContainsKey(currentPlayer))
+        CheckForSaveFile();
+        ///if there is a valid player name...
+        if (!string.IsNullOrEmpty(currentPlayer))
         {
-            oldScore = tempPlayerDict[currentLevel][currentPlayer];
-            ///...compare to the new score and if it is not the same, save it
-            if (newScore > oldScore)
+            ///...check if he's played before...
+            if (tempPlayerDict[currentLevel].ContainsKey(currentPlayer))
             {
-                tempPlayerDict[currentLevel][currentPlayer] = newScore;
+                oldScore = tempPlayerDict[currentLevel][currentPlayer];
+                ///...and test if the new score is a new best
+                if (newScore > oldScore)
+                {
+                    tempPlayerDict[currentLevel][currentPlayer] = newScore;
+                    currentScore = newScore;
+                    Debug.Log("Current Score: " + currentScore);
+                }
+                else
+                {
+                    Debug.Log("Score was too low!");
+                }
+            }///...or add him to the savefile if he's new
+            else if (!tempPlayerDict[currentLevel].ContainsKey(currentPlayer))
+            {
+                tempPlayerDict[currentLevel].Add(currentPlayer, currentScore);
                 currentScore = newScore;
-                Debug.Log("Current Score: " + currentScore);
             }
-            else
-            {
-                Debug.Log("Score was too low!");
-            }
+            SaveLoadManager.Save();
         }
         else
         {
-            tempPlayerDict[currentLevel].Add(currentPlayer, newScore);
+            Debug.LogWarning("No Player found!");
         }
-        SaveLoadManager.Save();
 
         #region DEBUG ONLY
-        foreach (KeyValuePair<string, Dictionary<string, int>> kvp in tempPlayerDict)
-        {
-            string player = kvp.Key;
-            //print(player);
-            ICollection coll = kvp.Value;
-            foreach (KeyValuePair<string, int> item in coll)
-            {
-                Debug.Log("Level: " + player + "; Player: " + item.Key + ": " + item.Value);
-            }
-        }
+        //foreach (KeyValuePair<string, Dictionary<string, int>> kvp in tempPlayerDict)
+        //{
+        //    string player = kvp.Key;
+        //    //print(player);
+        //    ICollection coll = kvp.Value;
+        //    foreach (KeyValuePair<string, int> item in coll)
+        //    {
+        //        Debug.Log("Level: " + player + "; Player: " + item.Key + ": " + item.Value);
+        //    }
+        //}
         //List<KeyValuePair<string, int>> test = SortScoreboard(currentLevel);
         //foreach(var item in test)
         //{
@@ -204,12 +212,12 @@ public static class DataCollector
     public static List<KeyValuePair<string, int>> SortScore(string level)
     {    
         List<KeyValuePair<string, int>> list = new List<KeyValuePair<string, int>>(tempPlayerDict[level]);
-        int i = 0;
-        foreach(KeyValuePair<string,int> entry in list)
-        {
-            i++;
-            Debug.LogFormat("{0}. Player: {1}, Score: {2}", i, entry.Key, entry.Value);
-        }
+        //int i = 0;
+        //foreach(KeyValuePair<string,int> entry in list)
+        //{
+        //    i++;
+        //    Debug.LogFormat("{0}. Player: {1}, Score: {2}", i, entry.Key, entry.Value);
+        //}
         list.Sort(Compare);
         return list;
     }

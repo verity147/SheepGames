@@ -161,6 +161,7 @@ public class JH_PlayerBody : MonoBehaviour
     
     internal void ShowEndAnimation()
     {
+        uIManager.gameEndButton.SetActive(true);
         int currentScore = gameController.GetComponentInChildren<JH_ScoreCalculator>().score;
         uIManager.ShowScore(currentScore);
         if(DataCollector.currentPlayer != null)
@@ -196,7 +197,6 @@ public class JH_PlayerBody : MonoBehaviour
             anim.SetBool("success", false);
             anim.SetBool("lost", false);
         }
-        uIManager.gameEndButton.SetActive(true);
     }
 
     ///called from animation event

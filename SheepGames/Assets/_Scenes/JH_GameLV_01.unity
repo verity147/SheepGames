@@ -218,12 +218,12 @@ Prefab:
     - target: {fileID: 114160573379850276, guid: a4578521d796ce64d824693c75edfeb3,
         type: 2}
       propertyPath: m_havePropertiesChanged
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114160573379850276, guid: a4578521d796ce64d824693c75edfeb3,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1014823909023118, guid: a4578521d796ce64d824693c75edfeb3, type: 2}
       propertyPath: m_Name
@@ -234,9 +234,20 @@ Prefab:
       propertyPath: key
       value: JH_Tutorial_T
       objectReference: {fileID: 0}
+    - target: {fileID: 114497241431695392, guid: a4578521d796ce64d824693c75edfeb3,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a4578521d796ce64d824693c75edfeb3, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &62041051 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114160573379850276, guid: a4578521d796ce64d824693c75edfeb3,
+    type: 2}
+  m_PrefabInternal: {fileID: 62041050}
+  m_Script: {fileID: 1453722849, guid: 89f0137620f6af44b9ba852b4190e64e, type: 3}
 --- !u!1001 &72734478
 Prefab:
   m_ObjectHideFlags: 0
@@ -1641,6 +1652,7 @@ MonoBehaviour:
   endOfGameMenu: {fileID: 1186387176}
   showScore: {fileID: 714498179}
   gameEndButton: {fileID: 1291833096}
+  tutorialMenuText: {fileID: 62041051}
 --- !u!1 &300277026
 GameObject:
   m_ObjectHideFlags: 0
@@ -3520,7 +3532,7 @@ Prefab:
     - target: {fileID: 114160573379850276, guid: a4578521d796ce64d824693c75edfeb3,
         type: 2}
       propertyPath: m_isInputParsingRequired
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1014823909023118, guid: a4578521d796ce64d824693c75edfeb3, type: 2}
       propertyPath: m_Name
@@ -4899,7 +4911,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4584922390129840, guid: bfad0080023a78b479e25059135b0f77, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.00087213516
+      value: -0.006281376
       objectReference: {fileID: 0}
     - target: {fileID: 4584922390129840, guid: bfad0080023a78b479e25059135b0f77, type: 2}
       propertyPath: m_LocalPosition.y
@@ -4983,7 +4995,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000024796, y: -78}
+  m_AnchoredPosition: {x: -0.000039381, y: 41.95}
   m_SizeDelta: {x: 800.7, y: 664.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1793336667
@@ -5005,7 +5017,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 25054f1dd5e1ad84489bce5d6798a4f5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 77d1de58ecae66748a04b3c227992ed7, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

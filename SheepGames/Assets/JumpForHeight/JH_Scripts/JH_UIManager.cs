@@ -16,9 +16,11 @@ public class JH_UIManager : MonoBehaviour
     public GameObject endOfGameMenu;
     public GameObject showScore;
     public GameObject gameEndButton;
+    public TMP_Text tutorialMenuText;
 
     private LocalizationManager localizationManager;
     private PopulateHighscore populateHighscore;
+    private JH_ScoreCalculator scoreCalculator;
     private int tries = 0;
     private int maxTries = 3;
 
@@ -33,7 +35,16 @@ public class JH_UIManager : MonoBehaviour
     private void Awake()
     {
         localizationManager = FindObjectOfType<LocalizationManager>();
+        scoreCalculator = FindObjectOfType<JH_ScoreCalculator>();
         populateHighscore = GetComponentInChildren<PopulateHighscore> (true);
+    }
+    private void Start()
+    {
+        ///fills Tutorial with accurate Information about score points
+        string tutorialKey = tutorialMenuText.GetComponent<LocalizedText>().key;
+        string tutorialText;
+        tutorialText = string.Format(localizationManager.GetLocalizedText(tutorialKey), scoreCalculator.winPointBonus.ToString(), scoreCalculator.stonePointPenalty.ToString());
+        tutorialMenuText.text = tutorialText;
     }
 
     internal void ToggleExplanation(bool active)
@@ -64,6 +75,8 @@ public class JH_UIManager : MonoBehaviour
         endOfGameMenu.SetActive(true);
         int oldScore = DataCollector.oldScore;
         int newScore = DataCollector.currentScore;
+        print("old score: " + oldScore);
+        print("new score: " + newScore);
         string bestScoreText;
 
         populateHighscore.NewGrid();
