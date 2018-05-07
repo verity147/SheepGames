@@ -75,8 +75,6 @@ public class JH_UIManager : MonoBehaviour
         endOfGameMenu.SetActive(true);
         int oldScore = DataCollector.oldScore;
         int newScore = DataCollector.currentScore;
-        print("old score: " + oldScore);
-        print("new score: " + newScore);
         string bestScoreText;
 
         populateHighscore.NewGrid();

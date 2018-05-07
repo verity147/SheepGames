@@ -77,6 +77,7 @@ public static class DataCollector
         ///if there is a valid player name...
         if (!string.IsNullOrEmpty(currentPlayer))
         {
+            currentScore = newScore;
             ///...check if he's played before...
             if (tempPlayerDict[currentLevel].ContainsKey(currentPlayer))
             {
@@ -85,8 +86,6 @@ public static class DataCollector
                 if (newScore > oldScore)
                 {
                     tempPlayerDict[currentLevel][currentPlayer] = newScore;
-                    currentScore = newScore;
-                    Debug.Log("Current Score: " + currentScore);
                 }
                 else
                 {
@@ -96,7 +95,6 @@ public static class DataCollector
             else if (!tempPlayerDict[currentLevel].ContainsKey(currentPlayer))
             {
                 tempPlayerDict[currentLevel].Add(currentPlayer, currentScore);
-                currentScore = newScore;
             }
             SaveLoadManager.Save();
         }
