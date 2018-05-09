@@ -16,8 +16,6 @@ public class JH_GameController : MonoBehaviour {
     public CinemachineVirtualCameraBase movingVCam;
     public float smoothFactor;
 
-    private JH_UIManager uIManager;
-
     private int numberOfTrajPoints = 4;
     private Vector2 playerJumpForce;
     private Vector3 wallPos;
@@ -27,6 +25,7 @@ public class JH_GameController : MonoBehaviour {
     private Transform tempPlayer;
     internal Transform[] playerParts;
     internal Transform[] wallChildren;
+    internal SpectatorHandler[] spectators;
     private Transform trajectoryPointsHolder;
     private List<Vector3> backgroundStartPos;
     private List<GameObject> trajectoryPoints;
@@ -60,6 +59,8 @@ public class JH_GameController : MonoBehaviour {
             dot.GetComponent<SpriteRenderer>().enabled = false;
             trajectoryPoints.Insert(i, dot);
         }
+
+        spectators = FindObjectsOfType<SpectatorHandler>();
 
         SpawnNewPlayer();
     }
@@ -126,17 +127,21 @@ public class JH_GameController : MonoBehaviour {
         {
             point.GetComponent<SpriteRenderer>().enabled = false;
         }
+        ///stop the current reation animation from all spectators
+        foreach(SpectatorHandler spectator in spectators)
+        {
+            StopAllCoroutines();
+        }
         ///reset backgrounds
-       for(int i = 0; i < toBeMovedInParallax.Length; i++)
-            {
-                toBeMovedInParallax[i].position = backgroundStartPos[i];
-            }
-        ///Heatherbundle is reset as part of Wall
+        for(int i = 0; i < toBeMovedInParallax.Length; i++)
+        {
+            toBeMovedInParallax[i].position = backgroundStartPos[i];
+        }
         if (tempPlayer)
         {
             Destroy(tempPlayer.gameObject);
         }
-
+        ///Heatherbundle is reset as part of Wall
         if (tempWall)
         {
             Destroy(tempWall.gameObject);

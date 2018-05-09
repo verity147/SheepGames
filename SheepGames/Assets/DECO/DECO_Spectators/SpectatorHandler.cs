@@ -12,7 +12,7 @@ public class SpectatorHandler : MonoBehaviour {
     public string lookAnim;
     public bool random = false;
 
-    private Animator anim;
+    internal Animator anim;
     private AudioSource audioSource;
     private float timePassed = 0f;
     private float animPauseVaried;
@@ -44,6 +44,16 @@ public class SpectatorHandler : MonoBehaviour {
             }
         }
         timePassed += Time.deltaTime;
+    }
+
+    ///start this to have spectators ind the scene react(string parameter is animation trigger),
+    ///don't forget to stop the coroutines if the scene is re-used for subsequent tries
+    public IEnumerator Reaction(string type)
+    {
+        anim.SetTrigger(type);
+        float counter = Random.Range(animPause - animVariation, animPause + animVariation);
+        yield return new WaitForSecondsRealtime(counter);
+        StartCoroutine(Reaction(type));
     }
 
     public void PlaySound()

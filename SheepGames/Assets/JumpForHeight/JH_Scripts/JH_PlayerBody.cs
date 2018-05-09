@@ -173,29 +173,41 @@ public class JH_PlayerBody : MonoBehaviour
             Debug.LogError("No current player found, couldn't save score");
         }
 
+        string spectatorReaction;
+
         if (currentScore == 0)
         {
             anim.SetBool("overshot", true);
             anim.SetBool("success", false);
             anim.SetBool("lost", false);
+            spectatorReaction = "look";
         }
         else if(currentScore > 0)
         {
             anim.SetBool("overshot", false);
             anim.SetBool("success", true);
             anim.SetBool("lost", false);
+            spectatorReaction = "cheer";
         }
         else if (currentScore < 0)
         {
             anim.SetBool("overshot", false);
             anim.SetBool("success", false);
             anim.SetBool("lost", true);
+            spectatorReaction = "sad";
         }
         else
         {
             anim.SetBool("overshot", true);
             anim.SetBool("success", false);
             anim.SetBool("lost", false);
+            spectatorReaction = "look";
+        }
+
+        foreach (SpectatorHandler spectator in gameController.spectators)
+        {
+            if(Array.Exists(spectator.anim.parameters, spectatorReaction)
+            StartCoroutine(spectator.Reaction(spectatorReaction));
         }
     }
 
