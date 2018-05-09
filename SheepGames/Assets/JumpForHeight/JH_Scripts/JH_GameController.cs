@@ -130,7 +130,7 @@ public class JH_GameController : MonoBehaviour {
         ///stop the current reation animation from all spectators
         foreach(SpectatorHandler spectator in spectators)
         {
-            StopAllCoroutines();
+            spectator.StopAllCoroutines();
         }
         ///reset backgrounds
         for(int i = 0; i < toBeMovedInParallax.Length; i++)

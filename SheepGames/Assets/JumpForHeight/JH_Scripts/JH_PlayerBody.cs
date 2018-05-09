@@ -204,10 +204,24 @@ public class JH_PlayerBody : MonoBehaviour
             spectatorReaction = "look";
         }
 
+        ///check for each spectator if they have the appropriate animation and if yes, start their coroutine loop
         foreach (SpectatorHandler spectator in gameController.spectators)
         {
-            if(Array.Exists(spectator.anim.parameters, spectatorReaction)
-            StartCoroutine(spectator.Reaction(spectatorReaction));
+            foreach(AnimatorControllerParameter param in spectator.anim.parameters)
+            {
+                if(param.name == spectatorReaction)
+                {
+                    StartCoroutine(spectator.Reaction(spectatorReaction));
+                }
+            }
+            if (spectatorReaction != "cheer")
+            {
+                spectator.anim.SetBool("sadFace", true);
+            }
+            else if (spectatorReaction == "cheer")
+            {
+                spectator.anim.SetBool("sadFace", false);
+            }
         }
     }
 

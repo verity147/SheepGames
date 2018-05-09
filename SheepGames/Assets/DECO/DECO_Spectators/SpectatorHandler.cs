@@ -7,9 +7,6 @@ public class SpectatorHandler : MonoBehaviour {
     public float animPause = 100f;
     public float animVariation = 20f;
     public string randomAnim;
-    public string cheerAnim;
-    public string sadAnim;
-    public string lookAnim;
     public bool random = false;
 
     internal Animator anim;
