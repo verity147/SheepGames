@@ -122,18 +122,14 @@ public class JH_GameController : MonoBehaviour {
 
     public void SpawnNewPlayer()
     {
-        ///hide trajectory points
-        foreach(GameObject point in trajectoryPoints)
-        {
-            point.GetComponent<SpriteRenderer>().enabled = false;
-        }
+        HideTrajectory();
         ///stop the current reation animation from all spectators
-        foreach(SpectatorHandler spectator in spectators)
+        foreach (SpectatorHandler spectator in spectators)
         {
             spectator.StopAllCoroutines();
         }
         ///reset backgrounds
-        for(int i = 0; i < toBeMovedInParallax.Length; i++)
+        for (int i = 0; i < toBeMovedInParallax.Length; i++)
         {
             toBeMovedInParallax[i].position = backgroundStartPos[i];
         }
@@ -154,4 +150,12 @@ public class JH_GameController : MonoBehaviour {
         staticVCam.MoveToTopOfPrioritySubqueue();
     }
 
+    public void HideTrajectory()
+    {
+        ///hide trajectory points
+        foreach (GameObject point in trajectoryPoints)
+        {
+            point.GetComponent<SpriteRenderer>().enabled = false;
+        }
+    }
 }

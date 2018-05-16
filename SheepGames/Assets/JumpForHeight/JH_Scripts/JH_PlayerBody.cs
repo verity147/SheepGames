@@ -13,11 +13,13 @@ public class JH_PlayerBody : MonoBehaviour
     public float jumpPowerModY = 1f;
     public float resetDist = 0.5f;
     public float moveSpeed = 10f;
+    public AudioClip[] audioClips;
 
     private JH_GameController gameController;
     private JH_UIManager uIManager;
     internal Animator anim;
     private Rigidbody2D playerRB;
+    private AudioSource audioSource;
 
     private float speed;
     private float maxRunLeft;
@@ -39,6 +41,7 @@ public class JH_PlayerBody : MonoBehaviour
         uIManager = FindObjectOfType<JH_UIManager>();
         anim = GetComponent<Animator>();
         playerRB = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         startPos = gameController.transform.position;
     }
     private void Start()
@@ -87,9 +90,15 @@ public class JH_PlayerBody : MonoBehaviour
             lastPos = transform.position;
             CalculateJumpForce();
             gameController.DrawTrajectoryPoints(jumpPos, jumpForce / playerRB.mass*playerRB.gravityScale);
+
         }
     }
 
+    public void PlayAudio(int clipIndex)
+    {
+        audioSource.clip = audioClips[clipIndex];
+        audioSource.Play();
+    }
 
     private void OnMouseUp()
     {
@@ -125,6 +134,8 @@ public class JH_PlayerBody : MonoBehaviour
         if (transform.position.x < startPos.x)
         {
             anim.SetTrigger("playerRelease");
+            audioSource.Stop();
+            PlayAudio(1);
             ///x position can put playerBody backwards if runwayDist is too short
             if (gameController.transform.position.x >= transform.position.x)
             {
@@ -149,9 +160,12 @@ public class JH_PlayerBody : MonoBehaviour
     {
         ///speed and physics are applied 
         anim.SetTrigger("fly");
+        audioSource.Stop();
+        //PlayAudio(2);
         playerRB.isKinematic = false;
         playerRB.AddForce(jumpForce, ForceMode2D.Impulse);
         gameController.SwitchCamera();
+        gameController.HideTrajectory();
 
     }
     private void OnCollisionEnter2D(Collision2D collision)

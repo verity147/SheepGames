@@ -53,8 +53,8 @@ public class SpectatorHandler : MonoBehaviour {
         StartCoroutine(Reaction(type));
     }
 
-    public void PlaySound()
+    public void PlaySound(AudioClip clip)
     {
-        audioSource.Play();
+        audioSource.PlayOneShot(clip);
     }
 }
