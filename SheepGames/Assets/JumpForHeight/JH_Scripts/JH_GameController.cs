@@ -9,6 +9,7 @@ public class JH_GameController : MonoBehaviour {
 
     public Transform playerPrefab;
     public Transform wallPrefab;
+    public Transform[] wallPrefabs;
     public GameObject trajPointPrefab;
     public Transform[] toBeMovedInParallax;
     public Camera mCam; /// main camera
@@ -32,11 +33,19 @@ public class JH_GameController : MonoBehaviour {
     private List<float> parallaxMag;    /// Parallax magnitude
     internal bool drawNow = false;
     private Vector2[] trajPositions;
+    private int level;
 
     //determine which wall gets used in which level
 
     private void Start()
     {
+        for (int i = 0; i < DataCollector.jh_Levels.Length; i++)
+        {
+            if (DataCollector.jh_Levels[i] == SceneHandler.GetSceneName())
+            {
+                level = i;
+            }
+        }
         wallPos = wallPrefab.position;
         prevCamPos = movingVCam.transform.position;
 
@@ -143,7 +152,7 @@ public class JH_GameController : MonoBehaviour {
             Destroy(tempWall.gameObject);
         }
         tempPlayer = Instantiate(playerPrefab, playerPrefab.transform.position, Quaternion.identity, transform);
-        tempWall = Instantiate(wallPrefab, wallPos, Quaternion.identity);
+        tempWall = Instantiate(wallPrefabs[level], wallPos, Quaternion.identity);
         wallChildren = tempWall.GetComponentsInChildren<Transform>();
         playerParts = tempPlayer.GetComponentsInChildren<Transform>();
         movingVCam.Follow = tempPlayer;

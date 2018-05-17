@@ -26,7 +26,7 @@ public static class DataCollector
     private static int oldTotal;
 
     ///THESE HAVE TO BE FILLED ACCORDING TO THE ACTUAL AMOUNT OF LEVELS
-    private static string[] jh_Levels = { "JH_GameLV_01", "JH_GameLV_02", "JH_GameLV_03" };
+    internal static string[] jh_Levels = { "JH_GameLV_01", "JH_GameLV_02", "JH_GameLV_03" };
     private static string[] pp_Levels = { "PP_GameLV_01", "PP_GameLV_02", "PP_GameLV_03" };
     private static string[] pw_Levels = { "PW_GameLV_01", "PW_GameLV_02", "PW_GameLV_03" };
     private static string[] hr_Levels = { "HR_GameLV_01", "HR_GameLV_02", "HR_GameLV_03" };

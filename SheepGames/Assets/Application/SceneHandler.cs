@@ -14,7 +14,7 @@ public class SceneHandler : MonoBehaviour {
         }
     }
 
-    public string GetSceneName()
+    public static string GetSceneName()
     {
         return SceneManager.GetActiveScene().name;
     }

@@ -8,9 +8,9 @@ public class JH_PlayerBody : MonoBehaviour
     public float maxRunwayDist;
     ///has to be same length as RunUp animation clip
     public float runUpDuration;
-    public float jumpPowerMod = 1f;
-    public float jumpPowerModX = 1f;
-    public float jumpPowerModY = 1f;
+    public float jumpPowerMod = 9f;
+    public float jumpPowerModX = 0.9f;
+    public float jumpPowerModY = 1.3f;
     public float resetDist = 0.5f;
     public float moveSpeed = 10f;
     public AudioClip[] audioClips;

@@ -78,7 +78,7 @@ public class JH_UIManager : MonoBehaviour
         string bestScoreText;
 
         populateHighscore.NewGrid();
-        populateHighscore.NewLevelScore(sceneHandler.GetSceneName());
+        populateHighscore.NewLevelScore(SceneHandler.GetSceneName());
 
         if(oldScore == newScore)
         {

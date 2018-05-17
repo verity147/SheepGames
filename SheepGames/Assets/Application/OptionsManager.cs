@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UI;
+
 
 public class OptionsManager : MonoBehaviour {
 
     public AudioMixer audioMixer;
-    public Slider sfxSlider;
-    public Slider musicSlider;
+  
 
     private Resolution[] resolutions;
     internal List<string> resolutionsList;
@@ -44,12 +43,6 @@ public class OptionsManager : MonoBehaviour {
     {
         audioMixer.SetFloat("SFXVolume", volume);
         PlayerPrefsManager.SetSfxVolume(volume);
-    }
-
-    public void AdjustSoundSlider()
-    {
-        sfxSlider.value = PlayerPrefsManager.GetSfxVolume();
-        musicSlider.value = PlayerPrefsManager.GetMusicVolume();
     }
 
     public void SetResolution(int index)
