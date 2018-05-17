@@ -78,4 +78,9 @@ public static class PlayerPrefsManager  {
     {
         return PlayerPrefs.GetString(LANGUAGE_KEY);
     }
+
+    public static void ClearPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }

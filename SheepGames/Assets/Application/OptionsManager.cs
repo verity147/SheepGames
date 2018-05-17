@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class OptionsManager : MonoBehaviour {
 
     public AudioMixer audioMixer;
+    public Slider sfxSlider;
+    public Slider musicSlider;
 
     private Resolution[] resolutions;
     internal List<string> resolutionsList;
@@ -43,6 +46,12 @@ public class OptionsManager : MonoBehaviour {
         PlayerPrefsManager.SetSfxVolume(volume);
     }
 
+    public void AdjustSoundSlider()
+    {
+        sfxSlider.value = PlayerPrefsManager.GetSfxVolume();
+        musicSlider.value = PlayerPrefsManager.GetMusicVolume();
+    }
+
     public void SetResolution(int index)
     {
         ///resolutions needs to be set a second time because the script forgets it.
@@ -68,5 +77,10 @@ public class OptionsManager : MonoBehaviour {
     {
         PlayerPrefsManager.SetLanguage(filename);
         LocalizationManager.localizationManager.LoadLocalization(filename);
+    }
+
+    public void ClearPlayerPrefs()
+    {
+        PlayerPrefsManager.ClearPlayerPrefs();
     }
 }
