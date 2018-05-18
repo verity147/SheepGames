@@ -30,6 +30,7 @@ public class JH_UIManager : MonoBehaviour
     private string newScoreBetterKey = "newScoreBetter_T";
     private string oldScoreBetterKey = "oldScoreBetter_T";
     private string scoreTextKey = "ShowGameScore_T";
+    private string tutorialTextKey = "JH_Tutorial_T";
     #endregion
 
     private void Awake()
@@ -41,10 +42,12 @@ public class JH_UIManager : MonoBehaviour
     private void Start()
     {
         ///fills Tutorial with accurate Information about score points
-        string tutorialKey = tutorialMenuText.GetComponent<LocalizedText>().key;
-        string tutorialText;
-        tutorialText = string.Format(localizationManager.GetLocalizedText(tutorialKey), scoreCalculator.winPointBonus.ToString(), scoreCalculator.stonePointPenalty.ToString());
-        tutorialMenuText.text = tutorialText;
+        if (SceneHandler.GetSceneName() == "JH_GameLV_01")
+        {
+            string tutorialText;
+            tutorialText = string.Format(localizationManager.GetLocalizedText(tutorialTextKey), scoreCalculator.winPointBonus.ToString(), scoreCalculator.stonePointPenalty.ToString());
+            tutorialMenuText.text = tutorialText;
+        }
     }
 
     internal void ToggleExplanation(bool active)
