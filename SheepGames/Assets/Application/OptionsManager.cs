@@ -3,17 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-
 public class OptionsManager : MonoBehaviour {
 
-    public AudioMixer audioMixer;
-  
+    public AudioMixer audioMixer;  
 
     private Resolution[] resolutions;
     internal List<string> resolutionsList;
     internal int currentResIndex = 0;
+    private int newResIndex = 0;
+    private int test = 0;
+
 
     private void Start()
+    {
+        //BuildResolutionsList();
+        audioMixer.SetFloat("MusicVolume", PlayerPrefsManager.GetMusicVolume());
+        audioMixer.SetFloat("SFXVolume", PlayerPrefsManager.GetSfxVolume());
+        test = 5;
+        print("TEst: " + test);
+    }
+
+    internal List<string> BuildResolutionsList()
     {
         resolutions = Screen.resolutions;
         resolutionsList = new List<string>();
@@ -23,14 +33,14 @@ public class OptionsManager : MonoBehaviour {
             string option = resolutions[i].width + " x " + resolutions[i].height;
             resolutionsList.Add(option);
 
-            if(resolutions[i].width==Screen.currentResolution.width&&
+            if (resolutions[i].width == Screen.currentResolution.width &&
                resolutions[i].height == Screen.currentResolution.height)
             {
+                print("settingIndex " + i);
                 currentResIndex = i;
             }
         }
-        audioMixer.SetFloat("MusicVolume", PlayerPrefsManager.GetMusicVolume());
-        audioMixer.SetFloat("SFXVolume", PlayerPrefsManager.GetSfxVolume());
+        return resolutionsList;
     }
 
     public void ChangeMusicVolume(float volume)
@@ -45,12 +55,22 @@ public class OptionsManager : MonoBehaviour {
         PlayerPrefsManager.SetSfxVolume(volume);
     }
 
-    public void SetResolution(int index)
+    public void ChangeResolutionIndex(int index)
+    {
+        newResIndex = index;
+        print("writing: " + newResIndex);
+    }
+
+    public void ChangeResolution()
     {
         ///resolutions needs to be set a second time because the script forgets it.
+        print("using: " + newResIndex);
+        print("changing resolution");
         resolutions = Screen.resolutions;
-        Resolution resolution = resolutions[currentResIndex];
+        Resolution resolution = resolutions[newResIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        PlayerPrefsManager.SetResolution(resolution.width.ToString(), resolution.height.ToString());
+        print("Test2: " + test);
     }
 
     public void SetFullscreen(bool isFullscreen)

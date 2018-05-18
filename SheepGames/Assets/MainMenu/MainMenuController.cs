@@ -41,8 +41,9 @@ public class MainMenuController : MonoBehaviour {
         }
         if (menu == optionsMenu)
         {
+            List<string> options = optManager.BuildResolutionsList();
             resolutionDrop.ClearOptions();
-            resolutionDrop.AddOptions(optManager.resolutionsList);
+            resolutionDrop.AddOptions(options);
             resolutionDrop.value = optManager.currentResIndex;
             resolutionDrop.RefreshShownValue();
             soundSlider.value = PlayerPrefsManager.GetSfxVolume();

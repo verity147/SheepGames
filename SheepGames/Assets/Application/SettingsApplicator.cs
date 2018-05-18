@@ -16,12 +16,16 @@ public class SettingsApplicator : MonoBehaviour {
                                 PlayerPrefsManager.GetResolutionHeight(), 
                                 PlayerPrefsManager.GetFullscreen());
         }
+        else
+        {
+            Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
+        }
         StartCoroutine(ShowLogos());
     }
 
     private IEnumerator ShowLogos()
     {
-        yield return new WaitForSecondsRealtime(1);
+        yield return new WaitForSecondsRealtime(2);
         sceneHandler.LoadLevel("02_Intro");
     }
 }
