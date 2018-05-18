@@ -17,8 +17,14 @@ public class OptionsManager : MonoBehaviour {
     private void Start()
     {
         //BuildResolutionsList();
-        audioMixer.SetFloat("MusicVolume", PlayerPrefsManager.GetMusicVolume());
-        audioMixer.SetFloat("SFXVolume", PlayerPrefsManager.GetSfxVolume());
+        if (PlayerPrefs.HasKey("musicVolume"))
+        {
+            audioMixer.SetFloat("MusicVolume", PlayerPrefsManager.GetMusicVolume());
+        }
+        if (PlayerPrefs.HasKey("sfxVolume"))
+        {
+            audioMixer.SetFloat("SFXVolume", PlayerPrefsManager.GetSfxVolume());
+        }
         test = 5;
         print("TEst: " + test);
     }
