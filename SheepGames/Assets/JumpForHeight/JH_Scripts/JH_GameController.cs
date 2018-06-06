@@ -35,8 +35,6 @@ public class JH_GameController : MonoBehaviour {
     private Vector2[] trajPositions;
     private int level;
 
-    //determine which wall gets used in which level
-
     private void Start()
     {
         for (int i = 0; i < DataCollector.jh_Levels.Length; i++)
@@ -55,7 +53,8 @@ public class JH_GameController : MonoBehaviour {
             {
                 backgroundStartPos.Add(obj.position);
                 parallaxMag.Add(smoothFactor);
-                smoothFactor *= 0.3f;
+                ///increase factor to make parallax stronger
+                smoothFactor *= 1.2f;
             }
 
         ///this is only to organize the hierarchy

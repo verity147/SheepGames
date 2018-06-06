@@ -11,12 +11,10 @@ public class OptionsManager : MonoBehaviour {
     internal List<string> resolutionsList;
     internal int currentResIndex = 0;
     private int newResIndex = 0;
-    private int test = 0;
 
 
     private void Start()
     {
-        //BuildResolutionsList();
         if (PlayerPrefs.HasKey("musicVolume"))
         {
             audioMixer.SetFloat("MusicVolume", PlayerPrefsManager.GetMusicVolume());
@@ -25,8 +23,6 @@ public class OptionsManager : MonoBehaviour {
         {
             audioMixer.SetFloat("SFXVolume", PlayerPrefsManager.GetSfxVolume());
         }
-        test = 5;
-        print("TEst: " + test);
     }
 
     internal List<string> BuildResolutionsList()
@@ -42,7 +38,6 @@ public class OptionsManager : MonoBehaviour {
             if (resolutions[i].width == Screen.currentResolution.width &&
                resolutions[i].height == Screen.currentResolution.height)
             {
-                print("settingIndex " + i);
                 currentResIndex = i;
             }
         }
@@ -64,19 +59,15 @@ public class OptionsManager : MonoBehaviour {
     public void ChangeResolutionIndex(int index)
     {
         newResIndex = index;
-        print("writing: " + newResIndex);
     }
 
     public void ChangeResolution()
     {
         ///resolutions needs to be set a second time because the script forgets it.
-        print("using: " + newResIndex);
-        print("changing resolution");
         resolutions = Screen.resolutions;
         Resolution resolution = resolutions[newResIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
         PlayerPrefsManager.SetResolution(resolution.width.ToString(), resolution.height.ToString());
-        print("Test2: " + test);
     }
 
     public void SetFullscreen(bool isFullscreen)
