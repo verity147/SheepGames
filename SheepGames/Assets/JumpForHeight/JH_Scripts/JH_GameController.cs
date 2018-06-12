@@ -16,8 +16,8 @@ public class JH_GameController : MonoBehaviour {
     public CinemachineVirtualCameraBase staticVCam;
     public CinemachineVirtualCameraBase movingVCam;
     public float smoothFactor;
+    public int numberOfTrajPoints = 4;
 
-    private int numberOfTrajPoints = 4;
     private Vector2 playerJumpForce;
     private Vector3 wallPos;
     private Vector3 prevCamPos;
