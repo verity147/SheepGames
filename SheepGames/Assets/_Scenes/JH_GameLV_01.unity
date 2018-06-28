@@ -2809,7 +2809,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: add043a7859ceb44a984fdb47ff2be1a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -2874,6 +2874,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edbbec4f23756cc4fb165543e75f8552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  goLeftPos: {x: 3, y: -2.05, z: 0}
+  jumpStrength: 180
 --- !u!70 &508504778
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -7134,11 +7136,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4584922390129840, guid: bfad0080023a78b479e25059135b0f77, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.010908604
+      value: -2.252069
       objectReference: {fileID: 0}
     - target: {fileID: 4584922390129840, guid: bfad0080023a78b479e25059135b0f77, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.0000004172325
+      value: -0.54
       objectReference: {fileID: 0}
     - target: {fileID: 4584922390129840, guid: bfad0080023a78b479e25059135b0f77, type: 2}
       propertyPath: m_LocalPosition.z
@@ -8158,6 +8160,10 @@ Prefab:
       propertyPath: movingVCam
       value: 
       objectReference: {fileID: 1679683577}
+    - target: {fileID: 1177226387004664, guid: eaf76ef7a9f65f94e9e14555b60e2306, type: 2}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eaf76ef7a9f65f94e9e14555b60e2306, type: 2}
   m_IsPrefabParent: 0
