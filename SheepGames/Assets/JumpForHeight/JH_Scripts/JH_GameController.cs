@@ -8,6 +8,7 @@ public class JH_GameController : MonoBehaviour {
 
 
     public Transform playerPrefab;
+    public Transform obstacleSheepPrefab;
     public Transform wallPrefab;
     public Transform[] wallPrefabs;
     public GameObject trajPointPrefab;
@@ -17,6 +18,7 @@ public class JH_GameController : MonoBehaviour {
     public CinemachineVirtualCameraBase movingVCam;
     public float smoothFactor;
     public int numberOfTrajPoints = 4;
+    public bool spawnObstacleSheep = false;
 
     private Vector2 playerJumpForce;
     private Vector3 wallPos;
@@ -24,6 +26,7 @@ public class JH_GameController : MonoBehaviour {
     private Vector3 projSpawnPos;
     private Transform tempWall;
     private Transform tempPlayer;
+    private Transform tempOsheep;
     internal Transform[] playerParts;
     internal Transform[] wallChildren;
     internal SpectatorHandler[] spectators;
@@ -149,6 +152,14 @@ public class JH_GameController : MonoBehaviour {
         if (tempWall)
         {
             Destroy(tempWall.gameObject);
+        }
+        if (tempOsheep)
+        {
+            Destroy(tempOsheep.gameObject);
+        }
+        if (spawnObstacleSheep)
+        {
+            tempOsheep = Instantiate(obstacleSheepPrefab, obstacleSheepPrefab.position, Quaternion.identity);
         }
         tempPlayer = Instantiate(playerPrefab, playerPrefab.transform.position, Quaternion.identity, transform);
         tempWall = Instantiate(wallPrefabs[level], wallPos, Quaternion.identity);

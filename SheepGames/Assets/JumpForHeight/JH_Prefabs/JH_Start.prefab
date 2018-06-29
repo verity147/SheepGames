@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4914769139595732}
   - component: {fileID: 68241399769992184}
   - component: {fileID: 212701623841769722}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: JH_Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -235,6 +235,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 4082207377551266, guid: e60da8bc728500248b659f65d4e0d6bf,
     type: 2}
+  obstacleSheepPrefab: {fileID: 4886485112270870, guid: ab2d5fab28f83004a9fcfae7d0a492fa,
+    type: 2}
   wallPrefab: {fileID: 4767534835259682, guid: b606d31647606614a9cb8f917c9f5805, type: 2}
   wallPrefabs:
   - {fileID: 4767534835259682, guid: b606d31647606614a9cb8f917c9f5805, type: 2}
@@ -251,6 +253,8 @@ MonoBehaviour:
   staticVCam: {fileID: 0}
   movingVCam: {fileID: 0}
   smoothFactor: 4
+  numberOfTrajPoints: 4
+  spawnObstacleSheep: 0
 --- !u!114 &114177933644108002
 MonoBehaviour:
   m_ObjectHideFlags: 1
