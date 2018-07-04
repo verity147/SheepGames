@@ -38,6 +38,8 @@ public class JH_GameController : MonoBehaviour {
     private Vector2[] trajPositions;
     private int level;
 
+    private float prevPlayerPosX = 0f;
+
     private void Start()
     {
         for (int i = 0; i < DataCollector.jh_Levels.Length; i++)
@@ -89,7 +91,7 @@ public class JH_GameController : MonoBehaviour {
             Vector2 pos = new Vector2(fromPos.x + dx, fromPos.y + dy);
             trajectoryPoints[i].transform.position = pos;
             trajectoryPoints[i].GetComponent<SpriteRenderer>().enabled = true;
-            //does the following rotate the individual points arounf their own z only? A: Yep.
+            //does the following rotate the individual points around their own z only? A: Yep.
             trajectoryPoints[i].transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2(pointVelocity.y - (Physics.gravity.magnitude) * count, pointVelocity.x) * Mathf.Rad2Deg);
             count += 0.1f;
         }
@@ -101,15 +103,18 @@ public class JH_GameController : MonoBehaviour {
         if(mCam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.Name == movingVCam.Name)
         {
             camDist = Mathf.Abs(movingVCam.transform.position.x - prevCamPos.x);
-            for (int i = 0; i < toBeMovedInParallax.Length; i++)
-            {
-                float nextX = toBeMovedInParallax[i].position.x - camDist; ///greater z equals smaller nextX
-                toBeMovedInParallax[i].position = new Vector3 (Mathf.Lerp(toBeMovedInParallax[i].position.x, nextX, parallaxMag[i]*Time.deltaTime),
-                                                  toBeMovedInParallax[i].position.y,
-                                                  toBeMovedInParallax[i].position.z);
-            }
+            //for (int i = 0; i < toBeMovedInParallax.Length; i++)
+            //{
+            //    float nextX = toBeMovedInParallax[i].position.x - camDist; ///greater z equals smaller nextX
+            //    toBeMovedInParallax[i].position = new Vector3 (Mathf.Lerp(toBeMovedInParallax[i].position.x, nextX, parallaxMag[i]*Time.deltaTime),
+            //                                      toBeMovedInParallax[i].position.y,
+            //                                      toBeMovedInParallax[i].position.z);
+            //}
+            float playerDist = Mathf.Abs(tempPlayer.position.x - prevPlayerPosX);
+            FindObjectOfType<JH_Parallax>().MoveParallax(playerDist);
         }
             prevCamPos = movingVCam.transform.position;
+        prevPlayerPosX = tempPlayer.position.x;
     }
 
     internal void SwitchCamera()
@@ -139,11 +144,12 @@ public class JH_GameController : MonoBehaviour {
         {
             spectator.StopAllCoroutines();
         }
+        FindObjectOfType<JH_Parallax>().ResetPositions();
         ///reset backgrounds
-        for (int i = 0; i < toBeMovedInParallax.Length; i++)
-        {
-            toBeMovedInParallax[i].position = backgroundStartPos[i];
-        }
+        //for (int i = 0; i < toBeMovedInParallax.Length; i++)
+        //{
+        //    toBeMovedInParallax[i].position = backgroundStartPos[i];
+        //}
         if (tempPlayer)
         {
             Destroy(tempPlayer.gameObject);
