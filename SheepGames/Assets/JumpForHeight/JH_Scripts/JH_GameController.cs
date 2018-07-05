@@ -19,6 +19,7 @@ public class JH_GameController : MonoBehaviour {
     public float smoothFactor;
     public int numberOfTrajPoints = 4;
     public bool spawnObstacleSheep = false;
+    public JH_Parallax parallax;
 
     private Vector2 playerJumpForce;
     private Vector3 wallPos;
@@ -111,7 +112,7 @@ public class JH_GameController : MonoBehaviour {
             //                                      toBeMovedInParallax[i].position.z);
             //}
             float playerDist = Mathf.Abs(tempPlayer.position.x - prevPlayerPosX);
-            FindObjectOfType<JH_Parallax>().MoveParallax(playerDist);
+            parallax.MoveParallax(playerDist);
         }
             prevCamPos = movingVCam.transform.position;
         prevPlayerPosX = tempPlayer.position.x;
@@ -144,7 +145,7 @@ public class JH_GameController : MonoBehaviour {
         {
             spectator.StopAllCoroutines();
         }
-        FindObjectOfType<JH_Parallax>().ResetPositions();
+        parallax.ResetPositions();
         ///reset backgrounds
         //for (int i = 0; i < toBeMovedInParallax.Length; i++)
         //{
