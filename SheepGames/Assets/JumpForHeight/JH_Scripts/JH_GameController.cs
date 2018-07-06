@@ -6,7 +6,6 @@ using System;
 
 public class JH_GameController : MonoBehaviour {
 
-
     public Transform playerPrefab;
     public Transform obstacleSheepPrefab;
     public Transform wallPrefab;
@@ -19,7 +18,6 @@ public class JH_GameController : MonoBehaviour {
     public float smoothFactor;
     public int numberOfTrajPoints = 4;
     public bool spawnObstacleSheep = false;
-    public JH_Parallax parallax;
 
     private Vector2 playerJumpForce;
     private Vector3 wallPos;
@@ -38,8 +36,6 @@ public class JH_GameController : MonoBehaviour {
     internal bool drawNow = false;
     private Vector2[] trajPositions;
     private int level;
-
-    private float prevPlayerPosX = 0f;
 
     private void Start()
     {
@@ -60,7 +56,7 @@ public class JH_GameController : MonoBehaviour {
                 backgroundStartPos.Add(obj.position);
                 parallaxMag.Add(smoothFactor);
                 ///increase factor to make parallax stronger
-                smoothFactor *= 1.2f;
+                smoothFactor *= 1.4f;
             }
 
         ///this is only to organize the hierarchy
@@ -104,18 +100,15 @@ public class JH_GameController : MonoBehaviour {
         if(mCam.GetComponent<CinemachineBrain>().ActiveVirtualCamera.Name == movingVCam.Name)
         {
             camDist = Mathf.Abs(movingVCam.transform.position.x - prevCamPos.x);
-            //for (int i = 0; i < toBeMovedInParallax.Length; i++)
-            //{
-            //    float nextX = toBeMovedInParallax[i].position.x - camDist; ///greater z equals smaller nextX
-            //    toBeMovedInParallax[i].position = new Vector3 (Mathf.Lerp(toBeMovedInParallax[i].position.x, nextX, parallaxMag[i]*Time.deltaTime),
-            //                                      toBeMovedInParallax[i].position.y,
-            //                                      toBeMovedInParallax[i].position.z);
-            //}
-            float playerDist = Mathf.Abs(tempPlayer.position.x - prevPlayerPosX);
-            parallax.MoveParallax(playerDist);
+            for (int i = 0; i < toBeMovedInParallax.Length; i++)
+            {
+                float nextX = toBeMovedInParallax[i].position.x - camDist; ///greater z equals smaller nextX
+                toBeMovedInParallax[i].position = new Vector3(Mathf.Lerp(toBeMovedInParallax[i].position.x, nextX, parallaxMag[i] * Time.deltaTime),
+                                                  toBeMovedInParallax[i].position.y,
+                                                  toBeMovedInParallax[i].position.z);
+            }
         }
             prevCamPos = movingVCam.transform.position;
-        prevPlayerPosX = tempPlayer.position.x;
     }
 
     internal void SwitchCamera()
@@ -145,12 +138,11 @@ public class JH_GameController : MonoBehaviour {
         {
             spectator.StopAllCoroutines();
         }
-        parallax.ResetPositions();
-        ///reset backgrounds
-        //for (int i = 0; i < toBeMovedInParallax.Length; i++)
-        //{
-        //    toBeMovedInParallax[i].position = backgroundStartPos[i];
-        //}
+        /// reset backgrounds
+        for (int i = 0; i < toBeMovedInParallax.Length; i++)
+        {
+            toBeMovedInParallax[i].position = backgroundStartPos[i];
+        }
         if (tempPlayer)
         {
             Destroy(tempPlayer.gameObject);

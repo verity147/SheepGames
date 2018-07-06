@@ -1041,6 +1041,11 @@ Transform:
   m_PrefabParentObject: {fileID: 4115518069810998, guid: a3c6ba113a6ea5249b4aad0c6b65e5f4,
     type: 2}
   m_PrefabInternal: {fileID: 349543944}
+--- !u!4 &349543949 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4650223838771132, guid: a3c6ba113a6ea5249b4aad0c6b65e5f4,
+    type: 2}
+  m_PrefabInternal: {fileID: 349543944}
 --- !u!1 &371232122
 GameObject:
   m_ObjectHideFlags: 0
@@ -3752,12 +3757,12 @@ Prefab:
         type: 2}
       propertyPath: toBeMovedInParallax.Array.data[0]
       value: 
-      objectReference: {fileID: 349543945}
+      objectReference: {fileID: 349543949}
     - target: {fileID: 114043957924840242, guid: eaf76ef7a9f65f94e9e14555b60e2306,
         type: 2}
       propertyPath: toBeMovedInParallax.Array.data[1]
       value: 
-      objectReference: {fileID: 349543948}
+      objectReference: {fileID: 349543946}
     - target: {fileID: 114043957924840242, guid: eaf76ef7a9f65f94e9e14555b60e2306,
         type: 2}
       propertyPath: toBeMovedInParallax.Array.data[2]
@@ -3767,7 +3772,7 @@ Prefab:
         type: 2}
       propertyPath: toBeMovedInParallax.Array.data[3]
       value: 
-      objectReference: {fileID: 349543946}
+      objectReference: {fileID: 349543948}
     - target: {fileID: 114043957924840242, guid: eaf76ef7a9f65f94e9e14555b60e2306,
         type: 2}
       propertyPath: staticVCam
@@ -3799,6 +3804,11 @@ Prefab:
       propertyPath: spawnObstacleSheep
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114043957924840242, guid: eaf76ef7a9f65f94e9e14555b60e2306,
+        type: 2}
+      propertyPath: toBeMovedInParallax.Array.data[4]
+      value: 
+      objectReference: {fileID: 349543945}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eaf76ef7a9f65f94e9e14555b60e2306, type: 2}
   m_IsPrefabParent: 0
@@ -3996,7 +4006,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4584922390129840, guid: bfad0080023a78b479e25059135b0f77, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.00087213516
+      value: 0.0000014305115
       objectReference: {fileID: 0}
     - target: {fileID: 4584922390129840, guid: bfad0080023a78b479e25059135b0f77, type: 2}
       propertyPath: m_LocalPosition.y

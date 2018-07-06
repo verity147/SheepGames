@@ -1228,6 +1228,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a3c6ba113a6ea5249b4aad0c6b65e5f4, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &243171183 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4650223838771132, guid: a3c6ba113a6ea5249b4aad0c6b65e5f4,
+    type: 2}
+  m_PrefabInternal: {fileID: 243171182}
 --- !u!1 &274290989
 GameObject:
   m_ObjectHideFlags: 0
@@ -7205,12 +7210,12 @@ Prefab:
         type: 2}
       propertyPath: toBeMovedInParallax.Array.data[0]
       value: 
-      objectReference: {fileID: 1808885034}
+      objectReference: {fileID: 243171183}
     - target: {fileID: 114043957924840242, guid: eaf76ef7a9f65f94e9e14555b60e2306,
         type: 2}
       propertyPath: toBeMovedInParallax.Array.data[1]
       value: 
-      objectReference: {fileID: 943178194}
+      objectReference: {fileID: 1568016831}
     - target: {fileID: 114043957924840242, guid: eaf76ef7a9f65f94e9e14555b60e2306,
         type: 2}
       propertyPath: toBeMovedInParallax.Array.data[2]
@@ -7220,7 +7225,12 @@ Prefab:
         type: 2}
       propertyPath: toBeMovedInParallax.Array.data[3]
       value: 
-      objectReference: {fileID: 1568016831}
+      objectReference: {fileID: 943178194}
+    - target: {fileID: 114043957924840242, guid: eaf76ef7a9f65f94e9e14555b60e2306,
+        type: 2}
+      propertyPath: toBeMovedInParallax.Array.data[4]
+      value: 
+      objectReference: {fileID: 1808885034}
     - target: {fileID: 114043957924840242, guid: eaf76ef7a9f65f94e9e14555b60e2306,
         type: 2}
       propertyPath: staticVCam
@@ -7234,14 +7244,8 @@ Prefab:
     - target: {fileID: 114043957924840242, guid: eaf76ef7a9f65f94e9e14555b60e2306,
         type: 2}
       propertyPath: spawnObstacleSheep
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114043957924840242, guid: eaf76ef7a9f65f94e9e14555b60e2306,
-        type: 2}
-      propertyPath: obstacleSheepPrefab
-      value: 
-      objectReference: {fileID: 4886485112270870, guid: ab2d5fab28f83004a9fcfae7d0a492fa,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eaf76ef7a9f65f94e9e14555b60e2306, type: 2}
   m_IsPrefabParent: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 public class JH_Parallax : MonoBehaviour {
 
     public Transform[] backgrounds;
-    private float[] parallaxMagnitudes = new float[4] { 0.9f, 0.5f, 0.2f, 0.1f };
+    private float[] parallaxMagnitudes = new float[4] { 0.2f, 0.1f, 0.05f, 0.01f };
     public Transform foreground;
     public float parallaxStrength = 1f;
 
@@ -27,12 +27,11 @@ public class JH_Parallax : MonoBehaviour {
         Vector3 target;
         for (int i = 0; i < backgrounds.Length; i++)
         {
-            target = new Vector3(backgrounds[i].position.x - cameraDistance*parallaxMagnitudes[i], backgrounds[i].position.y, backgrounds[i].position.z);
-            //print("BG: " + background.position + " Target: " + target);
-            backgrounds[i].position = Vector3.MoveTowards(backgrounds[i].position, target, parallaxStrength*Time.deltaTime);
+            target = new Vector3(backgrounds[i].position.x - cameraDistance, backgrounds[i].position.y, backgrounds[i].position.z);
+            backgrounds[i].position = Vector3.MoveTowards(backgrounds[i].position, target, parallaxStrength * parallaxMagnitudes[i] * Time.deltaTime);
         }
-        target = new Vector3(foreground.position.x - cameraDistance*10f, foreground.position.y, foreground.position.z);
-        foreground.position = Vector3.MoveTowards(foreground.position, target, parallaxStrength*Time.deltaTime);
+        target = new Vector3(foreground.position.x - cameraDistance, foreground.position.y, foreground.position.z);
+        foreground.position = Vector3.MoveTowards(foreground.position, target, parallaxStrength * 2f * Time.deltaTime);
     }
 
     internal void ResetPositions()

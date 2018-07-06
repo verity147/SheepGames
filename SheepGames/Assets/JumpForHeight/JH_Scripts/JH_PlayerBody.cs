@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class JH_PlayerBody : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class JH_PlayerBody : MonoBehaviour
     private Vector2 currentMousePos = Vector2.zero;
     internal Vector2 jumpForce = Vector2.zero;
     private Vector2 jumpPos;
+    internal bool interactable = true;
 
     private void Awake()
     {
@@ -65,6 +67,8 @@ public class JH_PlayerBody : MonoBehaviour
 
     private void OnMouseDrag()
     {
+        if (!interactable)
+            return;
         if (!hasJumped)
         {
             movedDist = Mathf.Abs(transform.position.x - gameController.transform.position.x);
@@ -102,12 +106,15 @@ public class JH_PlayerBody : MonoBehaviour
 
     private void OnMouseUp()
     {
+        if (!interactable)
+            return;
         gameController.drawNow = false;
         if (movedDist > resetDist)
         {
             hasJumped = true;
             MovePlayerToStart();      
             uIManager.CountTries();
+            interactable = false;
         }
         else
         {
