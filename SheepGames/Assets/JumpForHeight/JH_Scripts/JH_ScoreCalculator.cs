@@ -15,8 +15,6 @@ public class JH_ScoreCalculator : MonoBehaviour {
     private List<GameObject> countedObjects;
 
     void Start () {
-        //import current Score
-        //score needs to be reset on retry and kept for the next level
         stonePointPenalty = stonePointPenaltyStart;
         countedObjects = new List<GameObject>();
     }
@@ -38,7 +36,7 @@ public class JH_ScoreCalculator : MonoBehaviour {
             {
                 score -= stonePointPenalty;
             }
-            else if(obj.tag != "JH_Stone" && obj.tag != "Player")
+            else if(obj.tag == "JH_Heather")
             {
                 score += winPointBonus;
             }
