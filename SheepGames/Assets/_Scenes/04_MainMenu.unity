@@ -3622,7 +3622,12 @@ Prefab:
     - target: {fileID: 114363267044279090, guid: 699f9a35d6485274c89b2efa738a79c3,
         type: 2}
       propertyPath: animPause
-      value: 40
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114363267044279090, guid: 699f9a35d6485274c89b2efa738a79c3,
+        type: 2}
+      propertyPath: animVariation
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 699f9a35d6485274c89b2efa738a79c3, type: 2}
@@ -4207,12 +4212,12 @@ Prefab:
     - target: {fileID: 114565075969084874, guid: 8d7a2fc2f40dc7b4f860c9b4928ec7ee,
         type: 2}
       propertyPath: animPause
-      value: 30
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 114565075969084874, guid: 8d7a2fc2f40dc7b4f860c9b4928ec7ee,
         type: 2}
       propertyPath: animVariation
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8d7a2fc2f40dc7b4f860c9b4928ec7ee, type: 2}
@@ -9916,6 +9921,14 @@ Prefab:
       propertyPath: m_FlipX
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1484855798386018, guid: 050c89328c09a0b48b109dda56885a60, type: 2}
+      propertyPath: m_Name
+      value: DECO_teen
+      objectReference: {fileID: 0}
+    - target: {fileID: 1484855798386018, guid: 050c89328c09a0b48b109dda56885a60, type: 2}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 050c89328c09a0b48b109dda56885a60, type: 2}
   m_IsPrefabParent: 0
@@ -9924,6 +9937,43 @@ Transform:
   m_PrefabParentObject: {fileID: 4651974660290036, guid: 050c89328c09a0b48b109dda56885a60,
     type: 2}
   m_PrefabInternal: {fileID: 2022150800}
+--- !u!1 &2022150802 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1484855798386018, guid: 050c89328c09a0b48b109dda56885a60,
+    type: 2}
+  m_PrefabInternal: {fileID: 2022150800}
+--- !u!95 &2022150803
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2022150802}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8b1ecb7b2a3328e44a103328d38be497, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &2022150804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2022150802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e86d3505cfb53342966b8c87d01cfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animPause: 3
+  animVariation: 10
+  randomAnim: teen
+  random: 1
 --- !u!1001 &2061808695
 Prefab:
   m_ObjectHideFlags: 0
