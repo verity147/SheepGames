@@ -48,7 +48,7 @@ public class SpectatorHandler : MonoBehaviour {
     public IEnumerator Reaction(string type)
     {
         anim.SetTrigger(type);
-        float counter = Random.Range(animPause - animVariation, animPause + animVariation);
+        float counter = Random.Range(animPause, animPause + animVariation);
         yield return new WaitForSecondsRealtime(counter);
         StartCoroutine(Reaction(type));
     }
