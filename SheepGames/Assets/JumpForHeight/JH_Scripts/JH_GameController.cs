@@ -8,7 +8,7 @@ public class JH_GameController : MonoBehaviour {
 
     public Transform playerPrefab;
     public Transform obstacleSheepPrefab;
-    public Transform wallPrefab;
+    public Transform wallPosition;
     public Transform[] wallPrefabs;
     public GameObject trajPointPrefab;
     public Transform[] toBeMovedInParallax;
@@ -46,7 +46,7 @@ public class JH_GameController : MonoBehaviour {
                 level = i;
             }
         }
-        wallPos = wallPrefab.position;
+        wallPos = wallPosition.position;
         prevCamPos = movingVCam.transform.position;
 
         backgroundStartPos = new List<Vector3>();

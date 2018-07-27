@@ -17,7 +17,7 @@ public class PopulateHighscore : MonoBehaviour {
 
     private void Awake()
     {
-        grid = GetComponentInChildren<GridLayoutGroup>();        
+        grid = GetComponentInChildren<GridLayoutGroup>();
     }
 
     private void Start ()

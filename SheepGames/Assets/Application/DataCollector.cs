@@ -224,7 +224,8 @@ public static class DataCollector
     {
         return b.Value.CompareTo(a.Value);
     }
-
+    /* 
+     * /// not necessary function, kept jic
     private static string FindGame()
     {
         string game;
@@ -249,4 +250,5 @@ public static class DataCollector
 
         return game;
     }
+    */
 }

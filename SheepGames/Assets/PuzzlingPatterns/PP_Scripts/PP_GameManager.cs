@@ -13,6 +13,9 @@ public class PP_GameManager : MonoBehaviour {
     private int numberOfTries = 0;
     private ContactFilter2D contactFilter;
     private LayerMask layerMask = 10;
+    private int partCount = 0;
+    private int scorePenalty = 10;
+    private int scoreBonus = 100;
 
     private void Awake()
     {
@@ -27,6 +30,7 @@ public class PP_GameManager : MonoBehaviour {
             FindPosInHoldingArea(part.transform);
         }
         contactFilter.SetLayerMask(layerMask);
+        partCount = parts.Length;
     }
 
     private void FindPosInHoldingArea(Transform part)
@@ -37,14 +41,20 @@ public class PP_GameManager : MonoBehaviour {
         part.localPosition = newPos;
         if (part.GetComponent<Collider2D>().IsTouching(contactFilter))
         {
-
+            //what did I want here???
         }
+    }
+
+    private int CalculateScore()
+    {
+        return(numberOfTries - partCount) * scorePenalty + partCount * scoreBonus;
     }
 
     private void GameFinished()
     {
         //do stuff, open menu
         print("You did it!");
+        DataCollector.UpdateScore(CalculateScore());
     }
 
     internal void StartCheck(Transform puzzlePart)
