@@ -8,8 +8,12 @@ public class PW_SheepMovement : MonoBehaviour {
 
     private Rigidbody2D rBody;
 
-	void Start () {
-        rBody = GetComponent<Rigidbody2D>();
+    private void Awake()
+    {
+        rBody = GetComponent<Rigidbody2D>();        
+    }
+
+    private void Start () {
 	}
 	
     private void Push()
@@ -17,7 +21,7 @@ public class PW_SheepMovement : MonoBehaviour {
         rBody.AddForce(force, ForceMode2D.Impulse);
     }
 
-	void Update () {
+	private void Update () {
         if (Input.GetButtonDown("Fire1"))
         {
             Push();
