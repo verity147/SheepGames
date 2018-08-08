@@ -41,10 +41,11 @@ public class JH_ScoreCalculator : MonoBehaviour {
                 score += winPointBonus;
             }
         }
-        if (obj.GetComponent<SpriteRenderer>())
-        {
-            obj.GetComponent<SpriteRenderer>().color = Color.red;
-        }
+        //paint all counted stones red for clarification/testing
+        //if (obj.GetComponent<SpriteRenderer>())
+        //{
+        //    obj.GetComponent<SpriteRenderer>().color = Color.red;
+        //}
 
     }
 
