@@ -14,6 +14,7 @@ public class JH_ObstacleSheep : MonoBehaviour {
 
     private Animator anim;
     private Rigidbody2D rigidb;
+    private AudioSource audioSource;
     private bool stopGoingLeft = true;
     private bool grounded;
     private float groundRadius = 0.2f;
@@ -23,6 +24,7 @@ public class JH_ObstacleSheep : MonoBehaviour {
     {
         anim = GetComponent<Animator>();
         rigidb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         rigidb.isKinematic = true;
     }
 
@@ -72,6 +74,12 @@ public class JH_ObstacleSheep : MonoBehaviour {
             anim.SetTrigger("collision");
             gameObject.layer = 16; //collide with ground only
         }
+    }
+
+    public void PlayAudio(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 
     public void Jump()

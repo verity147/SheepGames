@@ -8,6 +8,7 @@ public class JH_GameController : MonoBehaviour {
 
     public Transform playerPrefab;
     public Transform obstacleSheepPrefab;
+    public AudioSource decoAudio;
     public Transform wallPosition;
     public Transform[] wallPrefabs;
     public GameObject trajPointPrefab;
@@ -166,6 +167,7 @@ public class JH_GameController : MonoBehaviour {
         playerParts = tempPlayer.GetComponentsInChildren<Transform>();
         movingVCam.Follow = tempPlayer;
         staticVCam.MoveToTopOfPrioritySubqueue();
+        decoAudio.Stop();
     }
 
     public void HideTrajectory()

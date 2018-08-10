@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SpectatorHandler : MonoBehaviour {
 
-    public float animPause = 100f;
-    public float animVariation = 20f;
+    public float animPause = 10f;
+    public float animVariation = 5f;
     public string randomAnim;
     public bool random = false;
 
@@ -53,6 +53,7 @@ public class SpectatorHandler : MonoBehaviour {
         StartCoroutine(Reaction(type));
     }
 
+    ///called from animation event
     public void PlaySound(AudioClip clip)
     {
         audioSource.PlayOneShot(clip);

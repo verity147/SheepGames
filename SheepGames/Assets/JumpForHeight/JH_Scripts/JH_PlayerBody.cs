@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class JH_PlayerBody : MonoBehaviour
 {
@@ -15,6 +14,7 @@ public class JH_PlayerBody : MonoBehaviour
     public float resetDist = 0.5f;
     public float moveSpeed = 10f;
     public AudioClip[] audioClips;
+    public AudioClip[] reactionClips;
 
     private JH_GameController gameController;
     private JH_UIManager uIManager;
@@ -142,7 +142,7 @@ public class JH_PlayerBody : MonoBehaviour
         {
             anim.SetTrigger("playerRelease");
             audioSource.Stop();
-            PlayAudio(1);
+            //PlayAudio(1);
             ///x position can put playerBody backwards if runwayDist is too short
             if (gameController.transform.position.x >= transform.position.x)
             {
@@ -168,7 +168,8 @@ public class JH_PlayerBody : MonoBehaviour
         ///speed and physics are applied 
         anim.SetTrigger("fly");
         audioSource.Stop();
-        //PlayAudio(2);
+        PlayAudio(2);
+        audioSource.loop = true;
         playerRB.isKinematic = false;
         playerRB.AddForce(jumpForce, ForceMode2D.Impulse);
         gameController.SwitchCamera();
@@ -177,6 +178,7 @@ public class JH_PlayerBody : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        audioSource.Stop();
         anim.SetTrigger("collided");
     }
     
@@ -202,6 +204,8 @@ public class JH_PlayerBody : MonoBehaviour
             anim.SetBool("success", false);
             anim.SetBool("lost", false);
             spectatorReaction = "look";
+            gameController.decoAudio.clip = reactionClips[1];
+            gameController.decoAudio.Play();
         }
         else if(currentScore > 0)
         {
@@ -209,6 +213,8 @@ public class JH_PlayerBody : MonoBehaviour
             anim.SetBool("success", true);
             anim.SetBool("lost", false);
             spectatorReaction = "cheer";
+            gameController.decoAudio.clip = reactionClips[0];
+            gameController.decoAudio.Play();
         }
         else if (currentScore < 0)
         {
@@ -216,6 +222,8 @@ public class JH_PlayerBody : MonoBehaviour
             anim.SetBool("success", false);
             anim.SetBool("lost", true);
             spectatorReaction = "sad";
+            gameController.decoAudio.clip = reactionClips[2];
+            gameController.decoAudio.Play();
         }
         else
         {
@@ -223,6 +231,8 @@ public class JH_PlayerBody : MonoBehaviour
             anim.SetBool("success", false);
             anim.SetBool("lost", false);
             spectatorReaction = "look";
+            gameController.decoAudio.clip = reactionClips[1];
+            gameController.decoAudio.Play();
         }
 
         ///check for each spectator if they have the appropriate animation and if yes, start their coroutine loop
