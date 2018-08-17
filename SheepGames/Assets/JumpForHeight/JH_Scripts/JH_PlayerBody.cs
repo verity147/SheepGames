@@ -13,6 +13,8 @@ public class JH_PlayerBody : MonoBehaviour
     public float jumpPowerModY = 1.3f;
     public float resetDist = 0.5f;
     public float moveSpeed = 10f;
+    public ParticleSystem dustParticle;
+    public Transform[] feetPositions;
     public AudioClip[] audioClips;
     public AudioClip[] reactionClips;
 
@@ -102,6 +104,11 @@ public class JH_PlayerBody : MonoBehaviour
     {
         audioSource.clip = audioClips[clipIndex];
         audioSource.Play();
+    }
+
+    public void PlayDustParticles(int position)
+    {
+        Instantiate(dustParticle, feetPositions[position]);
     }
 
     private void OnMouseUp()
