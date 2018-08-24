@@ -18,6 +18,6 @@ public class PW_Direction : MonoBehaviour {
 
     private void Update()
     {
-        transform.position += Vector3.down * Time.deltaTime * moveSpeed;
+        transform.position += Vector3.down * Time.deltaTime * moveSpeed;        
     }
 }

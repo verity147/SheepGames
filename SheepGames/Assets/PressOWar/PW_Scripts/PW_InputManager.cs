@@ -6,9 +6,11 @@ public class PW_InputManager : MonoBehaviour {
 
     private BoxCollider2D boxCollider;
     private ContactFilter2D contactFilter;
+    private PW_ScoreManager scoreManager;
 
     private void Awake()
     {
+        scoreManager = FindObjectOfType<PW_ScoreManager>();
         boxCollider = GetComponent<BoxCollider2D>();
         contactFilter = new ContactFilter2D
         {
@@ -20,41 +22,75 @@ public class PW_InputManager : MonoBehaviour {
     {
         if (Input.GetButtonDown("Left"))
         {
-            //0
-            CheckForDirection();
+            CheckForDirection(Direction.Left);
         }
         if (Input.GetButtonDown("Right"))
         {
-            //1
+            CheckForDirection(Direction.Right);
         }
         if (Input.GetButtonDown("Up"))
         {
-            //2
+            CheckForDirection(Direction.Up);
         }
         if (Input.GetButtonDown("Down"))
         {
-            //3
+            CheckForDirection(Direction.Down);
         }
 
     }
 
-    private void CheckForDirection()
+    private void CheckForDirection(Direction inputDir)
     {
-        //OverlapCollider is not working!!!
         Collider2D[] touchingColliders = new Collider2D[20];
-        boxCollider.OverlapCollider(contactFilter.NoFilter(), touchingColliders);
+        int colliderAmount = boxCollider.OverlapCollider(contactFilter.NoFilter(), touchingColliders);
 
-        foreach(Collider2D coll in touchingColliders)
+        if (colliderAmount > 0 && colliderAmount < 2)
         {
-            //checks for every object in the array if there is a collider and prints message accordingly
-            if (coll)
+            foreach(Collider2D coll in touchingColliders)
             {
-               print(coll.gameObject);
+                if (coll)
+                {
+
+                    print(coll.gameObject);
+                    if(inputDir == coll.GetComponent<PW_Direction>().direction)
+                    {
+                        print("correct");
+                        PrecisionCheck(coll.gameObject);
+                    }
+                    else
+                    {
+                        print("wrong");
+                    }
+                    //do some effect instead of just disabling
+                    coll.gameObject.SetActive(false);
+                }
             }
-            else
-            {
-                print("no hit");
-            }
+        }
+        else if(colliderAmount>1)
+        {
+            ///at least 0.45 seems a sensible time for min. Direction spawn wait time
+            Debug.LogError("DebugSpawner's min. spawn wait time is too low, more than one direction touchend the Input Manager!");
+        }
+        else
+        {
+            //did not hit any direction
+        }
+    }
+
+    private void PrecisionCheck(GameObject direction)
+    {
+        float deltaY = Mathf.Abs(direction.transform.position.y - transform.position.y);
+        print(deltaY);
+        ///the multiplier should never diminish the score, so it gets clamped with a min of 1
+        float scoreMult = 1f;
+        if (deltaY > 0.05f)
+        {
+            scoreMult = Mathf.Clamp((scoreManager.maxScoreMult - deltaY), 1f, scoreManager.maxScoreMult);
+        }
+        else
+        {
+            ///if the player was particularly precise, he gets the maximum multiplier possible
+            scoreMult = scoreManager.maxScoreMult;
         }
     }
 
