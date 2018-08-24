@@ -10,8 +10,10 @@ public class PW_InputManager : MonoBehaviour {
     private void Awake()
     {
         boxCollider = GetComponent<BoxCollider2D>();
-        contactFilter = new ContactFilter2D();
-        contactFilter.layerMask = 9;
+        contactFilter = new ContactFilter2D
+        {
+            layerMask = 9
+        };
     }
 
     private void Update()
@@ -44,7 +46,15 @@ public class PW_InputManager : MonoBehaviour {
 
         foreach(Collider2D coll in touchingColliders)
         {
-            print(coll.gameObject);
+            //checks for every object in the array if there is a collider and prints message accordingly
+            if (coll)
+            {
+               print(coll.gameObject);
+            }
+            else
+            {
+                print("no hit");
+            }
         }
     }
 

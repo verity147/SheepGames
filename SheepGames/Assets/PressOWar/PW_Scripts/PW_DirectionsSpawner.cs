@@ -53,11 +53,6 @@ public class PW_DirectionsSpawner : MonoBehaviour {
         StartCoroutine(SpawnEngine());
     }
 
-    private void Update()
-    {
-        //SpawnNewDirection(directionQueues[UnityEngine.Random.Range(0, 4)], spawners[UnityEngine.Random.Range(0, 4)].position);
-    }
-
     /// return one object from the queue with the specified tagName from the dictionary, return it and re-add it to its queue for re-use
     public GameObject SpawnNewDirection(string tagName, Vector3 position)
     {
