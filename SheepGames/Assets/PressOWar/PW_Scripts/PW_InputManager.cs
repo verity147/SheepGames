@@ -7,6 +7,20 @@ public class PW_InputManager : MonoBehaviour {
     private BoxCollider2D boxCollider;
     private ContactFilter2D contactFilter;
     private PW_ScoreManager scoreManager;
+    private PW_SheepMovement[] sheeps;
+
+    public float boostTime = 10f;
+    public float boostFull = 10f;
+    public float precisionBonus = 1;
+    public float boostForce = 5f;
+    public PW_SheepMovement player;
+
+    private float currentPrecBonus = 0;
+    private float startTime = 0f;
+    private float turnTimeInSec = 60f;
+    private float boost = 0f;
+    private bool lastPrecCheck = false;
+    private bool boostIsRunning = false;
 
     private void Awake()
     {
@@ -16,6 +30,16 @@ public class PW_InputManager : MonoBehaviour {
         {
             layerMask = 9
         };
+
+        sheeps = FindObjectsOfType<PW_SheepMovement>();
+    }
+
+    private void Start()
+    {
+        foreach (PW_SheepMovement sheep in sheeps)
+        {
+            sheep.StartGame();
+        }
     }
 
     private void Update()
@@ -37,6 +61,18 @@ public class PW_InputManager : MonoBehaviour {
             CheckForDirection(Direction.Down);
         }
 
+        ///control the time for one round of play
+        startTime += Time.deltaTime;
+        if (startTime >= turnTimeInSec)
+        {
+            print("Done");
+            foreach (PW_SheepMovement sheep in sheeps)
+            {
+                sheep.StopGame();
+            }
+            startTime = 0f;
+            //evaluate Score and give corresponding win/lose messages
+        }
     }
 
     private void CheckForDirection(Direction inputDir)
@@ -44,7 +80,7 @@ public class PW_InputManager : MonoBehaviour {
         Collider2D[] touchingColliders = new Collider2D[20];
         int colliderAmount = boxCollider.OverlapCollider(contactFilter.NoFilter(), touchingColliders);
 
-        if (colliderAmount > 0 && colliderAmount < 2)
+        if (colliderAmount == 1)
         {
             foreach(Collider2D coll in touchingColliders)
             {
@@ -56,10 +92,13 @@ public class PW_InputManager : MonoBehaviour {
                     {
                         print("correct");
                         PrecisionCheck(coll.gameObject);
+                        lastPrecCheck = true;
                     }
                     else
                     {
                         print("wrong");
+                        scoreManager.SubstractScore(ScoreMalus.WrongDirPressed);
+                        lastPrecCheck = false;
                     }
                     //do some effect instead of just disabling
                     coll.gameObject.SetActive(false);
@@ -69,10 +108,11 @@ public class PW_InputManager : MonoBehaviour {
         else if(colliderAmount>1)
         {
             ///at least 0.45 seems a sensible time for min. Direction spawn wait time
-            Debug.LogError("DebugSpawner's min. spawn wait time is too low, more than one direction touchend the Input Manager!");
+            Debug.LogError("DirectionsSpawner's min. spawn wait time is too low, more than one direction touchend the Input Manager!");
         }
         else
         {
+            scoreManager.SubstractScore(ScoreMalus.PressedNoDir);
             //did not hit any direction
         }
     }
@@ -92,11 +132,52 @@ public class PW_InputManager : MonoBehaviour {
             ///if the player was particularly precise, he gets the maximum multiplier possible
             scoreMult = scoreManager.maxScoreMult;
         }
+        scoreManager.AddScore(scoreMult);
+        PrecisionBoost(scoreMult);
+        if (boostIsRunning)
+        {
+            player.Push(scoreMult, boostForce);
+        }
+        else
+        {
+            player.Push(scoreMult);
+        }
+    }
+
+    private void PrecisionBoost(float scoreMult)
+    {
+        if (boostIsRunning)
+        {
+            return;
+        }
+        if (lastPrecCheck)
+        {
+            currentPrecBonus += precisionBonus;
+        }else if (!lastPrecCheck)
+        {
+            currentPrecBonus = 0f;
+        }
+
+        if (boost < boostFull)
+        {
+            boost += currentPrecBonus + scoreMult;
+        }else if (boost >= boostFull)
+        {
+            boostIsRunning = true;
+            StartCoroutine(Boost());
+        }
+    }
+
+    IEnumerator Boost()
+    {
+        yield return new WaitForSeconds(boostTime);
+        boost = 0f;
+        boostIsRunning = false;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         collision.gameObject.SetActive(false);
-        //count as missed hit
+        scoreManager.SubstractScore(ScoreMalus.DirMissed);
     }
 }

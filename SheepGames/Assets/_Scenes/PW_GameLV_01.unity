@@ -126,8 +126,8 @@ GameObject:
   - component: {fileID: 215237223}
   - component: {fileID: 215237222}
   m_Layer: 8
-  m_Name: PW_Enemy
-  m_TagString: Untagged
+  m_Name: PW_Sheep
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +143,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee9948e116792bb4c9bb92908a0fdfb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: {x: -2, y: 0}
+  pushForce: 4
+  enemyStrengthMod: 0
+  enemyRhythmMod: 0
+  enemyWaitTimeInSec: 0
+  enemy: 0
 --- !u!50 &215237223
 Rigidbody2D:
   serializedVersion: 4
@@ -159,7 +163,7 @@ Rigidbody2D:
   m_LinearDrag: 1.5
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 460205f38018ad64b84bc39b56534e5d, type: 2}
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -339,8 +343,8 @@ GameObject:
   - component: {fileID: 426130257}
   - component: {fileID: 426130256}
   - component: {fileID: 426130255}
-  m_Layer: 8
-  m_Name: PW_Sheep
+  m_Layer: 14
+  m_Name: PW_Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -357,7 +361,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee9948e116792bb4c9bb92908a0fdfb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: {x: 2, y: 0}
+  pushForce: 5
+  enemyStrengthMod: 0.3
+  enemyRhythmMod: 0.5
+  enemyWaitTimeInSec: 5
+  enemy: 1
 --- !u!50 &426130256
 Rigidbody2D:
   serializedVersion: 4
@@ -373,7 +381,7 @@ Rigidbody2D:
   m_LinearDrag: 1.5
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 460205f38018ad64b84bc39b56534e5d, type: 2}
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -672,6 +680,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc00a32214147ce41b60dcc86e11473d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boostTime: 10
+  boostFull: 10
+  precisionBonus: 1
+  boostForce: 5
+  player: {fileID: 215237222}
 --- !u!61 &1432368308
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -794,8 +807,8 @@ MonoBehaviour:
   - tagname: Down
     prefab: {fileID: 1016621032998656, guid: 8b48a93ca22fc5b44b6cbe31fa533efc, type: 2}
     poolSize: 10
-  directionWaitMin: 0.45
-  directionWaitMax: 0.8
+  directionWaitMin: 0.8
+  directionWaitMax: 1.2
 --- !u!4 &1453375426
 Transform:
   m_ObjectHideFlags: 0
@@ -812,6 +825,52 @@ Transform:
   - {fileID: 526446569}
   m_Father: {fileID: 0}
   m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1887876380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1887876382}
+  - component: {fileID: 1887876381}
+  m_Layer: 0
+  m_Name: PW_ScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1887876381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1887876380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc81305e2be47ac429e688691f8d4f11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxScoreMult: 2
+  scoreBonus: 10
+  wrongDirPressed: 10
+  dirMissed: 5
+  pressedNoDir: 5
+  malus: 0
+--- !u!4 &1887876382
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1887876380}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1908121297
 GameObject:

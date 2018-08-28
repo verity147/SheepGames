@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+    public enum ScoreMalus
+    {
+        WrongDirPressed = 0,
+        DirMissed = 1,
+        PressedNoDir = 2
+    }
+
 public class PW_ScoreManager : MonoBehaviour {
 
     public float maxScoreMult = 2f;
@@ -10,6 +17,8 @@ public class PW_ScoreManager : MonoBehaviour {
     public int dirMissed = 5;
     public int pressedNoDir = 5;
 
+    public ScoreMalus malus;
+
     private float currentScore = 0;
 
     public void AddScore(float scoreMult)
@@ -17,9 +26,22 @@ public class PW_ScoreManager : MonoBehaviour {
         currentScore += scoreBonus * scoreMult;
     }
 
-    public void SubstractScore()
+    public void SubstractScore(ScoreMalus malus)
     {
-
+        switch (malus)
+        {
+            case ScoreMalus.WrongDirPressed:
+                currentScore -= wrongDirPressed;
+                break;
+            case ScoreMalus.DirMissed:
+                currentScore -= dirMissed;
+                break;
+            case ScoreMalus.PressedNoDir:
+                currentScore -= pressedNoDir;
+                break;
+            default:
+                break;
+        }
     }
 
     public void ResetScore()
