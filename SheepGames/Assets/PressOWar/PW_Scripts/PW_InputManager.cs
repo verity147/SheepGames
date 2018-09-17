@@ -15,9 +15,10 @@ public class PW_InputManager : MonoBehaviour {
     public float boostForce = 5f;
     public PW_SheepMovement player;
 
+    public float turnTimeInSec = 60f;
+
     private float currentPrecBonus = 0;
     private float startTime = 0f;
-    private float turnTimeInSec = 60f;
     private float boost = 0f;
     private bool lastPrecCheck = false;
     private bool boostIsRunning = false;
@@ -80,30 +81,25 @@ public class PW_InputManager : MonoBehaviour {
         Collider2D[] touchingColliders = new Collider2D[20];
         int colliderAmount = boxCollider.OverlapCollider(contactFilter.NoFilter(), touchingColliders);
 
-        if (colliderAmount == 1)
+        if (colliderAmount == 1 && touchingColliders[0] != null)
         {
-            foreach(Collider2D coll in touchingColliders)
+            print("Currently registered collider: " + touchingColliders[0].gameObject);
+            if(inputDir == touchingColliders[0].GetComponent<PW_Direction>().direction)
             {
-                if (coll)
-                {
-
-                    print(coll.gameObject);
-                    if(inputDir == coll.GetComponent<PW_Direction>().direction)
-                    {
-                        print("correct");
-                        PrecisionCheck(coll.gameObject);
-                        lastPrecCheck = true;
-                    }
-                    else
-                    {
-                        print("wrong");
-                        scoreManager.SubstractScore(ScoreMalus.WrongDirPressed);
-                        lastPrecCheck = false;
-                    }
-                    //do some effect instead of just disabling
-                    coll.gameObject.SetActive(false);
-                }
+                print("correct");
+                PrecisionCheck(touchingColliders[0].gameObject);
+                lastPrecCheck = true;
             }
+            else
+            {
+                print("wrong button pressed");
+                scoreManager.SubstractScore(ScoreMalus.WrongDirPressed);
+                lastPrecCheck = false;
+            }
+            //do some effect instead of just disabling
+            touchingColliders[0].gameObject.SetActive(false);
+            print("disabled");
+            
         }
         else if(colliderAmount>1)
         {
@@ -112,8 +108,10 @@ public class PW_InputManager : MonoBehaviour {
         }
         else
         {
+            ///did not hit any direction
             scoreManager.SubstractScore(ScoreMalus.PressedNoDir);
-            //did not hit any direction
+            print("pressed a button but there was no direction");
+            //do an effect
         }
     }
 
@@ -165,6 +163,7 @@ public class PW_InputManager : MonoBehaviour {
         {
             boostIsRunning = true;
             StartCoroutine(Boost());
+            //start visual representation of boost
         }
     }
 
@@ -177,7 +176,13 @@ public class PW_InputManager : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        collision.gameObject.SetActive(false);
-        scoreManager.SubstractScore(ScoreMalus.DirMissed);
+        GameObject collidedObject = collision.gameObject;
+        //do effect to show the direction was missed
+        if (collidedObject.activeInHierarchy)
+        {
+            collidedObject.SetActive(false);
+            scoreManager.SubstractScore(ScoreMalus.DirMissed);
+            print("did not hit a direction in time");
+        }
     }
 }
