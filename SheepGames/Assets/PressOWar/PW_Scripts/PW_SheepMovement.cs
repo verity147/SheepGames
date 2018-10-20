@@ -6,8 +6,8 @@ public class PW_SheepMovement : MonoBehaviour {
 
     public float pushForce;
     public float enemyStrengthMod;
-    public float enemyRhythmMod;
     public float enemyWaitTimeInSec;
+    public float enemyRhythmMod;
     public bool enemy;
 
     private Rigidbody2D rBody;
@@ -19,6 +19,7 @@ public class PW_SheepMovement : MonoBehaviour {
         rBody = GetComponent<Rigidbody2D>();        
     }
 
+    ///called from InputManager
     public void StartGame()
     {
         gameIsOn = true;
@@ -28,6 +29,7 @@ public class PW_SheepMovement : MonoBehaviour {
         }
     }
 
+    ///called from InputManager
     public void StopGame()
     {
         gameIsOn = false;
@@ -36,24 +38,45 @@ public class PW_SheepMovement : MonoBehaviour {
 	
     internal void Push(float force)
     {
-        ///make the player go left and give him his precision bonus multiplier
+        Vector2 push = new Vector2(0f, 0f);
+
+        ///make the player go right and give him his precision bonus multiplier
         if (!enemy)
         {
-            force = (pushForce * force) * -1f;
+            ///positive numbers to go right
+            force = Mathf.Abs(pushForce * force);
+            push = new Vector2(force, 0);
+            rBody.AddForce(push, ForceMode2D.Impulse);
         }
-        Vector2 push = new Vector2(force, 0);
-        rBody.AddForce(push, ForceMode2D.Impulse);
+        else
+        {
+            push = new Vector2(force * -1f, 0);
+            rBody.AddForce(push, ForceMode2D.Impulse);
+        }
     }
 
     internal void Push(float force, float forceBonus)
     {
-        ///make the player go left and give him his precision bonus multiplier and boost bonus
+        Vector2 push = new Vector2(0f, 0f);
+        force = Mathf.Abs(force);
+        ///make the player go right and give him his precision bonus multiplier and boost bonus
         if (!enemy)
         {
-            force = (pushForce * force + forceBonus) * -1f;
+            ///positive numbers to go right
+            force = pushForce * force + forceBonus;
+            push = new Vector2(force, 0);
+            rBody.AddForce(push, ForceMode2D.Impulse);
         }
-        Vector2 push = new Vector2(force, 0);
-        rBody.AddForce(push, ForceMode2D.Impulse);
+        else
+        {
+            push = new Vector2(force * -1f, 0);
+            rBody.AddForce(push, ForceMode2D.Impulse);
+        }
+    }
+
+    public void EnemyPushHelper()
+    {
+        Push(Random.Range(pushForce - enemyStrengthMod, pushForce + enemyStrengthMod));
     }
 
     IEnumerator EnemyMovement() {
@@ -61,7 +84,7 @@ public class PW_SheepMovement : MonoBehaviour {
         {
             Push(Random.Range(pushForce - enemyStrengthMod, pushForce + enemyStrengthMod));
             float waitTime = Random.Range(enemyWaitTimeInSec - enemyRhythmMod, enemyWaitTimeInSec + enemyRhythmMod);
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSeconds(waitTime);//add animation length to waitTime?
             StartCoroutine(EnemyMovement());
         }
         yield return null;

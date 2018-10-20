@@ -14,6 +14,7 @@ public class PW_InputManager : MonoBehaviour {
     public float precisionBonus = 1;
     public float boostForce = 5f;
     public PW_SheepMovement player;
+    public PW_SheepMovement enemy;
 
     public float turnTimeInSec = 60f;
 
@@ -32,7 +33,7 @@ public class PW_InputManager : MonoBehaviour {
             layerMask = 9
         };
 
-        sheeps = FindObjectsOfType<PW_SheepMovement>();
+        sheeps = new PW_SheepMovement[] { player, enemy };
     }
 
     private void Start()
@@ -95,6 +96,7 @@ public class PW_InputManager : MonoBehaviour {
                 print("wrong button pressed");
                 scoreManager.SubstractScore(ScoreMalus.WrongDirPressed);
                 lastPrecCheck = false;
+                enemy.EnemyPushHelper();
             }
             //do some effect instead of just disabling
             touchingColliders[0].gameObject.SetActive(false);
@@ -151,7 +153,8 @@ public class PW_InputManager : MonoBehaviour {
         if (lastPrecCheck)
         {
             currentPrecBonus += precisionBonus;
-        }else if (!lastPrecCheck)
+        }
+        else if (!lastPrecCheck)
         {
             currentPrecBonus = 0f;
         }
@@ -159,7 +162,8 @@ public class PW_InputManager : MonoBehaviour {
         if (boost < boostFull)
         {
             boost += currentPrecBonus + scoreMult;
-        }else if (boost >= boostFull)
+        }
+        else if (boost >= boostFull)
         {
             boostIsRunning = true;
             StartCoroutine(Boost());
@@ -182,6 +186,8 @@ public class PW_InputManager : MonoBehaviour {
         {
             collidedObject.SetActive(false);
             scoreManager.SubstractScore(ScoreMalus.DirMissed);
+            enemy.EnemyPushHelper();
+
             print("did not hit a direction in time");
         }
     }
