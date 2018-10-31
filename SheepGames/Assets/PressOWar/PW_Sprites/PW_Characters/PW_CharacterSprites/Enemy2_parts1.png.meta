@@ -1,9 +1,18 @@
 fileFormatVersion: 2
-guid: 7dbf96df1ec7fd9499fa4b426ad537a2
-timeCreated: 1539937959
+guid: b778e36f2716aa24289c8a2ad79d23f4
+timeCreated: 1540998293
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Enemy2FaceSad
+    21300002: Enemy2HornBack
+    21300004: Enemy2HornFront
+    21300006: Enemy2Tail
+    21300008: Enemy2Ear
+    21300010: Enemy2ArmFront
+    21300012: Enemy2ArmBack
+    21300014: Enemy2LegBack
+    21300016: Enemy2LegFront
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -31,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 2
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -40,13 +49,13 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 140
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -66,12 +75,188 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Enemy2FaceSad
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 302
+        width: 136
+        height: 198
+      alignment: 9
+      pivot: {x: 0.5, y: 0.49747476}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Enemy2HornBack
+      rect:
+        serializedVersion: 2
+        x: 163.42447
+        y: 382.74164
+        width: 144.0668
+        height: 129.25836
+      alignment: 9
+      pivot: {x: 0.49682182, y: 0.50873584}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Enemy2HornFront
+      rect:
+        serializedVersion: 2
+        x: 340.6615
+        y: 379.55838
+        width: 147.72427
+        height: 132.44162
+      alignment: 9
+      pivot: {x: 0.49307066, y: 0.5054425}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Enemy2Tail
+      rect:
+        serializedVersion: 2
+        x: 261.49686
+        y: 309.71692
+        width: 105.74222
+        height: 64.74222
+      alignment: 9
+      pivot: {x: 0.50124866, y: 0.4909174}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Enemy2Ear
+      rect:
+        serializedVersion: 2
+        x: 408.7
+        y: 314.30002
+        width: 89.70001
+        height: 56.399994
+      alignment: 9
+      pivot: {x: 0.4882941, y: 0.49999973}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Enemy2ArmFront
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 2.6580253
+        width: 79.197296
+        height: 273.34198
+      alignment: 9
+      pivot: {x: 0.5176944, y: 0.49696714}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Enemy2ArmBack
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 2.2000098
+        width: 78.2607
+        height: 275.8
+      alignment: 9
+      pivot: {x: 0.49833444, y: 0.4996374}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Enemy2LegBack
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 116
+        height: 298.9
+      alignment: 9
+      pivot: {x: 0.5, y: 0.4934761}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Enemy2LegFront
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 0
+        width: 113
+        height: 306
+      alignment: 9
+      pivot: {x: 0.49115044, y: 0.49509805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
     outline: []
     physicsShape: []
   spritePackingTag: 
-  userData: 
+  userData: 100991165986662
   assetBundleName: 
   assetBundleVariant: 
