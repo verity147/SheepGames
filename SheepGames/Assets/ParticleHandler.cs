@@ -21,7 +21,7 @@ public class ParticleHandler : MonoBehaviour {
         if (partSys.isPlaying)
         {
             partSys.Stop();
-            partSys.Play();
         }
+        partSys.Play();
     }
 }
