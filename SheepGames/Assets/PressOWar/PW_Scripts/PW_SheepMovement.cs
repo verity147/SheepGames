@@ -10,19 +10,26 @@ public class PW_SheepMovement : MonoBehaviour {
     public float enemyRhythmMod;
     public bool enemy;
 
+    private Animator anim;
     private Rigidbody2D rBody;
     private bool gameIsOn = false;
 
-
     private void Awake()
     {
-        rBody = GetComponent<Rigidbody2D>();        
+        rBody = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        anim.SetFloat("Movement", rBody.velocity.x);
     }
 
     ///called from InputManager
     public void StartGame()
     {
         gameIsOn = true;
+        anim.SetTrigger("GameStart");
         if (enemy)
         {
             StartCoroutine(EnemyMovement());
@@ -34,6 +41,7 @@ public class PW_SheepMovement : MonoBehaviour {
     {
         gameIsOn = false;
         StopAllCoroutines();
+        anim.SetTrigger("GameEnd");
     }
 	
     internal void Push(float force)
@@ -74,6 +82,7 @@ public class PW_SheepMovement : MonoBehaviour {
         }
     }
 
+    ///gives the enemy extra pushes when the player makes mistakes
     public void EnemyPushHelper()
     {
         Push(Random.Range(pushForce - enemyStrengthMod, pushForce + enemyStrengthMod));

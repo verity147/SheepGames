@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PW_Timer : MonoBehaviour {
 
+    public Sprite[] sprites;
+    public SpriteRenderer sRenderer;
+
+
 	// Use this for initialization
 	void Start () {
 		
