@@ -16,10 +16,7 @@ public class PW_InputManager : MonoBehaviour {
     public PW_SheepMovement player;
     public PW_SheepMovement enemy;
 
-    public float turnTimeInSec = 60f;
-
     private float currentPrecBonus = 0;
-    private float startTime = 0f;
     private float boost = 0f;
     private bool lastPrecCheck = false;
     private bool boostIsRunning = false;
@@ -63,18 +60,15 @@ public class PW_InputManager : MonoBehaviour {
             CheckForDirection(Direction.Down);
         }
 
-        ///control the time for one round of play
-        startTime += Time.deltaTime;
-        if (startTime >= turnTimeInSec)
+    }
+
+    internal void EndGame()
+    {
+        foreach (PW_SheepMovement sheep in sheeps)
         {
-            print("Done");
-            foreach (PW_SheepMovement sheep in sheeps)
-            {
-                sheep.StopGame();
-            }
-            startTime = 0f;
-            //evaluate Score and give corresponding win/lose messages
+            sheep.StopGame();
         }
+        //evaluate Score and give corresponding win/lose messages
     }
 
     private void CheckForDirection(Direction inputDir)
