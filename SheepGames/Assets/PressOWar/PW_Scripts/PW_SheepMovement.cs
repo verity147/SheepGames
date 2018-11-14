@@ -9,10 +9,13 @@ public class PW_SheepMovement : MonoBehaviour {
     public float enemyWaitTimeInSec;
     public float enemyRhythmMod;
     public bool enemy;
+    public float winPosXDifference;
 
     private Animator anim;
     private Rigidbody2D rBody;
     private bool gameIsOn = false;
+
+    internal Vector3 startPos;
 
     private void Awake()
     {
@@ -20,9 +23,28 @@ public class PW_SheepMovement : MonoBehaviour {
         anim = GetComponent<Animator>();
     }
 
+    private void Start()
+    {
+        startPos = transform.position;
+    }
+
     private void Update()
     {
         anim.SetFloat("Movement", rBody.velocity.x);
+        float distanceTraveled = Vector3.Distance(startPos, transform.position);
+            print(gameObject.name + distanceTraveled);
+        if (distanceTraveled >= winPosXDifference)
+        {
+            bool leftOfStart = transform.position.x < startPos.x;
+            if (enemy)
+            {
+                StopGame(leftOfStart);
+            }
+            else
+            {
+                StopGame(!leftOfStart);
+            }
+        }
     }
 
     ///called from InputManager
@@ -37,10 +59,11 @@ public class PW_SheepMovement : MonoBehaviour {
     }
 
     ///called from InputManager
-    public void StopGame()
+    public void StopGame(bool win)
     {
         gameIsOn = false;
         StopAllCoroutines();
+        anim.SetBool("WinLose", win);
         anim.SetTrigger("GameEnd");
     }
 	

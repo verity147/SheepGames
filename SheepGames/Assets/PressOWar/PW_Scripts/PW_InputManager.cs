@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PW_InputManager : MonoBehaviour {
 
@@ -15,6 +16,7 @@ public class PW_InputManager : MonoBehaviour {
     public float boostForce = 5f;
     public PW_SheepMovement player;
     public PW_SheepMovement enemy;
+    public Slider pBar;
 
     private float currentPrecBonus = 0;
     private float boost = 0f;
@@ -43,6 +45,8 @@ public class PW_InputManager : MonoBehaviour {
 
     private void Update()
     {
+        pBar.value = Vector3.Distance(Vector3.Normalize(player.startPos), 
+                                      Vector3.Normalize(player.transform.position));
         if (Input.GetButtonDown("Left"))
         {
             CheckForDirection(Direction.Left);
@@ -59,16 +63,11 @@ public class PW_InputManager : MonoBehaviour {
         {
             CheckForDirection(Direction.Down);
         }
-
     }
 
     internal void EndGame()
     {
-        foreach (PW_SheepMovement sheep in sheeps)
-        {
-            sheep.StopGame();
-        }
-        //evaluate Score and give corresponding win/lose messages
+        //evaluate Score, and trigger corresponding win/lose messages
     }
 
     private void CheckForDirection(Direction inputDir)
@@ -78,23 +77,23 @@ public class PW_InputManager : MonoBehaviour {
 
         if (colliderAmount == 1 && touchingColliders[0] != null)
         {
-            print("Currently registered collider: " + touchingColliders[0].gameObject);
+            //print("Currently registered collider: " + touchingColliders[0].gameObject);
             if(inputDir == touchingColliders[0].GetComponent<PW_Direction>().direction)
             {
-                print("correct");
+                //print("correct");
                 PrecisionCheck(touchingColliders[0].gameObject);
                 lastPrecCheck = true;
             }
             else
             {
-                print("wrong button pressed");
+                //print("wrong button pressed");
                 scoreManager.SubstractScore(ScoreMalus.WrongDirPressed);
                 lastPrecCheck = false;
                 enemy.EnemyPushHelper();
             }
             //do some effect instead of just disabling
             touchingColliders[0].gameObject.SetActive(false);
-            print("disabled");
+            //print("disabled");
             
         }
         else if(colliderAmount>1)
