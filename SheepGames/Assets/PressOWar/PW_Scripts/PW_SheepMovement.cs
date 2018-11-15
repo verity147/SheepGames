@@ -9,11 +9,15 @@ public class PW_SheepMovement : MonoBehaviour {
     public float enemyWaitTimeInSec;
     public float enemyRhythmMod;
     public bool enemy;
-    public float winPosXDifference;
+    public float winPosX;
+    public float losePosX;
 
     private Animator anim;
     private Rigidbody2D rBody;
     private bool gameIsOn = false;
+    private bool gameWon = false;
+    private bool gameLost = false;
+    private PW_InputManager inputManager;
 
     internal Vector3 startPos;
 
@@ -21,6 +25,7 @@ public class PW_SheepMovement : MonoBehaviour {
     {
         rBody = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        inputManager = FindObjectOfType<PW_InputManager>();
     }
 
     private void Start()
@@ -30,19 +35,27 @@ public class PW_SheepMovement : MonoBehaviour {
 
     private void Update()
     {
-        anim.SetFloat("Movement", rBody.velocity.x);
-        float distanceTraveled = Vector3.Distance(startPos, transform.position);
-            print(gameObject.name + distanceTraveled);
-        if (distanceTraveled >= winPosXDifference)
+        ///limit these checks to when the game is actually running
+        if (!gameIsOn)
+            return;
+        if (!enemy)
         {
-            bool leftOfStart = transform.position.x < startPos.x;
-            if (enemy)
+            anim.SetFloat("Movement", rBody.velocity.x);
+        }
+        else
+        {
+            anim.SetFloat("Movement", - rBody.velocity.x);
+        }
+
+        if (!enemy)
+        {
+            if (transform.position.x >= winPosX)
             {
-                StopGame(leftOfStart);
+                inputManager.EndGame(true);
             }
-            else
+            if (transform.position.x <= losePosX)
             {
-                StopGame(!leftOfStart);
+                inputManager.EndGame(false);
             }
         }
     }
@@ -62,6 +75,7 @@ public class PW_SheepMovement : MonoBehaviour {
     public void StopGame(bool win)
     {
         gameIsOn = false;
+        rBody.velocity = Vector2.zero;
         StopAllCoroutines();
         anim.SetBool("WinLose", win);
         anim.SetTrigger("GameEnd");

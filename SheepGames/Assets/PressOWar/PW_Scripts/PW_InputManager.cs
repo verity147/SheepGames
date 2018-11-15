@@ -8,6 +8,7 @@ public class PW_InputManager : MonoBehaviour {
     private BoxCollider2D boxCollider;
     private ContactFilter2D contactFilter;
     private PW_ScoreManager scoreManager;
+    private PW_DirectionsSpawner directionsSpawner;
     private PW_SheepMovement[] sheeps;
 
     public float boostTime = 10f;
@@ -26,6 +27,7 @@ public class PW_InputManager : MonoBehaviour {
     private void Awake()
     {
         scoreManager = FindObjectOfType<PW_ScoreManager>();
+        directionsSpawner = FindObjectOfType<PW_DirectionsSpawner>();
         boxCollider = GetComponent<BoxCollider2D>();
         contactFilter = new ContactFilter2D
         {
@@ -65,9 +67,20 @@ public class PW_InputManager : MonoBehaviour {
         }
     }
 
-    internal void EndGame()
+    internal void EndGame(bool playerWon)
     {
         //evaluate Score, and trigger corresponding win/lose messages
+        if (playerWon)
+        {
+            player.StopGame(true);
+            enemy.StopGame(false);
+        }
+        else
+        {
+            player.StopGame(false);
+            enemy.StopGame(true);
+        }
+        directionsSpawner.StopAllCoroutines();
     }
 
     private void CheckForDirection(Direction inputDir)
@@ -113,7 +126,7 @@ public class PW_InputManager : MonoBehaviour {
     private void PrecisionCheck(GameObject direction)
     {
         float deltaY = Mathf.Abs(direction.transform.position.y - transform.position.y);
-        print(deltaY);
+        //print(deltaY);
         ///the multiplier should never diminish the score, so it gets clamped with a min of 1
         float scoreMult = 1f;
         if (deltaY > 0.05f)
