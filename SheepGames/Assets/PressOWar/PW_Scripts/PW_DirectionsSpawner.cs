@@ -50,7 +50,6 @@ public class PW_DirectionsSpawner : MonoBehaviour {
         }
 
         directionQueues = poolDictionary.Keys.ToArray();
-        StartCoroutine(SpawnEngine());
     }
 
     /// return one object from the queue with the specified tagName from the dictionary, return it and re-add it to its queue for re-use
@@ -71,6 +70,12 @@ public class PW_DirectionsSpawner : MonoBehaviour {
         return newDirection;
     }
 
+    internal void StartSpawnEngine()
+    {
+        StartCoroutine(SpawnEngine());
+    }
+
+    ///started and stopped from InputManager
     private IEnumerator SpawnEngine()
     {
         SpawnNewDirection(directionQueues[UnityEngine.Random.Range(0, 4)], spawners[UnityEngine.Random.Range(0, 4)].position);

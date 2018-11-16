@@ -23,11 +23,13 @@ public class PW_InputManager : MonoBehaviour {
     private float boost = 0f;
     private bool lastPrecCheck = false;
     private bool boostIsRunning = false;
+    private bool gameIsRunning = false;
 
     private void Awake()
     {
         scoreManager = FindObjectOfType<PW_ScoreManager>();
         directionsSpawner = FindObjectOfType<PW_DirectionsSpawner>();
+        print(directionsSpawner);
         boxCollider = GetComponent<BoxCollider2D>();
         contactFilter = new ContactFilter2D
         {
@@ -39,14 +41,14 @@ public class PW_InputManager : MonoBehaviour {
 
     private void Start()
     {
-        foreach (PW_SheepMovement sheep in sheeps)
-        {
-            sheep.StartGame();
-        }
+        StartGame();
     }
 
     private void Update()
     {
+        if (!gameIsRunning)
+                return;
+
         pBar.value = Vector3.Distance(Vector3.Normalize(player.startPos), 
                                       Vector3.Normalize(player.transform.position));
         if (Input.GetButtonDown("Left"))
@@ -67,8 +69,19 @@ public class PW_InputManager : MonoBehaviour {
         }
     }
 
+    internal void StartGame()
+    {
+        gameIsRunning = true;
+        foreach (PW_SheepMovement sheep in sheeps)
+        {
+            sheep.StartGame();
+        }
+        directionsSpawner.StartSpawnEngine();
+    }
+
     internal void EndGame(bool playerWon)
     {
+        gameIsRunning = false;
         //evaluate Score, and trigger corresponding win/lose messages
         if (playerWon)
         {
