@@ -10,6 +10,7 @@ public class PW_InputManager : MonoBehaviour {
     private PW_ScoreManager scoreManager;
     private PW_DirectionsSpawner directionsSpawner;
     private PW_SheepMovement[] sheeps;
+    private PW_Timer timer;
 
     public float boostTime = 10f;
     public float boostFull = 10f;
@@ -23,13 +24,14 @@ public class PW_InputManager : MonoBehaviour {
     private float boost = 0f;
     private bool lastPrecCheck = false;
     private bool boostIsRunning = false;
-    private bool gameIsRunning = false;
+
+    internal bool gameIsRunning = false;
 
     private void Awake()
     {
         scoreManager = FindObjectOfType<PW_ScoreManager>();
         directionsSpawner = FindObjectOfType<PW_DirectionsSpawner>();
-        print(directionsSpawner);
+        timer = FindObjectOfType<PW_Timer>();
         boxCollider = GetComponent<BoxCollider2D>();
         contactFilter = new ContactFilter2D
         {
@@ -41,7 +43,7 @@ public class PW_InputManager : MonoBehaviour {
 
     private void Start()
     {
-        StartGame();
+        //StartGame();
     }
 
     private void Update()
@@ -77,6 +79,7 @@ public class PW_InputManager : MonoBehaviour {
             sheep.StartGame();
         }
         directionsSpawner.StartSpawnEngine();
+        timer.SetUpTimer();
     }
 
     internal void EndGame(bool playerWon)
@@ -94,6 +97,7 @@ public class PW_InputManager : MonoBehaviour {
             enemy.StopGame(true);
         }
         directionsSpawner.StopAllCoroutines();
+        timer.StopAllCoroutines();
     }
 
     private void CheckForDirection(Direction inputDir)
@@ -117,10 +121,8 @@ public class PW_InputManager : MonoBehaviour {
                 lastPrecCheck = false;
                 enemy.EnemyPushHelper();
             }
-            //do some effect instead of just disabling
-            touchingColliders[0].gameObject.SetActive(false);
-            //print("disabled");
-            
+            ///correct input causes the direction to be disabled with its effect played
+            touchingColliders[0].GetComponent<PW_Direction>().Disable();
         }
         else if(colliderAmount>1)
         {
@@ -207,7 +209,7 @@ public class PW_InputManager : MonoBehaviour {
             scoreManager.SubstractScore(ScoreMalus.DirMissed);
             enemy.EnemyPushHelper();
 
-            print("did not hit a direction in time");
+            //print("did not hit a direction in time");
         }
     }
 }

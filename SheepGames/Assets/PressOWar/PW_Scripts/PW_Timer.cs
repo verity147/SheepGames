@@ -14,13 +14,7 @@ public class PW_Timer : MonoBehaviour {
     private float stateDuration;
     private int currentState = 0;
     private Vector3 startPos;
-    private PW_InputManager inputManager;
-    public bool gameStarted = false;
-
-    private void Awake()
-    {
-        inputManager = FindObjectOfType<PW_InputManager>();        
-    }
+    private bool gameStarted = false;
 
     private void Start()
     {
@@ -28,7 +22,7 @@ public class PW_Timer : MonoBehaviour {
         stateDuration = turnTimeInSec / sprites.Length;
     }
 
-    private void SetUpTimer()
+    internal void SetUpTimer()
     {
         gameStarted = true;
         StartCoroutine(TimerSpriteChange());
@@ -47,15 +41,15 @@ public class PW_Timer : MonoBehaviour {
         {
             StopAllCoroutines();
 
-            print("Done");
+            print(" Timer Done");
         }        
     }
 
     private IEnumerator TimerSpriteChange()
     {
+        yield return new WaitForSeconds(stateDuration);
         currentState++;
         sRenderer.sprite = sprites[currentState];
-        yield return new WaitForSeconds(stateDuration);
         StartCoroutine(TimerSpriteChange());
     }
 

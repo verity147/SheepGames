@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-    public enum Direction
+public enum Direction
     {
         Left = 0,
         Right = 1,
@@ -16,8 +17,26 @@ public class PW_Direction : MonoBehaviour {
 
     public Direction direction;
 
+    private PW_InputManager inputManager;
+
+    private void Awake()
+    {
+        inputManager = FindObjectOfType<PW_InputManager>();
+    }
+
     private void Update()
     {
-        transform.position += Vector3.down * Time.deltaTime * moveSpeed;        
+        if (!inputManager.gameIsRunning)
+        {
+            Disable();
+            gameObject.SetActive(false);
+        }else
+            transform.position += Vector3.down * Time.deltaTime * moveSpeed;        
+    }
+
+    internal void Disable()
+    {
+        //do an effect;
+        gameObject.SetActive(false);
     }
 }
