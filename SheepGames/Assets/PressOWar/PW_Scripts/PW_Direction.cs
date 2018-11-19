@@ -17,6 +17,8 @@ public class PW_Direction : MonoBehaviour {
 
     public Direction direction;
 
+    public PW_DirectionVanish vanish;
+
     private PW_InputManager inputManager;
 
     private void Awake()
@@ -36,7 +38,7 @@ public class PW_Direction : MonoBehaviour {
 
     internal void Disable()
     {
-        //do an effect;
+        Instantiate(vanish, transform.position, Quaternion.identity);
         gameObject.SetActive(false);
     }
 }
