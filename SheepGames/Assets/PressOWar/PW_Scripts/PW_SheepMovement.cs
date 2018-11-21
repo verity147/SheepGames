@@ -11,12 +11,11 @@ public class PW_SheepMovement : MonoBehaviour {
     public bool enemy;
     public float winPosX;
     public float losePosX;
+    public float clashPosX;
 
     private Animator anim;
     private Rigidbody2D rBody;
     private bool gameIsOn = false;
-    private bool gameWon = false;
-    private bool gameLost = false;
     private PW_InputManager inputManager;
 
     internal Vector3 startPos;
@@ -65,6 +64,7 @@ public class PW_SheepMovement : MonoBehaviour {
     {
         gameIsOn = true;
         anim.SetTrigger("GameStart");
+        StartCoroutine(MoveToPoint(clashPosX));
         if (enemy)
         {
             StartCoroutine(EnemyMovement());
@@ -79,6 +79,25 @@ public class PW_SheepMovement : MonoBehaviour {
         StopAllCoroutines();
         anim.SetBool("WinLose", win);
         anim.SetTrigger("GameEnd");
+        if(enemy && !win)
+        {
+            gameObject.layer = 9;
+            ///enemy needs to fly right until he sits in the lake
+            StartCoroutine(MoveToPoint(losePosX + 3f));
+        }
+    }
+
+    private IEnumerator MoveToPoint(float targetX)
+    {
+        float time = 0f;
+        ///have to reach the goal a little before the animation ends for it to look good
+        float clipLength = anim.GetCurrentAnimatorClipInfo(0)[0].clip.length - 0.15f;
+        while (time < 1)
+        {
+            time += Time.deltaTime / clipLength;
+            transform.position = Vector3.Lerp(startPos, new Vector3(targetX, transform.position.y, 0f), time);
+            yield return null;
+        }
     }
 	
     internal void Push(float force)
