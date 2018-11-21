@@ -12,6 +12,9 @@ public class PW_SheepMovement : MonoBehaviour {
     public float winPosX;
     public float losePosX;
     public float clashPosX;
+    public Vector3 enemyLossPos;
+    public AnimationClip clashAnim;
+    public AnimationClip lossFallAnim;
 
     private Animator anim;
     private Rigidbody2D rBody;
@@ -64,7 +67,8 @@ public class PW_SheepMovement : MonoBehaviour {
     {
         gameIsOn = true;
         anim.SetTrigger("GameStart");
-        StartCoroutine(MoveToPoint(clashPosX));
+        ///have to reach the goal a little before the animation ends for it to look good, so - 0.15
+        StartCoroutine(MoveToPoint(new Vector3(clashPosX, transform.position.y, 0f), clashAnim.length - 0.15f));
         if (enemy)
         {
             StartCoroutine(EnemyMovement());
@@ -81,23 +85,21 @@ public class PW_SheepMovement : MonoBehaviour {
         anim.SetTrigger("GameEnd");
         if(enemy && !win)
         {
-            gameObject.layer = 9;
+            gameObject.GetComponentInChildren<Collider2D>().isTrigger = true;
             ///enemy needs to fly right until he sits in the lake
-            StartCoroutine(MoveToPoint(losePosX + 3f));
+            StartCoroutine(MoveToPoint(enemyLossPos, lossFallAnim.length + 0.5f));
         }
     }
 
-    private IEnumerator MoveToPoint(float targetX)
+    private IEnumerator MoveToPoint(Vector3 targetPos, float duration)
     {
         float time = 0f;
-        ///have to reach the goal a little before the animation ends for it to look good
-        float clipLength = anim.GetCurrentAnimatorClipInfo(0)[0].clip.length - 0.15f;
         while (time < 1)
         {
-            time += Time.deltaTime / clipLength;
-            transform.position = Vector3.Lerp(startPos, new Vector3(targetX, transform.position.y, 0f), time);
-            yield return null;
+            time += Time.deltaTime / duration;
+            transform.position = Vector3.Lerp(startPos, targetPos, time);
         }
+        yield return null;
     }
 	
     internal void Push(float force)

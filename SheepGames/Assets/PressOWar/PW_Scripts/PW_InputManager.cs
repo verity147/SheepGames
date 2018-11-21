@@ -9,7 +9,6 @@ public class PW_InputManager : MonoBehaviour {
     private ContactFilter2D contactFilter;
     private PW_ScoreManager scoreManager;
     private PW_DirectionsSpawner directionsSpawner;
-    private PW_SheepMovement[] sheeps;
     private PW_Timer timer;
 
     public float boostTime = 10f;
@@ -24,6 +23,8 @@ public class PW_InputManager : MonoBehaviour {
     private float boost = 0f;
     private bool lastPrecCheck = false;
     private bool boostIsRunning = false;
+    private float playerMoveDist;
+    private float playerCurrentDist;
 
     internal bool gameIsRunning = false;
 
@@ -37,13 +38,11 @@ public class PW_InputManager : MonoBehaviour {
         {
             layerMask = 9
         };
-
-        sheeps = new PW_SheepMovement[] { player, enemy };
     }
 
     private void Start()
     {
-        //StartGame();
+        playerMoveDist = Mathf.Abs(player.winPosX - player.losePosX);
     }
 
     private void Update()
@@ -51,8 +50,7 @@ public class PW_InputManager : MonoBehaviour {
         if (!gameIsRunning)
                 return;
 
-        pBar.value = Vector3.Distance(Vector3.Normalize(player.startPos), 
-                                      Vector3.Normalize(player.transform.position));
+        pBar.value = Mathf.Abs(player.transform.position.x - player.losePosX) / playerMoveDist;
         if (Input.GetButtonDown("Left"))
         {
             CheckForDirection(Direction.Left);
@@ -74,10 +72,8 @@ public class PW_InputManager : MonoBehaviour {
     internal void StartGame()
     {
         gameIsRunning = true;
-        foreach (PW_SheepMovement sheep in sheeps)
-        {
-            sheep.StartGame();
-        }
+        player.StartGame();
+        enemy.StartGame();
         directionsSpawner.StartSpawnEngine();
         timer.SetUpTimer();
     }
@@ -90,6 +86,7 @@ public class PW_InputManager : MonoBehaviour {
         {
             player.StopGame(true);
             enemy.StopGame(false);
+            scoreManager.UpdateScore(500);
         }
         else
         {
@@ -110,13 +107,11 @@ public class PW_InputManager : MonoBehaviour {
             //print("Currently registered collider: " + touchingColliders[0].gameObject);
             if(inputDir == touchingColliders[0].GetComponent<PW_Direction>().direction)
             {
-                //print("correct");
                 PrecisionCheck(touchingColliders[0].gameObject);
                 lastPrecCheck = true;
             }
             else
             {
-                //print("wrong button pressed");
                 scoreManager.SubstractScore(ScoreMalus.WrongDirPressed);
                 lastPrecCheck = false;
                 enemy.EnemyPushHelper();
@@ -141,7 +136,6 @@ public class PW_InputManager : MonoBehaviour {
     private void PrecisionCheck(GameObject direction)
     {
         float deltaY = Mathf.Abs(direction.transform.position.y - transform.position.y);
-        //print(deltaY);
         ///the multiplier should never diminish the score, so it gets clamped with a min of 1
         float scoreMult = 1f;
         if (deltaY > 0.05f)
@@ -208,8 +202,6 @@ public class PW_InputManager : MonoBehaviour {
             collidedObject.SetActive(false);
             scoreManager.SubstractScore(ScoreMalus.DirMissed);
             enemy.EnemyPushHelper();
-
-            //print("did not hit a direction in time");
         }
     }
 }

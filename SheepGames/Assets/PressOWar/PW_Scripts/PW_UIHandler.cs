@@ -7,6 +7,7 @@ using TMPro;
 public class PW_UIHandler : MonoBehaviour {
 
     public TMP_Text countDown;
+    public TMP_Text score;
 
     private PW_InputManager inputManager;
     private int countdownCounter = 3;

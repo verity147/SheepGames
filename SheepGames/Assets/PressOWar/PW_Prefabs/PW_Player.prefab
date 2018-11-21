@@ -738,7 +738,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1230465776059554}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: -2.71, z: 0.2441406}
+  m_LocalPosition: {x: -5, y: -2.71, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4237536273812674}
@@ -1160,7 +1160,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1550652635371014}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 460205f38018ad64b84bc39b56534e5d, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1320,7 +1320,10 @@ MonoBehaviour:
   enemy: 0
   winPosX: -0.9
   losePosX: -7.45
-  clashPosX: 0
+  clashPosX: -4.1
+  enemyLossPos: {x: 0, y: 0, z: 0}
+  clashAnim: {fileID: 7400000, guid: f59fb88b927ade34f86837036f055dad, type: 2}
+  lossFallAnim: {fileID: 7400000, guid: 8519d04921ddafb4da585e1bdb6ef5e2, type: 2}
 --- !u!114 &114127910058439534
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -78,8 +78,8 @@ public class PW_DirectionsSpawner : MonoBehaviour {
     ///started and stopped from InputManager
     private IEnumerator SpawnEngine()
     {
-        SpawnNewDirection(directionQueues[UnityEngine.Random.Range(0, 4)], spawners[UnityEngine.Random.Range(0, 4)].position);
         yield return new WaitForSeconds(UnityEngine.Random.Range(directionWaitMin, directionWaitMax));
+        SpawnNewDirection(directionQueues[UnityEngine.Random.Range(0, 4)], spawners[UnityEngine.Random.Range(0, 4)].position);
         StartCoroutine(SpawnEngine());
     }
 }

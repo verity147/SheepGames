@@ -21,9 +21,17 @@ public class PW_ScoreManager : MonoBehaviour {
 
     private float currentScore = 0;
 
+    private PW_UIHandler uiHandler;
+
+    private void Awake()
+    {
+        uiHandler = FindObjectOfType<PW_UIHandler>();
+    }
+
     public void AddScore(float scoreMult)
     {
         currentScore += scoreBonus * scoreMult;
+        UpdateScore();
     }
 
     public void SubstractScore(ScoreMalus malus)
@@ -42,10 +50,24 @@ public class PW_ScoreManager : MonoBehaviour {
             default:
                 break;
         }
+        UpdateScore();
     }
 
     public void ResetScore()
     {
         currentScore = 0;
+        UpdateScore();
+    }
+
+    internal void UpdateScore()
+    {
+        int scoreInt = Mathf.RoundToInt(currentScore);
+        uiHandler.score.text = scoreInt.ToString();
+    }
+
+    internal void UpdateScore(int addScore)
+    {
+        int scoreInt = Mathf.RoundToInt(currentScore) + addScore;
+        uiHandler.score.text = scoreInt.ToString();
     }
 }
