@@ -25,12 +25,12 @@ public class JH_UIManager : MonoBehaviour
     private int maxTries = 3;
 
     #region LOCALIZATION KEYS
-    private string scoresEqualKey = "EqualScore_T";
-    private string noPreviousScoreKey = "FirstScore_T";
-    private string newScoreBetterKey = "newScoreBetter_T";
-    private string oldScoreBetterKey = "oldScoreBetter_T";
-    private string scoreTextKey = "ShowGameScore_T";
-    private string tutorialTextKey = "JH_Tutorial_T";
+    private readonly string scoresEqualKey = "EqualScore_T";
+    private readonly string noPreviousScoreKey = "FirstScore_T";
+    private readonly string newScoreBetterKey = "newScoreBetter_T";
+    private readonly string oldScoreBetterKey = "oldScoreBetter_T";
+    private readonly string scoreTextKey = "ShowGameScore_T";
+    private readonly string tutorialTextKey = "JH_Tutorial_T";
     #endregion
 
     private void Awake()
@@ -61,7 +61,6 @@ public class JH_UIManager : MonoBehaviour
         if (tries >= maxTries)
         {
             retryButton.SetActive(false);
-            //DataCollector.CalculateTotalScore();
         }
     }
 

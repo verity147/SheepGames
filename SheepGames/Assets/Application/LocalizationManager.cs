@@ -18,7 +18,7 @@ public class LocalizationManager : MonoBehaviour {
     private Dictionary<string, string> localizedText;
 
     private bool isLoaded = false;
-    private string missingText = "Localization not found!";
+    private readonly string missingText = "Localization not found!";
 
     private void Awake()
     {

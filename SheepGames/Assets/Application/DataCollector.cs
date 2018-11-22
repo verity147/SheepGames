@@ -4,8 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-
 public static class DataCollector
 {
     ///click + to enhance
