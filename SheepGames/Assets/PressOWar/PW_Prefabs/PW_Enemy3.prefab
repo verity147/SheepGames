@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4074502132611476}
   - component: {fileID: 95347208723983510}
   - component: {fileID: 114470476529785716}
+  - component: {fileID: 50955194441442222}
+  - component: {fileID: 114447568700092072}
   m_Layer: 10
   m_Name: PW_Enemy3
   m_TagString: Untagged
@@ -701,7 +703,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1052263414035126}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.67, y: -1.28, z: -0.00390625}
+  m_LocalPosition: {x: 1.84, y: -2.434, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4862029615007256}
@@ -1130,6 +1132,26 @@ Transform:
   m_Father: {fileID: 4840869656662076}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 29.720001}
+--- !u!50 &50955194441442222
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1052263414035126}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 50
+  m_LinearDrag: 1.5
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 6200000, guid: 460205f38018ad64b84bc39b56534e5d, type: 2}
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!61 &61853623012720510
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -1312,7 +1334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.33088237, g: 0.33088237, b: 0.33088237, a: 0.358}
-  m_Length: 0.70000017
+  m_Length: 0.70000035
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4220031766118050}
   m_AttachedIK: {fileID: 114691982270069042}
@@ -1344,7 +1366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.33088237, g: 0.33088237, b: 0.33088237, a: 0.358}
-  m_Length: 0.9400002
+  m_Length: 0.93999994
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4010740292829436}
   m_AttachedIK: {fileID: 114221851663836918}
@@ -1360,7 +1382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.33088237, g: 0.33088237, b: 0.33088237, a: 0.358}
-  m_Length: 0.26223233
+  m_Length: 0.26223248
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4113559381371822}
   m_AttachedIK: {fileID: 114984507354948184}
@@ -1461,6 +1483,28 @@ MonoBehaviour:
   m_Bones: []
   m_BoneTransforms:
   - {fileID: 4543958225355464}
+--- !u!114 &114447568700092072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1052263414035126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee9948e116792bb4c9bb92908a0fdfb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pushForce: 20
+  enemyStrengthMod: 4
+  enemyWaitTimeInSec: 4
+  enemyRhythmMod: 0.5
+  enemy: 1
+  winPosX: -3.33
+  losePosX: 3.25
+  clashPosX: 0.05
+  enemyLossPos: {x: 6.8, y: -1.5, z: 0}
+  clashAnim: {fileID: 7400000, guid: 2849715f45d78d142811c44f0eda3d86, type: 2}
+  lossFallAnim: {fileID: 7400000, guid: 6be576b20187741488c8a468b1582b49, type: 2}
 --- !u!114 &114466672669155390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1561,7 +1605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.33088237, g: 0.33088237, b: 0.33088237, a: 0.358}
-  m_Length: 0.30941784
+  m_Length: 0.30941796
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4758218786113602}
   m_AttachedIK: {fileID: 114984507354948184}
@@ -1851,7 +1895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.33088237, g: 0.33088237, b: 0.33088237, a: 0.358}
-  m_Length: 0.7000004
+  m_Length: 0.7000005
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 4287183232122280}
   m_AttachedIK: {fileID: 0}

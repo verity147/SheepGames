@@ -18,6 +18,7 @@ public class PW_InputManager : MonoBehaviour {
     public PW_SheepMovement player;
     public PW_SheepMovement enemy;
     public Slider pBar;
+    public GameObject continueButton;
 
     private float currentPrecBonus = 0;
     private float boost = 0f;
@@ -95,6 +96,7 @@ public class PW_InputManager : MonoBehaviour {
         }
         directionsSpawner.StopAllCoroutines();
         timer.StopAllCoroutines();
+        continueButton.SetActive(true);
     }
 
     private void CheckForDirection(Direction inputDir)

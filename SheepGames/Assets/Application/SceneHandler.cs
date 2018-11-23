@@ -5,15 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneHandler : MonoBehaviour {
 
-    //just for test builds
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Escape))
-    //    {
-    //        Application.Quit();
-    //    }
-    //}
-
     public static string GetSceneName()
     {
         return SceneManager.GetActiveScene().name;

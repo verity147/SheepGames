@@ -19,7 +19,7 @@ public class PW_ScoreManager : MonoBehaviour {
 
     public ScoreMalus malus;
 
-    private float currentScore = 0;
+    internal float currentScore = 0;
 
     private PW_UIHandler uiHandler;
 
@@ -69,5 +69,6 @@ public class PW_ScoreManager : MonoBehaviour {
     {
         int scoreInt = Mathf.RoundToInt(currentScore) + addScore;
         uiHandler.score.text = scoreInt.ToString();
+        DataCollector.currentScore = Mathf.RoundToInt(scoreInt);
     }
 }

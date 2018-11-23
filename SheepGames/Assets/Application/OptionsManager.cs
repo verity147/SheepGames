@@ -6,12 +6,12 @@ using UnityEngine.Audio;
 public class OptionsManager : MonoBehaviour {
 
     public AudioMixer audioMixer;  
+    public SceneHandler sceneHandler;
 
     private Resolution[] resolutions;
     internal List<string> resolutionsList;
     internal int currentResIndex = 0;
     private int newResIndex = 0;
-
 
     private void Start()
     {
@@ -22,6 +22,17 @@ public class OptionsManager : MonoBehaviour {
         if (PlayerPrefs.HasKey("sfxVolume"))
         {
             audioMixer.SetFloat("SFXVolume", PlayerPrefsManager.GetSfxVolume());
+        }
+    }
+
+    private void Update()
+    {
+        if (SceneHandler.GetSceneName() != "04_MainMenu")
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                sceneHandler.LoadLevel("04_MainMenu");
+            }
         }
     }
 
