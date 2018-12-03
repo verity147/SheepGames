@@ -53,11 +53,11 @@ public class PW_SheepMovement : MonoBehaviour {
         {
             if (transform.position.x >= winPosX)
             {
-                inputManager.EndGame(true);
+                inputManager.EndGame(WinState.Win);
             }
             if (transform.position.x <= losePosX)
             {
-                inputManager.EndGame(false);
+                inputManager.EndGame(WinState.Loss);
             }
         }
     }

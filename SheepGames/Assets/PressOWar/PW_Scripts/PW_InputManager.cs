@@ -27,6 +27,7 @@ public class PW_InputManager : MonoBehaviour {
     public Slider pBar;
     public GameObject continueButton;
 
+    private float currentTurnTime = 0;
     private float currentPrecBonus = 0;
     private float boost = 0f;
     private bool lastPrecCheck = false;
@@ -57,7 +58,7 @@ public class PW_InputManager : MonoBehaviour {
     {
         if (!gameIsRunning)
                 return;
-
+        currentTurnTime += Time.deltaTime;
         pBar.value = Mathf.Abs(player.transform.position.x - player.losePosX) / playerMoveDist;
         if (Input.GetButtonDown("Left"))
         {
@@ -91,6 +92,8 @@ public class PW_InputManager : MonoBehaviour {
         gameIsRunning = false;
         //evaluate Score, and trigger corresponding win/lose messages
 
+        int timeRemaining = Mathf.RoundToInt(timer.turnTimeInSec - currentTurnTime);
+
         switch (winState)
         {
             case WinState.Loss:
@@ -100,7 +103,7 @@ public class PW_InputManager : MonoBehaviour {
             case WinState.Win:
                 player.StopGame(true);
                 enemy.StopGame(false);
-                scoreManager.UpdateScore(500);
+                scoreManager.UpdateScore(timeRemaining * 10);
                 break;
             case WinState.TimeUp:
                 player.StopGame(false);

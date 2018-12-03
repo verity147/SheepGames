@@ -10,7 +10,6 @@ public class PW_Timer : MonoBehaviour {
     public Vector3 targetPos = new Vector3(8.4f, 0.7f, 0);
     public float speed = 1f;
 
-    private float startTime = 0f;
     private float stateDuration;
     private int currentState = 0;
     private Vector3 startPos;
@@ -55,7 +54,6 @@ public class PW_Timer : MonoBehaviour {
     {
         transform.position = startPos;
         sRenderer.sprite = sprites[0];
-        startTime = 0f;
     }
 
 }

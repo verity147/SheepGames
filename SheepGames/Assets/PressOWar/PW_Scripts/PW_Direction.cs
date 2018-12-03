@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +23,11 @@ public class PW_Direction : MonoBehaviour {
     private void Awake()
     {
         inputManager = FindObjectOfType<PW_InputManager>();
+    }
+
+    private void Start()
+    {
+        moveSpeed = Random.Range(moveSpeed - 1, moveSpeed + 1);
     }
 
     private void Update()
