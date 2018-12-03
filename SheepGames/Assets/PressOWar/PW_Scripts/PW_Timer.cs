@@ -18,8 +18,9 @@ public class PW_Timer : MonoBehaviour {
 
     private void Start()
     {
+        sRenderer.sprite = sprites[0];
         startPos = transform.position;
-        stateDuration = turnTimeInSec / sprites.Length;
+        stateDuration = turnTimeInSec / (sprites.Length - 1);
     }
 
     internal void SetUpTimer()
@@ -33,16 +34,7 @@ public class PW_Timer : MonoBehaviour {
         if(transform.position != targetPos && gameStarted)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-        }
-
-        startTime += Time.deltaTime;
-
-        if (startTime >= turnTimeInSec)
-        {
-            StopAllCoroutines();
-
-            print(" Timer Done");
-        }        
+        }    
     }
 
     private IEnumerator TimerSpriteChange()
@@ -50,6 +42,12 @@ public class PW_Timer : MonoBehaviour {
         yield return new WaitForSeconds(stateDuration);
         currentState++;
         sRenderer.sprite = sprites[currentState];
+        if(sRenderer.sprite == sprites[sprites.GetUpperBound(0)])
+        {
+            print(" Timer Done");
+            //notify someone that the game is over
+            yield break;
+        }
         StartCoroutine(TimerSpriteChange());
     }
 

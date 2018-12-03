@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum WinState
+{
+    Loss = 0,
+    Win = 1,
+    TimeUp = 2
+}
+
 public class PW_InputManager : MonoBehaviour {
 
     private BoxCollider2D boxCollider;
@@ -79,21 +86,30 @@ public class PW_InputManager : MonoBehaviour {
         timer.SetUpTimer();
     }
 
-    internal void EndGame(bool playerWon)
+    internal void EndGame(WinState winState)
     {
         gameIsRunning = false;
         //evaluate Score, and trigger corresponding win/lose messages
-        if (playerWon)
+
+        switch (winState)
         {
-            player.StopGame(true);
-            enemy.StopGame(false);
-            scoreManager.UpdateScore(500);
+            case WinState.Loss:
+                player.StopGame(false);
+                enemy.StopGame(true);
+                break;
+            case WinState.Win:
+                player.StopGame(true);
+                enemy.StopGame(false);
+                scoreManager.UpdateScore(500);
+                break;
+            case WinState.TimeUp:
+                player.StopGame(false);
+                enemy.StopGame(true);
+                break;
+            default:
+                break;
         }
-        else
-        {
-            player.StopGame(false);
-            enemy.StopGame(true);
-        }
+
         directionsSpawner.StopAllCoroutines();
         timer.StopAllCoroutines();
         continueButton.SetActive(true);
