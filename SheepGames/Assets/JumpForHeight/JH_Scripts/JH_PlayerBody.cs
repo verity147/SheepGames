@@ -16,8 +16,8 @@ public class JH_PlayerBody : MonoBehaviour
     public ParticleSystem dustParticle;
     public Transform[] feetPositions;
     public AudioClip[] audioClips;
-    public AudioClip[] reactionClips;
 
+    private SpectatorHandler spectatorHandler;
     private JH_GameController gameController;
     private JH_UIManager uIManager;
     internal Animator anim;
@@ -41,6 +41,7 @@ public class JH_PlayerBody : MonoBehaviour
 
     private void Awake()
     {
+        spectatorHandler = FindObjectOfType<SpectatorHandler>();
         gameController = FindObjectOfType<JH_GameController>();
         uIManager = FindObjectOfType<JH_UIManager>();
         anim = GetComponent<Animator>();
@@ -203,63 +204,33 @@ public class JH_PlayerBody : MonoBehaviour
             Debug.LogError("No current player found, couldn't save score");
         }
 
-        string spectatorReaction;
-
         if (currentScore == 0)
         {
             anim.SetBool("overshot", true);
             anim.SetBool("success", false);
             anim.SetBool("lost", false);
-            spectatorReaction = "look";
-            gameController.decoAudio.clip = reactionClips[1];
-            gameController.decoAudio.Play();
+            spectatorHandler.EndOfGameReaction(WinState.Neutral);
         }
         else if(currentScore > 0)
         {
             anim.SetBool("overshot", false);
             anim.SetBool("success", true);
             anim.SetBool("lost", false);
-            spectatorReaction = "cheer";
-            gameController.decoAudio.clip = reactionClips[0];
-            gameController.decoAudio.Play();
+            spectatorHandler.EndOfGameReaction(WinState.Win);
         }
         else if (currentScore < 0)
         {
             anim.SetBool("overshot", false);
             anim.SetBool("success", false);
             anim.SetBool("lost", true);
-            spectatorReaction = "sad";
-            gameController.decoAudio.clip = reactionClips[2];
-            gameController.decoAudio.Play();
+            spectatorHandler.EndOfGameReaction(WinState.Loss);
         }
         else
         {
             anim.SetBool("overshot", true);
             anim.SetBool("success", false);
             anim.SetBool("lost", false);
-            spectatorReaction = "look";
-            gameController.decoAudio.clip = reactionClips[1];
-            gameController.decoAudio.Play();
-        }
-
-        ///check for each spectator if they have the appropriate animation and if yes, start their coroutine loop
-        foreach (SpectatorHandler spectator in gameController.spectators)
-        {
-            foreach(AnimatorControllerParameter param in spectator.anim.parameters)
-            {
-                if(param.name == spectatorReaction)
-                {
-                    StartCoroutine(spectator.Reaction(spectatorReaction));
-                }
-            }
-            if (spectatorReaction != "cheer")
-            {
-                spectator.anim.SetBool("sadFace", true);
-            }
-            else if (spectatorReaction == "cheer")
-            {
-                spectator.anim.SetBool("sadFace", false);
-            }
+            spectatorHandler.EndOfGameReaction(WinState.Neutral);
         }
     }
 

@@ -29,7 +29,7 @@ public class JH_GameController : MonoBehaviour {
     private Transform tempOsheep;
     internal Transform[] playerParts;
     internal Transform[] wallChildren;
-    internal SpectatorHandler[] spectators;
+    internal Spectator[] spectators;
     private Transform trajectoryPointsHolder;
     private List<Vector3> backgroundStartPos;
     private List<GameObject> trajectoryPoints;
@@ -71,7 +71,7 @@ public class JH_GameController : MonoBehaviour {
             trajectoryPoints.Insert(i, dot);
         }
 
-        spectators = FindObjectsOfType<SpectatorHandler>();
+        spectators = FindObjectsOfType<Spectator>();
 
         SpawnNewPlayer();
     }
@@ -135,7 +135,7 @@ public class JH_GameController : MonoBehaviour {
     {
         HideTrajectory();
         ///stop the current reation animation from all spectators
-        foreach (SpectatorHandler spectator in spectators)
+        foreach (Spectator spectator in spectators)
         {
             spectator.StopAllCoroutines();
         }

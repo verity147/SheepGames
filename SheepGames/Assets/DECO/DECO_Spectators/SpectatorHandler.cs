@@ -2,60 +2,74 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum WinState
+{
+    Loss = 0,
+    Win = 1,
+    Neutral = 2
+}
+
 public class SpectatorHandler : MonoBehaviour {
 
-    public float animPause = 10f;
-    public float animVariation = 5f;
-    public string randomAnim;
-    public bool random = false;
+    public AudioClip[] reactionClips;
 
-    internal Animator anim;
-    private AudioSource audioSource;
-    private float timePassed = 0f;
-    private float animPauseVaried;
+    private Spectator[] spectators;
+    private AudioSource decoAudio;
+
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
-        if (anim == null)
-        {
-            Debug.LogWarningFormat("{0} requires an Animator Component but has none!", gameObject.name);
-        }
-        animPauseVaried = animPause;
+        decoAudio = GetComponent<AudioSource>();
+        spectators = GetComponentsInChildren<Spectator>();
     }
 
-    private void Update()
+    public void EndOfGameReaction(WinState winState)
     {
-        if (anim == null)
-            return;
+        string spectatorReaction;
 
-        if (random)
+        switch (winState)
         {
-            ///trigger animations when animPause in seconds has passed
-            if(timePassed >= animPauseVaried)
+            case WinState.Loss:
+                spectatorReaction = "sad";
+                decoAudio.clip = reactionClips[2];
+                decoAudio.Play();
+                break;
+            case WinState.Win:
+                spectatorReaction = "cheer";
+                decoAudio.clip = reactionClips[0];
+                print("start sound");
+                decoAudio.Play();
+                break;
+            case WinState.Neutral:
+                spectatorReaction = "look";
+                decoAudio.clip = reactionClips[1];
+                decoAudio.Play();
+                break;
+            default:
+                spectatorReaction = "look";
+                decoAudio.clip = reactionClips[1];
+                decoAudio.Play();
+                break;
+        }
+
+        ///check for each spectator if they have the appropriate animation and if yes, start their coroutine loop
+        foreach (Spectator spectator in spectators)
+        {
+            foreach (AnimatorControllerParameter param in spectator.anim.parameters)
             {
-                anim.SetTrigger(randomAnim);
-                timePassed = 0f;
-                animPauseVaried = Random.Range(animPause - animVariation, animPause + animVariation);
+                if (param.name == spectatorReaction)
+                {
+                    StartCoroutine(spectator.Reaction(spectatorReaction));
+                }
+            }
+            if (spectatorReaction != "cheer")
+            {
+                spectator.anim.SetBool("sadFace", true);
+            }
+            else if (spectatorReaction == "cheer")
+            {
+                spectator.anim.SetBool("sadFace", false);
             }
         }
-        timePassed += Time.deltaTime;
-    }
-
-    ///start this to have spectators ind the scene react(string parameter is animation trigger),
-    ///don't forget to stop the coroutines if the scene is re-used for subsequent tries
-    public IEnumerator Reaction(string type)
-    {
-        anim.SetTrigger(type);
-        float counter = Random.Range(animPause, animPause + animVariation);
-        yield return new WaitForSecondsRealtime(counter);
-        StartCoroutine(Reaction(type));
-    }
-
-    ///called from animation event
-    public void PlaySound(AudioClip clip)
-    {
-        audioSource.PlayOneShot(clip);
     }
 }

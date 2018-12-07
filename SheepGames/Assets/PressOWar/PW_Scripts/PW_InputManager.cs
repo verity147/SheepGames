@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum WinState
-{
-    Loss = 0,
-    Win = 1,
-    TimeUp = 2
-}
-
 public class PW_InputManager : MonoBehaviour {
 
     private BoxCollider2D boxCollider;
@@ -26,6 +19,7 @@ public class PW_InputManager : MonoBehaviour {
     public PW_SheepMovement enemy;
     public Slider pBar;
     public GameObject continueButton;
+    public SpectatorHandler spectatorHandler;
 
     private float currentTurnTime = 0;
     private float currentPrecBonus = 0;
@@ -105,7 +99,7 @@ public class PW_InputManager : MonoBehaviour {
                 enemy.StopGame(false);
                 scoreManager.UpdateScore(timeRemaining * 10);
                 break;
-            case WinState.TimeUp:
+            case WinState.Neutral:
                 player.StopGame(false);
                 enemy.StopGame(true);
                 break;
@@ -116,6 +110,7 @@ public class PW_InputManager : MonoBehaviour {
         directionsSpawner.StopAllCoroutines();
         timer.StopAllCoroutines();
         continueButton.SetActive(true);
+        spectatorHandler.EndOfGameReaction(winState);
     }
 
     private void CheckForDirection(Direction inputDir)

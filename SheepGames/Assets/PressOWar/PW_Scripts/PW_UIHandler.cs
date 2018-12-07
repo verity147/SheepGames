@@ -9,6 +9,7 @@ public class PW_UIHandler : MonoBehaviour {
     public TMP_Text countDown;
     public GameObject scoreTextObject;
     public TMP_Text score;
+    public GameObject drummer;
 
     public GameObject endOfGameMenu;
     private PW_InputManager inputManager;
@@ -42,6 +43,10 @@ public class PW_UIHandler : MonoBehaviour {
         countDown.text = countdownCounter.ToString();
         if (countdownCounter < 1)
         {
+            if(drummer != null)
+            {
+                drummer.GetComponent<Animator>().SetTrigger("drumroll");
+            }
             countDown.text = "";
             inputManager.StartGame();
             yield break;
