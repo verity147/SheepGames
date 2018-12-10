@@ -10,10 +10,17 @@ public class PW_Timer : MonoBehaviour {
     public Vector3 targetPos = new Vector3(8.4f, 0.7f, 0);
     public float speed = 1f;
 
+    private PW_InputManager inputManager;
     private float stateDuration;
     private int currentState = 0;
     private Vector3 startPos;
-    private bool gameStarted = false;
+
+    internal bool gameStarted = false;
+
+    private void Awake()
+    {
+        inputManager = FindObjectOfType<PW_InputManager>();
+    }
 
     private void Start()
     {
@@ -32,8 +39,17 @@ public class PW_Timer : MonoBehaviour {
     {
         if(transform.position != targetPos && gameStarted)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-        }    
+            MoveToSpot(targetPos);
+        }
+        if (transform.position != startPos && !gameStarted)
+        {
+            MoveToSpot(startPos);
+        }
+    }
+
+    private void MoveToSpot(Vector3 spot)
+    {
+        transform.position = Vector3.MoveTowards(transform.position, spot, speed * Time.deltaTime);
     }
 
     private IEnumerator TimerSpriteChange()
@@ -44,7 +60,7 @@ public class PW_Timer : MonoBehaviour {
         if(sRenderer.sprite == sprites[sprites.GetUpperBound(0)])
         {
             print(" Timer Done");
-            //notify someone that the game is over
+            inputManager.EndGame(WinState.Neutral);
             yield break;
         }
         StartCoroutine(TimerSpriteChange());

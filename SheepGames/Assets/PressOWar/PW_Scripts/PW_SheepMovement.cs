@@ -76,19 +76,34 @@ public class PW_SheepMovement : MonoBehaviour {
     }
 
     ///called from InputManager
-    public void StopGame(bool win)
+    public void StopGame(WinState winState)
     {
         gameIsOn = false;
         rBody.velocity = Vector2.zero;
         StopAllCoroutines();
-        anim.SetBool("WinLose", win);
-        anim.SetTrigger("GameEnd");
-        if(enemy && !win)
+
+        switch (winState)
         {
-            gameObject.GetComponentInChildren<Collider2D>().isTrigger = true;
-            ///enemy needs to fly right until he sits in the lake
-            StartCoroutine(MoveToPoint(enemyLossPos, lossFallAnim.length + 0.5f));
+            case WinState.Loss:
+                anim.SetBool("WinLose", false);
+                if (enemy)
+                {
+                    ///collider gets turned into trigger so as to not get entangled with player collider
+                    gameObject.GetComponentInChildren<Collider2D>().isTrigger = true;
+                    ///enemy needs to fly right until he sits in the lake, adding a little extra time looks better
+                    StartCoroutine(MoveToPoint(enemyLossPos, lossFallAnim.length + 0.5f));
+                }
+                break;
+            case WinState.Win:
+                anim.SetBool("WinLose", true);
+                break;
+            case WinState.Neutral:
+                anim.SetTrigger("TimeUp");
+                break;
+            default:
+                break;
         }
+        anim.SetTrigger("GameEnd");
     }
 
     private IEnumerator MoveToPoint(Vector3 targetPos, float duration)

@@ -91,17 +91,17 @@ public class PW_InputManager : MonoBehaviour {
         switch (winState)
         {
             case WinState.Loss:
-                player.StopGame(false);
-                enemy.StopGame(true);
+                player.StopGame(WinState.Loss);
+                enemy.StopGame(WinState.Win);
                 break;
             case WinState.Win:
-                player.StopGame(true);
-                enemy.StopGame(false);
+                player.StopGame(WinState.Win);
+                enemy.StopGame(WinState.Loss);
                 scoreManager.UpdateScore(timeRemaining * 10);
                 break;
             case WinState.Neutral:
-                player.StopGame(false);
-                enemy.StopGame(true);
+                player.StopGame(WinState.Neutral);
+                enemy.StopGame(WinState.Neutral);
                 break;
             default:
                 break;
@@ -109,6 +109,7 @@ public class PW_InputManager : MonoBehaviour {
 
         directionsSpawner.StopAllCoroutines();
         timer.StopAllCoroutines();
+        timer.gameStarted = false;
         continueButton.SetActive(true);
         spectatorHandler.EndOfGameReaction(winState);
     }

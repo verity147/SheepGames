@@ -14,12 +14,12 @@ public class SpectatorHandler : MonoBehaviour {
     public AudioClip[] reactionClips;
 
     private Spectator[] spectators;
-    private AudioSource decoAudio;
+    private AudioSource audioSource;
 
 
     private void Awake()
     {
-        decoAudio = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         spectators = GetComponentsInChildren<Spectator>();
     }
 
@@ -31,24 +31,23 @@ public class SpectatorHandler : MonoBehaviour {
         {
             case WinState.Loss:
                 spectatorReaction = "sad";
-                decoAudio.clip = reactionClips[2];
-                decoAudio.Play();
+                audioSource.clip = reactionClips[2];
+                audioSource.Play();
                 break;
             case WinState.Win:
                 spectatorReaction = "cheer";
-                decoAudio.clip = reactionClips[0];
-                print("start sound");
-                decoAudio.Play();
+                audioSource.clip = reactionClips[0];
+                audioSource.Play();
                 break;
             case WinState.Neutral:
                 spectatorReaction = "look";
-                decoAudio.clip = reactionClips[1];
-                decoAudio.Play();
+                audioSource.clip = reactionClips[1];
+                audioSource.Play();
                 break;
             default:
                 spectatorReaction = "look";
-                decoAudio.clip = reactionClips[1];
-                decoAudio.Play();
+                audioSource.clip = reactionClips[1];
+                audioSource.Play();
                 break;
         }
 
