@@ -44,7 +44,7 @@ public static class DataCollector
             SaveLoadManager.Load();
             return;
         }else{
-            Debug.Log("new file");
+            Debug.Log("A new savefile is being written.");
             tempPlayerDict = new Dictionary<string, Dictionary<string, int>>();
 
             ///for each game...

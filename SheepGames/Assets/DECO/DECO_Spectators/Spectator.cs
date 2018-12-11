@@ -64,6 +64,8 @@ public class Spectator : MonoBehaviour {
     ///called from animation event
     public void PlaySound(AudioClip clip)
     {
+        if (!doesSound)
+            return;
         audioSource.clip = clip;
         audioSource.Play();
     }

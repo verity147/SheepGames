@@ -64,6 +64,10 @@ public class LocalizationManager : MonoBehaviour {
         {
             result = localizedText[key];
         }
+        else
+        {
+            Debug.LogWarning("Could not find localization data for key " + key);
+        }
         return result;
     }
 

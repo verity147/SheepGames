@@ -19,23 +19,19 @@ public class JH_UIManager : MonoBehaviour
     public TMP_Text tutorialMenuText;
 
     private LocalizationManager localizationManager;
+    private HighscoreHandler highscoreHandler;
     private PopulateHighscore populateHighscore;
     private JH_ScoreCalculator scoreCalculator;
     private int tries = 0;
     private int maxTries = 3;
 
-    #region LOCALIZATION KEYS
-    private readonly string scoresEqualKey = "EqualScore_T";
-    private readonly string noPreviousScoreKey = "FirstScore_T";
-    private readonly string newScoreBetterKey = "newScoreBetter_T";
-    private readonly string oldScoreBetterKey = "oldScoreBetter_T";
     private readonly string scoreTextKey = "ShowGameScore_T";
     private readonly string tutorialTextKey = "JH_Tutorial_T";
-    #endregion
 
     private void Awake()
     {
         localizationManager = FindObjectOfType<LocalizationManager>();
+        highscoreHandler = FindObjectOfType<HighscoreHandler>();
         scoreCalculator = FindObjectOfType<JH_ScoreCalculator>();
         populateHighscore = GetComponentInChildren<PopulateHighscore> (true);
     }
@@ -44,7 +40,7 @@ public class JH_UIManager : MonoBehaviour
         ///fills Tutorial with accurate Information about score points
         if (SceneHandler.GetSceneName() == "JH_GameLV_01")
         {
-            string tutorialText;
+            string tutorialText = "Text not found.";
             tutorialText = string.Format(localizationManager.GetLocalizedText(tutorialTextKey), scoreCalculator.winPointBonus.ToString(), scoreCalculator.stonePointPenalty.ToString());
             tutorialMenuText.text = tutorialText;
         }
@@ -75,33 +71,8 @@ public class JH_UIManager : MonoBehaviour
     public void BuildLevelEndMenu()
     {
         endOfGameMenu.SetActive(true);
-        int oldScore = DataCollector.oldScore;
-        int newScore = DataCollector.currentScore;
-        string bestScoreText;
-
         populateHighscore.NewGrid();
         populateHighscore.NewLevelScore(SceneHandler.GetSceneName());
-
-        if(oldScore == newScore)
-        {
-            bestScoreText = string.Format(localizationManager.GetLocalizedText(scoresEqualKey), oldScore.ToString(), newScore.ToString());
-            scoreTextObject.GetComponent<TMP_Text>().text = bestScoreText;
-        }
-        else if(oldScore == -1000000)
-        {
-            bestScoreText = string.Format(localizationManager.GetLocalizedText(noPreviousScoreKey), newScore.ToString());
-            scoreTextObject.GetComponent<TMP_Text>().text = bestScoreText;
-        }
-        else if(oldScore < newScore)
-        {
-            bestScoreText = string.Format(localizationManager.GetLocalizedText(newScoreBetterKey), oldScore.ToString(), newScore.ToString());
-            scoreTextObject.GetComponent<TMP_Text>().text = bestScoreText;
-        }
-        else if (oldScore > newScore)
-        {
-            bestScoreText = string.Format(localizationManager.GetLocalizedText(oldScoreBetterKey), oldScore.ToString(), newScore.ToString());
-            scoreTextObject.GetComponent<TMP_Text>().text = bestScoreText;
-        }
-
+        scoreTextObject.GetComponent<TMP_Text>().text = highscoreHandler.GetHighscoreText();
     }
 }
