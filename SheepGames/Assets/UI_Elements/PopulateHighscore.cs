@@ -20,15 +20,11 @@ public class PopulateHighscore : MonoBehaviour {
         grid = GetComponentInChildren<GridLayoutGroup>();
     }
 
-    private void Start ()
-    {
-        //change to Total later 
-        //NewGrid("JumpForHeight");
-    }
-
     public void NewGrid()
     {
-        Destroy(grid.gameObject);
+        if(grid.gameObject)
+            Destroy(grid.gameObject);
+
         grid = Instantiate(contentPrefab, viewportRect.transform).GetComponent<GridLayoutGroup>();
         grid.cellSize = new Vector2(viewportRect.rect.width / 2, grid.cellSize.y);
         GetComponent<ScrollRect>().content = grid.gameObject.GetComponent<RectTransform>();

@@ -14,12 +14,13 @@ public class JH_StoneAudioManager : MonoBehaviour {
 
     private void Start()
     {
-        source.loop = false;
+        if(source)
+            source.loop = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player" && !source.isPlaying)
+        if (collision.gameObject.tag == "Player" && !source.isPlaying && source)
         {
             source.PlayOneShot(source.clip);
         }

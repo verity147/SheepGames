@@ -14,8 +14,9 @@ public class PW_UIHandler : MonoBehaviour {
     public GameObject endOfGameMenu;
     private PW_InputManager inputManager;
     private LocalizationManager localizationManager;
-    private int countdownCounter = 3;
+    private HighscoreHandler highscoreHandler;
     private PopulateHighscore populateHighscore;
+    private int countdownCounter = 3;
 
     #region LOCALIZATION KEYS
     private readonly string scoresEqualKey = "EqualScore_T";
@@ -28,6 +29,7 @@ public class PW_UIHandler : MonoBehaviour {
     {
         inputManager = FindObjectOfType<PW_InputManager>();
         localizationManager = FindObjectOfType<LocalizationManager>();
+        highscoreHandler = FindObjectOfType<HighscoreHandler>();
         populateHighscore = GetComponentInChildren<PopulateHighscore>(true);
     }
 
@@ -62,33 +64,8 @@ public class PW_UIHandler : MonoBehaviour {
     public void BuildLevelEndMenu()
     {
         endOfGameMenu.SetActive(true);
-        int oldScore = DataCollector.oldScore;
-        int newScore = DataCollector.currentScore;
-        string bestScoreText;
-
         populateHighscore.NewGrid();
         populateHighscore.NewLevelScore(SceneHandler.GetSceneName());
-
-        if (oldScore == newScore)
-        {
-            bestScoreText = string.Format(localizationManager.GetLocalizedText(scoresEqualKey), oldScore.ToString(), newScore.ToString());
-            scoreTextObject.GetComponent<TMP_Text>().text = bestScoreText;
-        }
-        else if (oldScore == -1000000)
-        {
-            bestScoreText = string.Format(localizationManager.GetLocalizedText(noPreviousScoreKey), newScore.ToString());
-            scoreTextObject.GetComponent<TMP_Text>().text = bestScoreText;
-        }
-        else if (oldScore < newScore)
-        {
-            bestScoreText = string.Format(localizationManager.GetLocalizedText(newScoreBetterKey), oldScore.ToString(), newScore.ToString());
-            scoreTextObject.GetComponent<TMP_Text>().text = bestScoreText;
-        }
-        else if (oldScore > newScore)
-        {
-            bestScoreText = string.Format(localizationManager.GetLocalizedText(oldScoreBetterKey), oldScore.ToString(), newScore.ToString());
-            scoreTextObject.GetComponent<TMP_Text>().text = bestScoreText;
-        }
-
+        scoreTextObject.GetComponent<TMP_Text>().text = highscoreHandler.GetHighscoreText();
     }
 }

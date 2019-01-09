@@ -29,7 +29,6 @@ public class HighscoreHandler : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-        //localizationManager = FindObjectOfType<LocalizationManager>();
     }
 
     public string GetHighscoreText()
