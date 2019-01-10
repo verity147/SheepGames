@@ -23,7 +23,7 @@ public class JH_UIManager : MonoBehaviour
     private PopulateHighscore populateHighscore;
     private JH_ScoreCalculator scoreCalculator;
     private int tries = 0;
-    private int maxTries = 3;
+    private readonly int maxTries = 3;
 
     private readonly string scoreTextKey = "ShowGameScore_T";
     private readonly string tutorialTextKey = "JH_Tutorial_T";
@@ -41,7 +41,9 @@ public class JH_UIManager : MonoBehaviour
         if (SceneHandler.GetSceneName() == "JH_GameLV_01")
         {
             string tutorialText = "Text not found.";
-            tutorialText = string.Format(localizationManager.GetLocalizedText(tutorialTextKey), scoreCalculator.winPointBonus.ToString(), scoreCalculator.stonePointPenalty.ToString());
+            tutorialText = string.Format(localizationManager.GetLocalizedText(tutorialTextKey), 
+                                            scoreCalculator.winPointBonus.ToString(), 
+                                            scoreCalculator.stonePointPenalty.ToString());
             tutorialMenuText.text = tutorialText;
         }
     }
