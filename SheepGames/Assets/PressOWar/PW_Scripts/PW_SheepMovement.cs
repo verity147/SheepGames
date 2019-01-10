@@ -171,4 +171,9 @@ public class PW_SheepMovement : MonoBehaviour {
         }
         yield return null;
     }
+
+    public void PlayParticles()
+    {
+        GetComponentInChildren<ParticleHandler>().RunParticleSystem();
+    }
 }
