@@ -12,6 +12,8 @@ public class OptionsManager : MonoBehaviour {
     internal List<string> resolutionsList;
     internal int currentResIndex = 0;
     private int newResIndex = 0;
+    private readonly string[] languageFiles = { "SheepGamesLocalizationEN.json",
+                                                "SheepGamesLocalizationDE.json" };
 
     private void Start()
     {
@@ -71,6 +73,10 @@ public class OptionsManager : MonoBehaviour {
     {
         newResIndex = index;
     }
+    public void ChangeLanguageIndex(int index)
+    {
+        SaveLanguageSetting(languageFiles[index]);
+    }
 
     public void ChangeResolution()
     {
@@ -103,5 +109,14 @@ public class OptionsManager : MonoBehaviour {
     public void ClearPlayerPrefs()
     {
         PlayerPrefsManager.ClearPlayerPrefs();
+    }
+
+    public void ClearSaveData()
+    {
+        if (SaveLoadManager.CheckForExistingFile())
+        {
+            SaveLoadManager.DeleteSaveData();
+            DataCollector.CheckForSaveFile();
+        }
     }
 }

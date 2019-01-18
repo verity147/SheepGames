@@ -8,6 +8,7 @@ public class MainMenuController : MonoBehaviour {
 
     public TMP_InputField nameInput;
     public TMP_Dropdown resolutionDrop;
+    public TMP_Dropdown languageDrop;
     public Slider soundSlider;
     public Slider musicSlider;
     public GameObject nameInputMenu;
@@ -15,6 +16,7 @@ public class MainMenuController : MonoBehaviour {
     public GameObject creditsMenu;
     public GameObject highscoreMenu;
     public GameObject confirmQuitMenu;
+    public GameObject welcomeText;
 
     private GameObject[] menus;
     private OptionsManager optManager;
@@ -25,6 +27,10 @@ public class MainMenuController : MonoBehaviour {
         if (DataCollector.currentPlayer == "NONE" || DataCollector.currentPlayer == null)
         {
             SetMenuActive(nameInputMenu);
+        }
+        else
+        {
+            welcomeText.SetActive(true);
         }
     }
 
@@ -46,6 +52,8 @@ public class MainMenuController : MonoBehaviour {
             resolutionDrop.AddOptions(options);
             resolutionDrop.value = optManager.currentResIndex;
             resolutionDrop.RefreshShownValue();
+
+            //languageDrop.value = 
             soundSlider.value = PlayerPrefsManager.GetSfxVolume();
             musicSlider.value = PlayerPrefsManager.GetMusicVolume();
         }else if (menu == highscoreMenu)

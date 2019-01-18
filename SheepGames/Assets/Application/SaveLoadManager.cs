@@ -51,6 +51,11 @@ public static class SaveLoadManager {
     {
         return File.Exists(Path.Combine(Application.persistentDataPath, "SheepGames.save"));
     }
+
+    public static void DeleteSaveData()
+    {
+        File.Delete(Path.Combine(Application.persistentDataPath, "SheepGames.save"));
+    }
 }
 
 [Serializable]
