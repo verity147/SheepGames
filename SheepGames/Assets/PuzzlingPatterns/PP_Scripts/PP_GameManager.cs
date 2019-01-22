@@ -5,32 +5,38 @@ using UnityEngine;
 
 public class PP_GameManager : MonoBehaviour {
 
-    public Tilemap tilemap;
+    public Tilemap puzzleArea;
 
-    private PP_PuzzlePartDisplay[] parts;
+    internal GameObject[] parts;
     private BoxCollider2D coll;
     private int correctParts = 0;
     private int numberOfTries = 0;
     private ContactFilter2D contactFilter;
     private LayerMask layerMask = 10;
-    private int partCount = 0;
     private int scorePenalty = 10;
     private int scoreBonus = 100;
+    private readonly int[] rotations = { 0, 90, 180, 270 };
 
     private void Awake()
     {
-        parts = transform.GetComponentsInChildren<PP_PuzzlePartDisplay>();
         coll = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
     {
-        foreach (PP_PuzzlePartDisplay part in parts)
+        contactFilter.SetLayerMask(layerMask);
+    }
+
+    internal void FillHoldingArea()
+    {
+        foreach (GameObject part in parts)
         {
             FindPosInHoldingArea(part.transform);
+            ///give the part a random rotation
+            Vector3 euler = part.transform.eulerAngles;
+            euler.z = rotations[Random.Range(0, rotations.Length)];
+            part.transform.eulerAngles = euler;
         }
-        contactFilter.SetLayerMask(layerMask);
-        partCount = parts.Length;
     }
 
     private void FindPosInHoldingArea(Transform part)
@@ -47,7 +53,7 @@ public class PP_GameManager : MonoBehaviour {
 
     private int CalculateScore()
     {
-        return(numberOfTries - partCount) * scorePenalty + partCount * scoreBonus;
+        return(numberOfTries - parts.Length) * scorePenalty + parts.Length * scoreBonus;
     }
 
     private void GameFinished()
@@ -57,38 +63,47 @@ public class PP_GameManager : MonoBehaviour {
         DataCollector.UpdateScore(CalculateScore());
     }
 
-    internal void StartCheck(Transform puzzlePart)
+    internal void CheckPartPosition(Transform puzzlePart)
     {
         ///check if the piece is inside the puzzle area...
-        if (InPuzzleArea(puzzlePart.position))
+        if (puzzleArea.GetComponent<CompositeCollider2D>().bounds.Contains(puzzlePart.position))
         {
-            ///...find the cell it was put on...
-            Vector3 cellCenter = CellCenterFromClick(Input.mousePosition);
-            Vector2 newPos = new Vector2(cellCenter.x, cellCenter.y);
-            ///...put the piece exactly in the center...
-            puzzlePart.position = newPos;
-            ///...find out the correct position for the piece, adjusting for scaling of the tilemap...
-            Vector3 correctPos = puzzlePart.GetComponent<PP_PuzzlePartDisplay>().part.correctPosition;
-            float correctX = (correctPos).x * tilemap.transform.localScale.x;
-            float correctY = (correctPos).y * tilemap.transform.localScale.y;
-            Vector2 correctPosLocal = new Vector2(correctX, correctY);
-            ///check if the piece lies in its correct position
-            if (newPos == correctPosLocal)
+            if(puzzlePart.rotation.z == 0)
             {
-                print("correct");
-                ///stop the piece from being moved again
-                puzzlePart.GetComponent<Collider2D>().enabled = false;
-                correctParts++;
-                if (correctParts >= parts.Length)
+                ///...find the cell it was put on...
+                Vector3 cellCenter = CellCenterFromClick(Input.mousePosition);
+                Vector2 newPos = new Vector2(cellCenter.x, cellCenter.y);
+                ///...put the piece exactly in the center...
+                puzzlePart.position = newPos;
+                ///...find out the correct position for the piece, adjusting for scaling of the tilemap...
+                Vector2 correctPos = puzzlePart.GetComponent<PP_PuzzlePartDisplay>().correctPosition;
+                float correctX = (correctPos).x * puzzleArea.transform.localScale.x;
+                float correctY = (correctPos).y * puzzleArea.transform.localScale.y;
+                Vector2 correctPosLocal = new Vector2(correctX, correctY);
+                ///check if the piece lies in its correct position
+                if (newPos == correctPosLocal)
                 {
-                    GameFinished();
+                    print("correct");
+                    ///stop the piece from being moved again
+                    puzzlePart.GetComponent<Collider2D>().enabled = false;
+                    correctParts++;
+                    if (correctParts >= parts.Length)
+                    {
+                        GameFinished();
+                    }
+                }
+                else
+                {
+                    FindPosInHoldingArea(puzzlePart);
                 }
             }
-            ///if the piece lies incorrect, count as try
+            ///if the piece lies incorrect, put back in Holding Area
             else
             {
-                numberOfTries++;
+                FindPosInHoldingArea(puzzlePart);
             }
+            ///count the try
+            numberOfTries++;
         }
         ///if the piece is not within the puzzle area, put it back in the holding area
         else
@@ -100,27 +115,15 @@ public class PP_GameManager : MonoBehaviour {
     private Vector3 CellCenterFromClick(Vector3 mousePos)
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        Vector3Int cell = tilemap.WorldToCell(worldPos);
-        Vector3 cellCenter = tilemap.GetCellCenterWorld(cell);
+        Vector3Int cell = puzzleArea.WorldToCell(worldPos);
+        Vector3 cellCenter = puzzleArea.GetCellCenterWorld(cell);
         return cellCenter;
-    }
-
-    private bool InPuzzleArea(Vector3 pos)
-    {
-        if (tilemap.GetComponent<CompositeCollider2D>().bounds.Contains(pos))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
     
     private void RestartLevel()
     {
         ///puts the pieces back in the Holding area and enables their collider
-        foreach (PP_PuzzlePartDisplay part in parts)
+        foreach (GameObject part in parts)
         {
             part.GetComponent<Collider2D>().enabled = true;
             FindPosInHoldingArea(part.transform);
