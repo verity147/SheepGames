@@ -12,7 +12,7 @@ public class PP_GameManager : MonoBehaviour {
     private int correctParts = 0;
     private int numberOfTries = 0;
     private ContactFilter2D contactFilter;
-    private LayerMask layerMask = 10;
+    private LayerMask layerMask = 12;
     private int scorePenalty = 10;
     private int scoreBonus = 100;
     private readonly int[] rotations = { 0, 90, 180, 270 };
@@ -35,7 +35,7 @@ public class PP_GameManager : MonoBehaviour {
             ///give the part a random rotation
             Vector3 euler = part.transform.eulerAngles;
             euler.z = rotations[Random.Range(0, rotations.Length)];
-            part.transform.eulerAngles = euler;
+            //part.transform.eulerAngles = euler;
         }
     }
 
@@ -47,7 +47,7 @@ public class PP_GameManager : MonoBehaviour {
         part.localPosition = newPos;
         if (part.GetComponent<Collider2D>().IsTouching(contactFilter))
         {
-            //what did I want here???
+            FindPosInHoldingArea(part);
         }
     }
 
