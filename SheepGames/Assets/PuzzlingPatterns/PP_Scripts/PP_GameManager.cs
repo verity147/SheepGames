@@ -8,7 +8,7 @@ public class PP_GameManager : MonoBehaviour {
     public Tilemap puzzleArea;
 
     internal GameObject[] parts;
-    private BoxCollider2D coll;
+    private BoxCollider2D holdingArea;
     private int correctParts = 0;
     private int numberOfTries = 0;
     private ContactFilter2D contactFilter;
@@ -19,7 +19,7 @@ public class PP_GameManager : MonoBehaviour {
 
     private void Awake()
     {
-        coll = GetComponent<BoxCollider2D>();
+        holdingArea = GetComponent<BoxCollider2D>();
     }
 
     private void Start()
@@ -35,15 +35,16 @@ public class PP_GameManager : MonoBehaviour {
             ///give the part a random rotation
             Vector3 euler = part.transform.eulerAngles;
             euler.z = rotations[Random.Range(0, rotations.Length)];
-            //part.transform.eulerAngles = euler;
+            part.transform.eulerAngles = euler;
         }
     }
 
     private void FindPosInHoldingArea(Transform part)
     {
         ///get random point in bounds
-        Vector3 collExtents = coll.bounds.extents;
-        Vector3 newPos = new Vector3(Random.Range(-collExtents.x, collExtents.x), Random.Range(-collExtents.y, collExtents.y), 0f);
+        Vector3 collExtents = holdingArea.bounds.extents;
+        ///z needs to be in front of background and gamemanager because clicks don't get properly registered otherwise
+        Vector3 newPos = new Vector3(Random.Range(-collExtents.x, collExtents.x), Random.Range(-collExtents.y, collExtents.y), -1f);
         part.localPosition = newPos;
         if (part.GetComponent<Collider2D>().IsTouching(contactFilter))
         {
@@ -68,20 +69,22 @@ public class PP_GameManager : MonoBehaviour {
         ///check if the piece is inside the puzzle area...
         if (puzzleArea.GetComponent<CompositeCollider2D>().bounds.Contains(puzzlePart.position))
         {
-            if(puzzlePart.rotation.z == 0)
+            ///have to check if the rotation is where it's supposed to be since it can't always be exactly zero
+            if(puzzlePart.eulerAngles.z > -45 && puzzlePart.eulerAngles.z < 45)
             {
                 ///...find the cell it was put on...
                 Vector3 cellCenter = CellCenterFromClick(Input.mousePosition);
+                print("Cellcenter: "+cellCenter);
                 Vector2 newPos = new Vector2(cellCenter.x, cellCenter.y);
                 ///...put the piece exactly in the center...
                 puzzlePart.position = newPos;
-                ///...find out the correct position for the piece, adjusting for scaling of the tilemap...
+                ///...find out the correct position for the piece, converting to localscale
                 Vector2 correctPos = puzzlePart.GetComponent<PP_PuzzlePartDisplay>().correctPosition;
                 float correctX = (correctPos).x * puzzleArea.transform.localScale.x;
                 float correctY = (correctPos).y * puzzleArea.transform.localScale.y;
                 Vector2 correctPosLocal = new Vector2(correctX, correctY);
                 ///check if the piece lies in its correct position
-                if (newPos == correctPosLocal)
+                if (newPos == puzzlePart.GetComponent<PP_PuzzlePartDisplay>().correctPosition)
                 {
                     print("correct");
                     ///stop the piece from being moved again
@@ -94,20 +97,25 @@ public class PP_GameManager : MonoBehaviour {
                 }
                 else
                 {
+                    print("wrong position");
+                    ///count the try
+                    numberOfTries++;
                     FindPosInHoldingArea(puzzlePart);
                 }
             }
             ///if the piece lies incorrect, put back in Holding Area
             else
             {
+                print("rotated incorrectly");
+                ///count the try
+                numberOfTries++;
                 FindPosInHoldingArea(puzzlePart);
             }
-            ///count the try
-            numberOfTries++;
         }
         ///if the piece is not within the puzzle area, put it back in the holding area
         else
         {
+            print("not in puzzleArea");
             FindPosInHoldingArea(puzzlePart);
         }
     }

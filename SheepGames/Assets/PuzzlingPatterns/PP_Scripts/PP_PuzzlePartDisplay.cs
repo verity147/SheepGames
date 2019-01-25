@@ -10,7 +10,7 @@ public class PP_PuzzlePartDisplay : MonoBehaviour {
 
 
     internal PP_GameManager gameManager;
-    internal Vector2Int correctPosition = new Vector2Int(0, 0);
+    internal Vector2 correctPosition = new Vector2(0, 0);
     internal bool isPlaced = false;
 
     private bool isPressed = false;
@@ -23,11 +23,10 @@ public class PP_PuzzlePartDisplay : MonoBehaviour {
             transform.position = new Vector3(mousePos.x, mousePos.y, transform.position.z);
             if (Input.GetMouseButtonDown(1))
             {
-                ///on right mouseclick, rotate the part 45 degrees
+                ///on right mouseclick, rotate the part 90 degrees
                 Vector3 euler = transform.eulerAngles;
-                euler.z = transform.rotation.z + 45;
+                euler.z = transform.eulerAngles.z + 90;
                 transform.eulerAngles = euler;
-                print(GetComponent<SpriteRenderer>().sprite);
             }
         }
     }
@@ -35,7 +34,6 @@ public class PP_PuzzlePartDisplay : MonoBehaviour {
     private void OnMouseDown()
     {
         isPressed = true;
-        print("registered click: " + GetComponent<SpriteRenderer>().sprite);
     }
 
     private void OnMouseUp()
@@ -43,5 +41,6 @@ public class PP_PuzzlePartDisplay : MonoBehaviour {
         isPressed = false;
         gameManager.CheckPartPosition(transform);
     }
+
 
 }
