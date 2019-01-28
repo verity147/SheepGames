@@ -6,9 +6,12 @@ using UnityEngine;
 public class PP_GameManager : MonoBehaviour {
 
     public Tilemap puzzleArea;
+    public Tilemap holdingArea;
+    [Range(0, 64)]
+    public int prePlaceParts = 0;
 
     internal GameObject[] parts;
-    private BoxCollider2D holdingArea;
+    //private BoxCollider2D holdingArea;
     private int correctParts = 0;
     private int numberOfTries = 0;
     private ContactFilter2D contactFilter;
@@ -16,10 +19,11 @@ public class PP_GameManager : MonoBehaviour {
     private int scorePenalty = 10;
     private int scoreBonus = 100;
     private readonly int[] rotations = { 0, 90, 180, 270 };
+    private Bounds holdingAreaBounds;
 
     private void Awake()
     {
-        holdingArea = GetComponent<BoxCollider2D>();
+        holdingAreaBounds = holdingArea.GetComponent<CompositeCollider2D>().bounds;
     }
 
     private void Start()
@@ -29,23 +33,25 @@ public class PP_GameManager : MonoBehaviour {
 
     internal void FillHoldingArea()
     {
-        foreach (GameObject part in parts)
+        for (int i = 0; i < parts.Length; i++)
         {
-            FindPosInHoldingArea(part.transform);
+            FindPosInHoldingArea(parts[i].transform);
             ///give the part a random rotation
-            Vector3 euler = part.transform.eulerAngles;
+            Vector3 euler = parts[i].transform.eulerAngles;
             euler.z = rotations[Random.Range(0, rotations.Length)];
-            part.transform.eulerAngles = euler;
-        }
+            parts[i].transform.eulerAngles = euler;
+        }    
     }
 
     private void FindPosInHoldingArea(Transform part)
     {
         ///get random point in bounds
-        Vector3 collExtents = holdingArea.bounds.extents;
+        Vector3 collExtents = holdingAreaBounds.extents;
         ///z needs to be in front of background and gamemanager because clicks don't get properly registered otherwise
         Vector3 newPos = new Vector3(Random.Range(-collExtents.x, collExtents.x), Random.Range(-collExtents.y, collExtents.y), -1f);
-        part.localPosition = newPos;
+        newPos.x += holdingAreaBounds.center.x;
+        newPos.y += holdingAreaBounds.center.y;
+        part.position = newPos;
         if (part.GetComponent<Collider2D>().IsTouching(contactFilter))
         {
             FindPosInHoldingArea(part);
@@ -54,7 +60,7 @@ public class PP_GameManager : MonoBehaviour {
 
     private int CalculateScore()
     {
-        return(numberOfTries - parts.Length) * scorePenalty + parts.Length * scoreBonus;
+        return(numberOfTries - parts.Length - prePlaceParts) * scorePenalty + (parts.Length - prePlaceParts) * scoreBonus;
     }
 
     private void GameFinished()
@@ -115,7 +121,11 @@ public class PP_GameManager : MonoBehaviour {
         ///if the piece is not within the puzzle area, put it back in the holding area
         else
         {
-            print("not in puzzleArea");
+            ///it is assumed the player wanted to put this part here
+            if (holdingArea.GetComponent<CompositeCollider2D>().bounds.Contains(puzzlePart.position))
+                return;
+
+            print("not in puzzleArea or holding area");
             FindPosInHoldingArea(puzzlePart);
         }
     }

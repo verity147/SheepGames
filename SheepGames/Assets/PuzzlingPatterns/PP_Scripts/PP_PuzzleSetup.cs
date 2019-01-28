@@ -10,6 +10,7 @@ public class PP_PuzzleSetup : MonoBehaviour {
     public int puzzleWidthInCells = 8;
     [Range(1, 25)]
     public int puzzleHeightInCells = 8;
+
     
     public Tilemap puzzleArea;    
     [Tooltip("Needs to be the top left tile of the puzzle area")]
@@ -21,6 +22,7 @@ public class PP_PuzzleSetup : MonoBehaviour {
     private Sprite[] puzzlePicture;
     private PP_GameManager gameManager;
     private Vector2 puzzleSize;
+    private List<GameObject> parts;
 
     private void Awake()
     {
@@ -29,6 +31,7 @@ public class PP_PuzzleSetup : MonoBehaviour {
         //Sprite sprite = ImageConversion.LoadImage(stream);
         //puzzlePicture = (Sprite)Path.Combine(Application.streamingAssetsPath, "PP_PuzzlePicture.png");
         gameManager = FindObjectOfType<PP_GameManager>();
+        parts = new List<GameObject>();
     }
 
     private void Start()
@@ -37,12 +40,12 @@ public class PP_PuzzleSetup : MonoBehaviour {
         puzzleSize.y = puzzleArea.cellSize.y * puzzleHeightInCells;
         gameManager.parts = GeneratePartList().ToArray();
         gameManager.FillHoldingArea();
-
+        if (gameManager.prePlaceParts > 0)
+            PrePlaceParts();
     }
 
     private List<GameObject> GeneratePartList()
     {
-        List<GameObject> parts = new List<GameObject>();
         Vector2 nextPos = startingTile;
         foreach (Sprite picture in puzzlePicture)
         {
@@ -72,5 +75,18 @@ public class PP_PuzzleSetup : MonoBehaviour {
             nextPos.x = startingTile.x;
         }
         return nextPos;
+    }
+
+    private void PrePlaceParts()
+    {
+        for (int i = 0; i <= gameManager.prePlaceParts; i++)
+        {
+            int j = Random.Range(0, 64);
+
+            PP_PuzzlePartDisplay puzzlePart = parts[j].GetComponent<PP_PuzzlePartDisplay>();
+            puzzlePart.transform.eulerAngles = Vector3.zero;
+            puzzlePart.transform.position = puzzlePart.correctPosition;
+            puzzlePart.PrePlaced();
+        }
     }
 }

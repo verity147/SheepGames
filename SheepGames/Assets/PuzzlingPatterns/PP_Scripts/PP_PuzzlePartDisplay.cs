@@ -31,16 +31,29 @@ public class PP_PuzzlePartDisplay : MonoBehaviour {
         }
     }
 
-    private void OnMouseDown()
+    internal void PrePlaced()
     {
-        isPressed = true;
+        GetComponent<Collider2D>().enabled = false;
+        print("Chosen for pre-place: " + GetComponent<SpriteRenderer>().sprite);
     }
+
+    //private void OnMouseDown()
+    //{
+    //    isPressed = true;
+    //}
+
+    //private void OnMouseUp()
+    //{
+    //    isPressed = false;
+    //    gameManager.CheckPartPosition(transform);
+    //}
 
     private void OnMouseUp()
     {
-        isPressed = false;
-        gameManager.CheckPartPosition(transform);
+        isPressed = !isPressed;
+        if (isPressed == false)
+        {
+            gameManager.CheckPartPosition(transform);
+        }
     }
-
-
 }
