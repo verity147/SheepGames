@@ -12,7 +12,6 @@ public class PP_PuzzleSetup : MonoBehaviour {
     public int puzzleHeightInCells = 8;
 
     
-    public Tilemap puzzleArea;    
     [Tooltip("Needs to be the top left tile of the puzzle area")]
     public Vector2 startingTile;
     [Tooltip("Requires Sprite in multiple sprite mode, rows and columns matching the puzzlesize!")]
@@ -20,6 +19,7 @@ public class PP_PuzzleSetup : MonoBehaviour {
     public GameObject part;
 
     private Sprite[] puzzlePicture;
+    private Tilemap puzzleArea;    
     private PP_GameManager gameManager;
     private Vector2 puzzleSize;
     private List<GameObject> parts;
@@ -31,6 +31,7 @@ public class PP_PuzzleSetup : MonoBehaviour {
         //Sprite sprite = ImageConversion.LoadImage(stream);
         //puzzlePicture = (Sprite)Path.Combine(Application.streamingAssetsPath, "PP_PuzzlePicture.png");
         gameManager = FindObjectOfType<PP_GameManager>();
+        puzzleArea = gameManager.puzzleArea;
         parts = new List<GameObject>();
     }
 
@@ -79,14 +80,23 @@ public class PP_PuzzleSetup : MonoBehaviour {
 
     private void PrePlaceParts()
     {
-        for (int i = 0; i <= gameManager.prePlaceParts; i++)
-        {
-            int j = Random.Range(0, 64);
+        List<int> usedNumbers = new List<int>();
+        int newRandomNumber;
 
-            PP_PuzzlePartDisplay puzzlePart = parts[j].GetComponent<PP_PuzzlePartDisplay>();
-            puzzlePart.transform.eulerAngles = Vector3.zero;
-            puzzlePart.transform.position = puzzlePart.correctPosition;
-            puzzlePart.PrePlaced();
+        while (usedNumbers.Count < gameManager.prePlaceParts)
+        {
+            newRandomNumber = Random.Range(0, 64);
+
+            if (!usedNumbers.Contains(newRandomNumber))
+            {
+                usedNumbers.Add(newRandomNumber);
+                PP_PuzzlePartDisplay puzzlePart = parts[newRandomNumber].GetComponent<PP_PuzzlePartDisplay>();
+                puzzlePart.transform.eulerAngles = Vector3.zero;
+                puzzlePart.transform.position = puzzlePart.correctPosition;
+                puzzlePart.PrePlaced();
+            }
         }
     }
 }
+
+            

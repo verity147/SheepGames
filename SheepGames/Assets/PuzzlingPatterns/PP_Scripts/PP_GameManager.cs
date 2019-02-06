@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
+using TMPro;
 
 public class PP_GameManager : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class PP_GameManager : MonoBehaviour {
     public Tilemap holdingArea;
     [Range(0, 64)]
     public int prePlaceParts = 0;
+    public TMP_Text scoreText;
 
     internal GameObject[] parts;
     //private BoxCollider2D holdingArea;
@@ -106,6 +108,7 @@ public class PP_GameManager : MonoBehaviour {
                     print("wrong position");
                     ///count the try
                     numberOfTries++;
+                    scoreText.text = "Versuche: " + numberOfTries;
                     FindPosInHoldingArea(puzzlePart);
                 }
             }
@@ -115,6 +118,7 @@ public class PP_GameManager : MonoBehaviour {
                 print("rotated incorrectly");
                 ///count the try
                 numberOfTries++;
+                scoreText.text = "Versuche: " + numberOfTries;
                 FindPosInHoldingArea(puzzlePart);
             }
         }
