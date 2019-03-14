@@ -33,6 +33,15 @@ public class PP_GameManager : MonoBehaviour {
         contactFilter.SetLayerMask(layerMask);
     }
 
+    //DEBUG
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     internal void FillHoldingArea()
     {
         for (int i = 0; i < parts.Length; i++)
