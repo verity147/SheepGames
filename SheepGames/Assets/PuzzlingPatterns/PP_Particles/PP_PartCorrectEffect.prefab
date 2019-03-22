@@ -35,7 +35,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1771852348764816}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.5, y: 1.508, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -101,7 +101,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -492830678
+  randomSeed: 639541001
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -544,15 +544,15 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 5
     enabled: 1
-    type: 4
+    type: 5
     angle: 57.221424
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 0.7
+    radiusThickness: 1
     donutRadius: 0.21
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 0.9, y: 0.9, z: 0.9}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -1003,24 +1003,24 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.975, g: 0.5624892, b: 0.14332502, a: 1}
-        key1: {r: 1, g: 0.76348794, b: 0.222, a: 0.69411767}
-        key2: {r: 1, g: 0.92549026, b: 0.75294125, a: 0}
+        key0: {r: 1, g: 0.83006394, b: 0.44099998, a: 1}
+        key1: {r: 1, g: 0.92549026, b: 0.75294125, a: 0.69411767}
+        key2: {r: 0.9378456, g: 0.959, b: 0.959, a: 0}
         key3: {r: 1, g: 0.92549026, b: 0.75294125, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
-        ctime0: 771
-        ctime1: 34117
-        ctime2: 61680
+        ctime0: 8288
+        ctime1: 28142
+        ctime2: 63029
         ctime3: 48573
         ctime4: 0
         ctime5: 0
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 38550
+        atime1: 65535
         atime2: 0
         atime3: 0
         atime4: 0
@@ -3435,8 +3435,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 658809369
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -3449,8 +3449,8 @@ ParticleSystemRenderer:
   m_NormalDirection: 1
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
-  m_VertexStreams: 00010304
+  m_UseCustomVertexStreams: 1
+  m_VertexStreams: 000304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}

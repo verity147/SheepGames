@@ -11,6 +11,7 @@ public class PP_GameManager : MonoBehaviour {
     [Range(0, 64)]
     public int prePlaceParts = 0;
     public TMP_Text scoreText;
+    public ParticleSystem winParticle;
 
     internal GameObject[] parts;
     //private BoxCollider2D holdingArea;
@@ -99,6 +100,8 @@ public class PP_GameManager : MonoBehaviour {
                     ///stop the piece from being moved again
                     puzzlePart.GetComponent<Collider2D>().enabled = false;
                     correctParts++;
+                    winParticle.transform.position = puzzlePart.transform.position;
+                    winParticle.Play();
                     if (correctParts >= parts.Length)
                     {
                         GameFinished();
