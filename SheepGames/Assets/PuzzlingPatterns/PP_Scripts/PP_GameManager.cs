@@ -33,15 +33,6 @@ public class PP_GameManager : MonoBehaviour {
         contactFilter.SetLayerMask(layerMask);
     }
 
-    //DEBUG
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
-    }
-
     internal void FillHoldingArea()
     {
         for (int i = 0; i < parts.Length; i++)
@@ -59,7 +50,8 @@ public class PP_GameManager : MonoBehaviour {
         ///get random point in bounds
         Vector3 collExtents = holdingAreaBounds.extents;
         ///z needs to be in front of background and gamemanager because clicks don't get properly registered otherwise
-        Vector3 newPos = new Vector3(Random.Range(-collExtents.x, collExtents.x), Random.Range(-collExtents.y, collExtents.y), -1f);
+        Vector3 newPos = new Vector3(Random.Range(-collExtents.x + 1f, collExtents.x - 1f), 
+                                     Random.Range(-collExtents.y + 1f, collExtents.y - 1f), -1f);
         newPos.x += holdingAreaBounds.center.x;
         newPos.y += holdingAreaBounds.center.y;
         part.position = newPos;

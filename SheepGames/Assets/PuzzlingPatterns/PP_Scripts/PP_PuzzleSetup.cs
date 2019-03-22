@@ -27,9 +27,6 @@ public class PP_PuzzleSetup : MonoBehaviour {
     private void Awake()
     {
         puzzlePicture = Resources.LoadAll<Sprite>(pictureName);
-        //FileStream stream = new FileStream(Path.Combine(Application.streamingAssetsPath, "PP_PuzzlePicture.png"), FileMode.Open);
-        //Sprite sprite = ImageConversion.LoadImage(stream);
-        //puzzlePicture = (Sprite)Path.Combine(Application.streamingAssetsPath, "PP_PuzzlePicture.png");
         gameManager = FindObjectOfType<PP_GameManager>();
         puzzleArea = gameManager.puzzleArea;
         parts = new List<GameObject>();
@@ -39,6 +36,14 @@ public class PP_PuzzleSetup : MonoBehaviour {
     {
         puzzleSize.x = puzzleArea.cellSize.x * puzzleWidthInCells;
         puzzleSize.y = puzzleArea.cellSize.y * puzzleHeightInCells;
+
+        //if this is not the tutorial/startscreen
+        if(SceneHandler.GetSceneName() != "PP_GameLV_00")
+            DistributeParts();
+    }
+
+    public void DistributeParts()
+    {
         gameManager.parts = GeneratePartList().ToArray();
         gameManager.FillHoldingArea();
         if (gameManager.prePlaceParts > 0)
