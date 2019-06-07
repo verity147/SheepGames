@@ -34,7 +34,7 @@ public class PP_PuzzlePartDisplay : MonoBehaviour {
     internal void PrePlaced()
     {
         GetComponent<Collider2D>().enabled = false;
-        print("Chosen for pre-place: " + GetComponent<SpriteRenderer>().sprite);
+        //print("Chosen for pre-place: " + GetComponent<SpriteRenderer>().sprite);
     }
 
     private void OnMouseUp()

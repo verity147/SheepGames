@@ -26,11 +26,12 @@ public class PP_GameManager : MonoBehaviour {
 
     private void Awake()
     {
-        holdingAreaBounds = holdingArea.GetComponent<CompositeCollider2D>().bounds;
     }
 
     private void Start()
     {
+        holdingAreaBounds = holdingArea.GetComponent<CompositeCollider2D>().bounds;
+        print(holdingAreaBounds);
         contactFilter.SetLayerMask(layerMask);
     }
 
@@ -51,8 +52,8 @@ public class PP_GameManager : MonoBehaviour {
         ///get random point in bounds
         Vector3 collExtents = holdingAreaBounds.extents;
         ///z needs to be in front of background and gamemanager because clicks don't get properly registered otherwise
-        Vector3 newPos = new Vector3(Random.Range(-collExtents.x + 1f, collExtents.x - 1f), 
-                                     Random.Range(-collExtents.y + 1f, collExtents.y - 1f), -1f);
+        Vector3 newPos = new Vector3(Random.Range(-collExtents.x, collExtents.x), 
+                                     Random.Range(-collExtents.y, collExtents.y), -1f);
         newPos.x += holdingAreaBounds.center.x;
         newPos.y += holdingAreaBounds.center.y;
         part.position = newPos;
