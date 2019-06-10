@@ -1,0 +1,457 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c10c0be6d28fe4d539c4a39822fe301c, type: 3}
+  m_Name: Enemy1Ear
+  m_EditorClassIdentifier: 
+  m_ApiVersion: 4
+  m_Sprite: {fileID: 21300006, guid: 50edf58c9eeac0f42a81785d9244c021, type: 3}
+  m_SharedMesh: {fileID: 43693048354621120}
+  pivotPoint: {x: 0, y: 0}
+  texVertices: []
+  edges: []
+  holes: []
+  indices: 
+  bindPoses: []
+  m_SharedMaterials: []
+--- !u!43 &43693048354621120
+Mesh:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Enemy1Ear
+  serializedVersion: 8
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 27
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 11
+    localAABB:
+      m_Center: {x: 0.067755125, y: 0.010673299, z: 0}
+      m_Extent: {x: 0.18571427, y: 0.24642856, z: 0}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose:
+  - e00: 0.8777094
+    e01: 0.47919345
+    e02: 0
+    e03: 0.21705528
+    e10: -0.47919345
+    e11: 0.8777094
+    e12: 0
+    e13: 0.08296696
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+  - e00: 0.52468663
+    e01: 0.8512955
+    e02: 0
+    e03: -0.03090198
+    e10: -0.8512955
+    e11: 0.52468663
+    e12: 0
+    e13: 0.11317467
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 04000700060005000400060003000700040003000800070003000a00090002000a0003000100000002000a0002000000080003000900
+  m_Skin:
+  - weight[0]: 0.9995029
+    weight[1]: 0.00049707835
+    weight[2]: 0
+    weight[3]: 0
+    boneIndex[0]: 1
+    boneIndex[1]: 0
+    boneIndex[2]: 0
+    boneIndex[3]: 0
+  - weight[0]: 0.9993314
+    weight[1]: 0.00066859205
+    weight[2]: 0
+    weight[3]: 0
+    boneIndex[0]: 1
+    boneIndex[1]: 0
+    boneIndex[2]: 0
+    boneIndex[3]: 0
+  - weight[0]: 0.9995618
+    weight[1]: 0.00043822933
+    weight[2]: 0
+    weight[3]: 0
+    boneIndex[0]: 1
+    boneIndex[1]: 0
+    boneIndex[2]: 0
+    boneIndex[3]: 0
+  - weight[0]: 0.9725601
+    weight[1]: 0.027439903
+    weight[2]: 0
+    weight[3]: 0
+    boneIndex[0]: 0
+    boneIndex[1]: 1
+    boneIndex[2]: 0
+    boneIndex[3]: 0
+  - weight[0]: 0.9947906
+    weight[1]: 0.0052093593
+    weight[2]: 0
+    weight[3]: 0
+    boneIndex[0]: 0
+    boneIndex[1]: 1
+    boneIndex[2]: 0
+    boneIndex[3]: 0
+  - weight[0]: 0.99953276
+    weight[1]: 0.00046723484
+    weight[2]: 0
+    weight[3]: 0
+    boneIndex[0]: 0
+    boneIndex[1]: 1
+    boneIndex[2]: 0
+    boneIndex[3]: 0
+  - weight[0]: 0.9995236
+    weight[1]: 0.00047642406
+    weight[2]: 0
+    weight[3]: 0
+    boneIndex[0]: 0
+    boneIndex[1]: 1
+    boneIndex[2]: 0
+    boneIndex[3]: 0
+  - weight[0]: 0.969307
+    weight[1]: 0.030692976
+    weight[2]: 0
+    weight[3]: 0
+    boneIndex[0]: 0
+    boneIndex[1]: 1
+    boneIndex[2]: 0
+    boneIndex[3]: 0
+  - weight[0]: 0.62066203
+    weight[1]: 0.37933797
+    weight[2]: 0
+    weight[3]: 0
+    boneIndex[0]: 0
+    boneIndex[1]: 1
+    boneIndex[2]: 0
+    boneIndex[3]: 0
+  - weight[0]: 0.55916274
+    weight[1]: 0.44083726
+    weight[2]: 0
+    weight[3]: 0
+    boneIndex[0]: 1
+    boneIndex[1]: 0
+    boneIndex[2]: 0
+    boneIndex[3]: 0
+  - weight[0]: 0.99985856
+    weight[1]: 0.00014144917
+    weight[2]: 0
+    weight[3]: 0
+    boneIndex[0]: 1
+    boneIndex[1]: 0
+    boneIndex[2]: 0
+    boneIndex[3]: 0
+  m_VertexData:
+    m_CurrentChannels: 139
+    m_VertexCount: 11
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 1
+      offset: 0
+      format: 0
+      dimension: 2
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 24
+      format: 0
+      dimension: 4
+    m_DataSize: 536
+    _typelessdata: 92ec743edba2833e000000000000000000000000000080bf0000803ffca91eb400000000000080bf7518333edba2833e000000000000000000000000000080bf0000803f0000000000000000000080bf8b77243ecda4783e000000000000000000000000000080bf0000803ffdb7323200000000000080bfa8f3e2bdb7bd83bd000000000000000000000000000080bf0000803ffc648eb000000000000080bf9294f1bd1d24eabd000000000000000000000000000080bf0000803fdf86fb2e00000000000080bf9294f1bdeac862be000000000000000000000000000080bf0000803f5655153400000000000080bfa8f3e2bdd46971be000000000000000000000000000080bf0000803f3b4d7c3000000000000080bf84caff3dd46971be000000000000000000000000000080bf0000803fdd9b05b300000000000080bf33fb5e3e424528be000000000000000000000000000080bf0000803fcf91f1b200000000000080bfbec6813ef9b203be000000000000000000000000000080bf0000803f4de22bb000000000000080bfbec6813eb0d0363e000000000000000000000000000080bf0000803fac85483100000000000080bf00000000000000002cbe6b3f443f7f3f2c3e673f443f7f3f2c3e663f443f7e3f2c3e533f44bf683f2cbe523f443f653f2cbe523f44bf5d3f2c3e533f44bf5c3f2cbe633f44bf5c3f2c3e6a3f44bf613f2cbe6c3f443f643f2cbe6c3f44bf793f
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0.067755125, y: 0.010673299, z: 0}
+    m_Extent: {x: 0.18571427, y: 0.24642856, z: 0}
+  m_MeshUsageFlags: 0
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  m_MeshOptimized: 0
+--- !u!114 &114441113223530082
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e715ea371f114f4a8d2584ad476634d, type: 3}
+  m_Name: Enemy1Ear_Data
+  m_EditorClassIdentifier: 
+  m_PivotPoint: {x: 438, y: 474.5}
+  m_Vertices:
+  - {x: 471.48572, y: 510.49426}
+  - {x: 462.48572, y: 510.49426}
+  - {x: 460.48572, y: 508.49426}
+  - {x: 422.48572, y: 465.49426}
+  - {x: 421.48572, y: 458.49426}
+  - {x: 421.48572, y: 443.49426}
+  - {x: 422.48572, y: 441.49426}
+  - {x: 455.48572, y: 441.49426}
+  - {x: 468.48572, y: 451.49426}
+  - {x: 473.48572, y: 456.49426}
+  - {x: 473.48572, y: 499.49426}
+  m_BoneWeights:
+  - weight0: 0.9995029
+    weight1: 0.00049707835
+    weight2: 0
+    weight3: 0
+    boneIndex0: 1
+    boneIndex1: 0
+    boneIndex2: 0
+    boneIndex3: 0
+  - weight0: 0.9993314
+    weight1: 0.00066859205
+    weight2: 0
+    weight3: 0
+    boneIndex0: 1
+    boneIndex1: 0
+    boneIndex2: 0
+    boneIndex3: 0
+  - weight0: 0.9995618
+    weight1: 0.00043822933
+    weight2: 0
+    weight3: 0
+    boneIndex0: 1
+    boneIndex1: 0
+    boneIndex2: 0
+    boneIndex3: 0
+  - weight0: 0.9725601
+    weight1: 0.027439903
+    weight2: 0
+    weight3: 0
+    boneIndex0: 0
+    boneIndex1: 1
+    boneIndex2: 0
+    boneIndex3: 0
+  - weight0: 0.9947906
+    weight1: 0.0052093593
+    weight2: 0
+    weight3: 0
+    boneIndex0: 0
+    boneIndex1: 1
+    boneIndex2: 0
+    boneIndex3: 0
+  - weight0: 0.99953276
+    weight1: 0.00046723484
+    weight2: 0
+    weight3: 0
+    boneIndex0: 0
+    boneIndex1: 1
+    boneIndex2: 0
+    boneIndex3: 0
+  - weight0: 0.9995236
+    weight1: 0.00047642406
+    weight2: 0
+    weight3: 0
+    boneIndex0: 0
+    boneIndex1: 1
+    boneIndex2: 0
+    boneIndex3: 0
+  - weight0: 0.969307
+    weight1: 0.030692976
+    weight2: 0
+    weight3: 0
+    boneIndex0: 0
+    boneIndex1: 1
+    boneIndex2: 0
+    boneIndex3: 0
+  - weight0: 0.62066203
+    weight1: 0.37933797
+    weight2: 0
+    weight3: 0
+    boneIndex0: 0
+    boneIndex1: 1
+    boneIndex2: 0
+    boneIndex3: 0
+  - weight0: 0.55916274
+    weight1: 0.44083726
+    weight2: 0
+    weight3: 0
+    boneIndex0: 1
+    boneIndex1: 0
+    boneIndex2: 0
+    boneIndex3: 0
+  - weight0: 0.99985856
+    weight1: 0.00014144917
+    weight2: 0
+    weight3: 0
+    boneIndex0: 1
+    boneIndex1: 0
+    boneIndex2: 0
+    boneIndex3: 0
+  m_Edges:
+  - index1: 0
+    index2: 1
+  - index1: 1
+    index2: 2
+  - index1: 2
+    index2: 3
+  - index1: 3
+    index2: 4
+  - index1: 4
+    index2: 5
+  - index1: 5
+    index2: 6
+  - index1: 6
+    index2: 7
+  - index1: 7
+    index2: 8
+  - index1: 8
+    index2: 9
+  - index1: 9
+    index2: 10
+  - index1: 10
+    index2: 0
+  m_Holes: []
+  m_Indices: 040000000700000006000000050000000400000006000000030000000700000004000000030000000800000007000000030000000a00000009000000020000000a000000030000000100000000000000020000000a0000000200000000000000080000000300000009000000
+  m_BindPoses:
+  - bindPose:
+      e00: 0.8777094
+      e01: 0.47919345
+      e02: 0
+      e03: 0.21705528
+      e10: -0.47919345
+      e11: 0.8777094
+      e12: 0
+      e13: 0.08296696
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    boneLength: 0.30000004
+    path: EnemyTorso/EnemyNeck/EnemyHead/EnemyEar1
+    name: EnemyEar1
+    color: {r: 1, g: 0, b: 0, a: 1}
+    zOrder: 0
+  - bindPose:
+      e00: 0.52468663
+      e01: 0.8512955
+      e02: 0
+      e03: -0.03090198
+      e10: -0.8512955
+      e11: 0.52468663
+      e12: 0
+      e13: 0.11317467
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    boneLength: 0.19
+    path: EnemyTorso/EnemyNeck/EnemyHead/EnemyEar1/EnemyEar2
+    name: EnemyEar2
+    color: {r: 1, g: 0.75, b: 0, a: 1}
+    zOrder: 0
+  m_Blendshapes: []

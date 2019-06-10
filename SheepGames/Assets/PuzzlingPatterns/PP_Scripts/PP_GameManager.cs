@@ -13,6 +13,8 @@ public class PP_GameManager : MonoBehaviour {
     public TMP_Text scoreText;
     public ParticleSystem winParticle;
     public PP_UIHandler uIHandler;
+    public GameObject tutorialEndMenu;
+    public GameObject mouseFollowHelper;
 
     internal GameObject[] parts;
     //private BoxCollider2D holdingArea;
@@ -37,7 +39,8 @@ public class PP_GameManager : MonoBehaviour {
         print(holdingAreaBounds);
         contactFilter.SetLayerMask(layerMask);
         correctParts += prePlaceParts;
-        scoreText.text = "Versuche: " + numberOfTries;
+        if(scoreText != null)
+            scoreText.text = "Versuche: " + numberOfTries;
     }
 
     internal void FillHoldingArea()
@@ -77,9 +80,17 @@ public class PP_GameManager : MonoBehaviour {
 
     private void GameFinished()
     {
+        if (SceneHandler.GetSceneName() == "PP_GameLV_00")
+        {
+            tutorialEndMenu.SetActive(true);
+            return;
+        }
         DataCollector.UpdateScore(CalculateScore());
-        uIHandler.BuildLevelEndMenu();
-        print("You did it!");
+        if(uIHandler != null)
+        {
+            uIHandler.BuildLevelEndMenu();
+            mouseFollowHelper.SetActive(false);
+        }
     }
 
     internal void CheckPartPosition(Transform puzzlePart)
@@ -88,7 +99,8 @@ public class PP_GameManager : MonoBehaviour {
         if (puzzleArea.GetComponent<CompositeCollider2D>().bounds.Contains(puzzlePart.position))
         {
             numberOfTries++;
-            scoreText.text = "Versuche: " + numberOfTries;
+            if (scoreText != null)
+                scoreText.text = "Versuche: " + numberOfTries;
             ///have to check if the rotation is where it's supposed to be since it can't always be exactly zero
             if (puzzlePart.eulerAngles.z > -45 && puzzlePart.eulerAngles.z < 45)
             {
