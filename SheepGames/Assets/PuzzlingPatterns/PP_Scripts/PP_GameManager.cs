@@ -12,27 +12,32 @@ public class PP_GameManager : MonoBehaviour {
     public int prePlaceParts = 0;
     public TMP_Text scoreText;
     public ParticleSystem winParticle;
+    public PP_UIHandler uIHandler;
 
     internal GameObject[] parts;
     //private BoxCollider2D holdingArea;
     private int correctParts = 0;
     private int numberOfTries = 0;
+    private int numberOfFalseTries = 0;
     private ContactFilter2D contactFilter;
     private LayerMask layerMask = 12;
-    private int scorePenalty = 10;
-    private int scoreBonus = 100;
+    private readonly int scorePenalty = 8;
+    private readonly int scoreBonus = 24; /// three wrong tries will negate one correct try
     private readonly int[] rotations = { 0, 90, 180, 270 };
     private Bounds holdingAreaBounds;
 
+
     private void Awake()
     {
+        holdingAreaBounds = holdingArea.GetComponent<CompositeCollider2D>().bounds;
     }
 
     private void Start()
     {
-        holdingAreaBounds = holdingArea.GetComponent<CompositeCollider2D>().bounds;
         print(holdingAreaBounds);
         contactFilter.SetLayerMask(layerMask);
+        correctParts += prePlaceParts;
+        scoreText.text = "Versuche: " + numberOfTries;
     }
 
     internal void FillHoldingArea()
@@ -65,14 +70,16 @@ public class PP_GameManager : MonoBehaviour {
 
     private int CalculateScore()
     {
-        return(numberOfTries - parts.Length - prePlaceParts) * scorePenalty + (parts.Length - prePlaceParts) * scoreBonus;
+        print(numberOfTries);
+        print(numberOfFalseTries);
+        return ((numberOfTries-numberOfFalseTries) * scoreBonus) - (numberOfFalseTries * scorePenalty);
     }
 
     private void GameFinished()
     {
-        //do stuff, open menu
-        print("You did it!");
         DataCollector.UpdateScore(CalculateScore());
+        uIHandler.BuildLevelEndMenu();
+        print("You did it!");
     }
 
     internal void CheckPartPosition(Transform puzzlePart)
@@ -80,12 +87,13 @@ public class PP_GameManager : MonoBehaviour {
         ///check if the piece is inside the puzzle area...
         if (puzzleArea.GetComponent<CompositeCollider2D>().bounds.Contains(puzzlePart.position))
         {
+            numberOfTries++;
+            scoreText.text = "Versuche: " + numberOfTries;
             ///have to check if the rotation is where it's supposed to be since it can't always be exactly zero
-            if(puzzlePart.eulerAngles.z > -45 && puzzlePart.eulerAngles.z < 45)
+            if (puzzlePart.eulerAngles.z > -45 && puzzlePart.eulerAngles.z < 45)
             {
                 ///...find the cell it was put on...
                 Vector3 cellCenter = CellCenterFromClick(Input.mousePosition);
-                print("Cellcenter: "+cellCenter);
                 Vector2 newPos = new Vector2(cellCenter.x, cellCenter.y);
                 ///...put the piece exactly in the center...
                 puzzlePart.position = newPos;
@@ -111,8 +119,8 @@ public class PP_GameManager : MonoBehaviour {
                 else
                 {
                     print("wrong position");
-                    ///count the try
-                    numberOfTries++;
+                    ///count to false tries
+                    numberOfFalseTries++;
                     scoreText.text = "Versuche: " + numberOfTries;
                     FindPosInHoldingArea(puzzlePart);
                 }
@@ -121,9 +129,8 @@ public class PP_GameManager : MonoBehaviour {
             else
             {
                 print("rotated incorrectly");
-                ///count the try
-                numberOfTries++;
-                scoreText.text = "Versuche: " + numberOfTries;
+                ///count to false tries
+                numberOfFalseTries++;
                 FindPosInHoldingArea(puzzlePart);
             }
         }

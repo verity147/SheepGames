@@ -21,7 +21,7 @@ public class HighscoreHandler : MonoBehaviour
         ///Highscore Handler is needed in every game scene,
         ///so it uses a singleton pattern to ensure it is always available and exists only once
         if (highscorehandler == null)
-        {
+        {            
             highscorehandler = this;
         }
         else if (highscorehandler != this)
