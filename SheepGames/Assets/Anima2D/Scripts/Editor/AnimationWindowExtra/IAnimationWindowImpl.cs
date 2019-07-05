@@ -17,6 +17,4 @@ public interface IAnimationWindowImpl
 	void InitializeReflection();
 	float FrameToTime(int frame);
 	float TimeToFrame(float time);
-	void CreateDefaultCurve(EditorCurveBinding binding);
-	void AddKey(EditorCurveBinding binding, float time);
 }
