@@ -24,7 +24,7 @@ public class PP_GameManager : MonoBehaviour {
     private ContactFilter2D contactFilter;
     private LayerMask layerMask = 12;
     private readonly int scorePenalty = 8;
-    private readonly int scoreBonus = 24; /// three wrong tries will negate one correct try
+    private readonly int scoreBonus = 20;
     private readonly int[] rotations = { 0, 90, 180, 270 };
     private Bounds holdingAreaBounds;
 

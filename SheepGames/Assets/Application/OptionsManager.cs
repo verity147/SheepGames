@@ -75,6 +75,7 @@ public class OptionsManager : MonoBehaviour {
     }
     public void ChangeLanguageIndex(int index)
     {
+        print("changing to index " + index);
         SaveLanguageSetting(languageFiles[index]);
     }
 
