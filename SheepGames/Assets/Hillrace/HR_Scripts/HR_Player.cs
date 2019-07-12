@@ -7,6 +7,7 @@ public class HR_Player : MonoBehaviour
     public float runSpeed = 10f;
     public float aircontrolSpeed = 10f;
     public float jumpforce = 10f;
+    public float maxYspeed = 10f;
 
     internal bool isGrounded;
 
@@ -47,6 +48,10 @@ public class HR_Player : MonoBehaviour
             myRigidbody.velocity = Vector2.up * jumpforce;
         }
 
+        if (myRigidbody.velocity.y > maxYspeed)
+        {
+            myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, maxYspeed);
+        }
     }
 
     private void Flip()
