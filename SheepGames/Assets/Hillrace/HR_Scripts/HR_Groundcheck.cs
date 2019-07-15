@@ -5,25 +5,17 @@ using UnityEngine;
 public class HR_Groundcheck : MonoBehaviour
 {
     private HR_Player player;
+    private Collider2D myCollider;
 
     private void Awake()
     {
         player = GetComponentInParent<HR_Player>();
+        myCollider = GetComponent<Collider2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Update()
     {
-        if (collision.gameObject.layer == 15)
-        {
-            player.isGrounded = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.layer == 15)
-        {
-            player.isGrounded = false;
-        }
+        ///add more layers here if the player is supposed to be able to jump from anywhere else
+        player.isGrounded = myCollider.IsTouchingLayers(LayerMask.GetMask("Ground"));
     }
 }
