@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class HR_Bonbon : MonoBehaviour
 {
-    public HR_Gamemanager gameManager;
+    internal HR_Gamemanager gameManager;
 
-    private void Awake()
-    {
-        gameManager = FindObjectOfType<HR_Gamemanager>();
-    }
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
