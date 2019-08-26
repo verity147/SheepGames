@@ -28,5 +28,9 @@ namespace Anima2D
 			get { return m_SharedMesh; }
 			private set { m_SharedMesh = value; }
 		}
+
+		//Needed for upgrade 4
+		[SerializeField, HideInInspector] Material[] m_SharedMaterials;
+		
 	}
 }
