@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class HR_Player : MonoBehaviour
 {
-    public float runSpeed = 10f;
+    public float maxRunSpeed = 10f;
+    public float accelTime = 2f;        //lerpTime
     public float aircontrolSpeed = 10f;
     public float jumpforce = 10f;
     public float maxYspeed = 10f;
@@ -19,6 +20,8 @@ public class HR_Player : MonoBehaviour
     private float startY;
     private float normalGravity;
     private bool jump = false;
+    private float currentLerpTime = 0f;
+    private float lerpStep;
 
     private void Awake()
     {
@@ -26,38 +29,39 @@ public class HR_Player : MonoBehaviour
         normalGravity = myRigidbody.gravityScale;
     }
 
-    private void FixedUpdate()
-    {
-        if (Input.GetAxisRaw("Horizontal") > Mathf.Abs(0.01f))
-        {
-            Move();
-        }
-
-        if (lookRight == false && Input.GetAxisRaw("Horizontal") > 0)
-        {
-            Flip();
-        }
-        else if (lookRight == true && Input.GetAxisRaw("Horizontal") < 0)
-        {
-            Flip();
-        }
-    }
-
-    private void Move()
-    {
-        //StartCoroutine(WalkThenRun(moveInput));
-        if (isGrounded)
-        {
-            myRigidbody.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * runSpeed, myRigidbody.velocity.y);
-        }
-        else if (!isGrounded)
-        {
-            myRigidbody.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * aircontrolSpeed, myRigidbody.velocity.y);
-        }
-    }
-
     private void Update()
     {
+        if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right"))
+        {
+            currentLerpTime = 0f;
+        }
+
+        if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.01f)
+        {
+            currentLerpTime += Time.deltaTime;
+            float runSpeed;
+            if (currentLerpTime < accelTime)
+            {
+                lerpStep = currentLerpTime / accelTime;
+                ///smoother curves for the speed
+                //lerpStep = lerpStep * lerpStep * lerpStep * (lerpStep * (6f * lerpStep - 15f) + 10f);
+                //lerpStep = lerpStep * lerpStep * (3f - 2f * lerpStep);
+                lerpStep = Mathf.Sin(lerpStep * Mathf.PI * 0.5f);
+                runSpeed = Mathf.Lerp(0f, maxRunSpeed, lerpStep);
+                Move(runSpeed);
+            }
+            else
+            {
+                Move(maxRunSpeed);
+            }
+        }
+
+        //stop the player
+        if(Input.GetButtonUp("Left") || Input.GetButtonUp("Right") || Input.GetButton("Left") && Input.GetButton("Right"))
+        {
+            myRigidbody.velocity = new Vector2(0f, myRigidbody.velocity.y);
+        }
+
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             startY = transform.position.y;
@@ -69,7 +73,7 @@ public class HR_Player : MonoBehaviour
         {
             if (Input.GetButton("Jump") && transform.position.y <= startY + maxJumpHeight)
             {
-                myRigidbody.velocity = Vector2.up * jumpforce;
+                myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * 0.8f, jumpforce);
             }
 
             if (transform.position.y >= startY + maxJumpHeight || Input.GetButtonUp("Jump"))
@@ -85,14 +89,32 @@ public class HR_Player : MonoBehaviour
         }
     }
 
-  
-    private IEnumerator WalkThenRun(float moveInput)
+    private void FixedUpdate()
     {
 
-        yield return null;
+        if (lookRight == false && Input.GetAxisRaw("Horizontal") > 0)
+        {
+            Flip();
+        }
+        else if (lookRight == true && Input.GetAxisRaw("Horizontal") < 0)
+        {
+            Flip();
+        }
     }
 
-    private void Flip()
+    private void Move(float runSpeed)
+    {
+        if (isGrounded)
+        {
+            myRigidbody.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * runSpeed, myRigidbody.velocity.y);
+        }
+        else if (!isGrounded)
+        {
+            myRigidbody.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * aircontrolSpeed, myRigidbody.velocity.y);
+        }
+    }
+
+     private void Flip()
     {
         lookRight = !lookRight;
         Vector3 scale = transform.localScale;
