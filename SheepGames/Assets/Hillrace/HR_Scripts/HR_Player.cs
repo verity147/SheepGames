@@ -16,6 +16,7 @@ public class HR_Player : MonoBehaviour
     internal bool isGrounded;
 
     private Rigidbody2D myRigidbody;
+    private Animator myAnimator;
     private bool lookRight = true;
     private float startY;
     private float normalGravity;
@@ -26,6 +27,7 @@ public class HR_Player : MonoBehaviour
     private void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
+        myAnimator = GetComponent<Animator>();
         normalGravity = myRigidbody.gravityScale;
     }
 
@@ -39,9 +41,9 @@ public class HR_Player : MonoBehaviour
         if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.01f)
         {
             currentLerpTime += Time.deltaTime;
-            float runSpeed;
             if (currentLerpTime < accelTime)
             {
+                float runSpeed;
                 lerpStep = currentLerpTime / accelTime;
                 ///smoother curves for the speed
                 //lerpStep = lerpStep * lerpStep * lerpStep * (lerpStep * (6f * lerpStep - 15f) + 10f);
@@ -54,6 +56,7 @@ public class HR_Player : MonoBehaviour
             {
                 Move(maxRunSpeed);
             }
+            myAnimator.SetFloat("hSpeed", runSpeed);
         }
 
         //stop the player
@@ -87,6 +90,7 @@ public class HR_Player : MonoBehaviour
         {
             myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, maxYspeed);
         }
+
     }
 
     private void FixedUpdate()
