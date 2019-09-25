@@ -56,7 +56,6 @@ public class HR_Player : MonoBehaviour
             {
                 Move(maxRunSpeed);
             }
-            myAnimator.SetFloat("hSpeed", runSpeed);
         }
 
         //stop the player
@@ -67,6 +66,7 @@ public class HR_Player : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
+            myAnimator.SetTrigger("jump");
             startY = transform.position.y;
             myRigidbody.gravityScale = jumpGravity;
             jump = true;
@@ -90,6 +90,9 @@ public class HR_Player : MonoBehaviour
         {
             myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, maxYspeed);
         }
+        myAnimator.SetFloat("hSpeed", myRigidbody.velocity.x);
+        myAnimator.SetFloat("vSpeed", myRigidbody.velocity.y);
+        myAnimator.SetBool("grounded", isGrounded);
 
     }
 
