@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Anima2D;
 
 public class HR_Player : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class HR_Player : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         normalGravity = myRigidbody.gravityScale;
+        //GetComponentInChildren<SpriteMeshAnimation>().frame = 1;
     }
 
     private void Update()

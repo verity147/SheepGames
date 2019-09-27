@@ -18,12 +18,7 @@ public class HR_BonbonManager : MonoBehaviour
     {
         foreach (HR_Bonbon bonbon in bonbons)
         {
-            Lick(bonbon);
+            bonbon.gameManager = gamemanager;
         }   
-    }
-
-    private void Lick(HR_Bonbon bonbon)
-    {
-        bonbon.gameManager = gamemanager;
     }
 }
