@@ -12,8 +12,23 @@ public class HR_Trough : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
     }
-    private void OnTriggerStay2D(Collider2D collision)
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    animator.SetBool("drinking", player.drinking);
+    //}
+
+    private void Update()
     {
-        animator.SetBool("drinking", player.drinking);
+        if (player.drinking)
+        {
+            animator.SetBool("drinking", true);
+            if (Input.GetButtonUp("Down"))
+            {
+                animator.SetBool("drinking", false);
+
+            }
+        }
+
+       
     }
 }
