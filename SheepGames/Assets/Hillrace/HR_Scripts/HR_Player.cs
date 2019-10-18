@@ -13,6 +13,7 @@ public class HR_Player : MonoBehaviour
     public float jumpforce = 10f;
     public float maxYspeed = 10f;
     public float maxJumpHeight = 10f;
+    public float maxSwimJumpHeight = 10f;
     public float jumpGravity = 1f;
     public float swimJumpGravity = 1f;
 
@@ -29,6 +30,7 @@ public class HR_Player : MonoBehaviour
     private bool jump = false;
     private float currentLerpTime = 0f;
     private float lerpStep;
+    private float jumpHeight;
 
     private void Awake()
     {
@@ -39,8 +41,17 @@ public class HR_Player : MonoBehaviour
         //GetComponentInChildren<SpriteMeshAnimation>().frame = 1;
     }
 
+    private void Start()
+    {
+        jumpHeight = maxJumpHeight;
+    }
+
     private void Update()
     {
+        if (drinking)
+        {
+            myRigidbody.velocity = Vector2.zero;
+        }
 
         ///prevent movement while drinking
         if (!drinking)
@@ -66,6 +77,7 @@ public class HR_Player : MonoBehaviour
                 myAnimator.SetTrigger("Jump");
                 startY = transform.position.y;
                 myRigidbody.gravityScale = isSwimming ? swimJumpGravity : jumpGravity;
+                jumpHeight = isSwimming ? maxSwimJumpHeight : maxJumpHeight;
                 jump = true;
             }
 
@@ -73,12 +85,12 @@ public class HR_Player : MonoBehaviour
 
         if (jump)
         {
-            if (Input.GetButton("Jump") && transform.position.y <= startY + maxJumpHeight)
+            if (Input.GetButton("Jump") && transform.position.y <= startY + jumpHeight)
             {
                 myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * 0.8f, jumpforce);
             }
 
-            if (transform.position.y >= startY + maxJumpHeight || Input.GetButtonUp("Jump"))
+            if (transform.position.y >= startY + jumpHeight || Input.GetButtonUp("Jump"))
             {
                 jump = false;
                 myRigidbody.gravityScale = normalGravity;
@@ -160,10 +172,13 @@ public class HR_Player : MonoBehaviour
 
     private void Flip()
     {
-        lookRight = !lookRight;
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
+        if (!drinking)
+        {
+            lookRight = !lookRight;
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+        }
     }
 
    
