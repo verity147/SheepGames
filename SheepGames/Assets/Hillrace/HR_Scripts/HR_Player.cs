@@ -7,14 +7,17 @@ using Anima2D;
 public class HR_Player : MonoBehaviour
 {
     public float maxRunSpeed = 10f;
+    public float swimSpeed = 4f;
     public float accelTime = 2f;        //lerpTime
     public float aircontrolSpeed = 10f;
     public float jumpforce = 10f;
     public float maxYspeed = 10f;
     public float maxJumpHeight = 10f;
-    public float jumpGravity;
+    public float jumpGravity = 1f;
+    public float swimJumpGravity = 1f;
 
     internal bool isGrounded;
+    internal bool isSwimming;
     internal bool drinkingAllowed = false;
     internal bool drinking = false;
 
@@ -38,6 +41,7 @@ public class HR_Player : MonoBehaviour
 
     private void Update()
     {
+
         ///prevent movement while drinking
         if (!drinking)
         {
@@ -61,9 +65,10 @@ public class HR_Player : MonoBehaviour
             {
                 myAnimator.SetTrigger("Jump");
                 startY = transform.position.y;
-                myRigidbody.gravityScale = jumpGravity;
+                myRigidbody.gravityScale = isSwimming ? swimJumpGravity : jumpGravity;
                 jump = true;
             }
+
         }
 
         if (jump)
@@ -102,28 +107,7 @@ public class HR_Player : MonoBehaviour
         myAnimator.SetFloat("hSpeed", Mathf.Abs(myRigidbody.velocity.x));
         myAnimator.SetFloat("vSpeed", myRigidbody.velocity.y);
         myAnimator.SetBool("grounded", isGrounded);
-    }
-
-    private void ManageRunSpeed()
-    {
-        currentLerpTime += Time.deltaTime;
-        if (currentLerpTime < accelTime)
-        {
-            float runSpeed;
-            lerpStep = currentLerpTime / accelTime;
-            lerpStep = Mathf.Sin(lerpStep * Mathf.PI * 0.5f);
-            runSpeed = Mathf.Lerp(0f, maxRunSpeed, lerpStep);
-            Move(runSpeed);
-        }
-        else
-        {
-            Move(maxRunSpeed);
-        }
-    }
-
-    private void Drink()
-    {
-        throw new NotImplementedException();
+        myAnimator.SetBool("swimming", isSwimming);
     }
 
     private void FixedUpdate()
@@ -137,6 +121,29 @@ public class HR_Player : MonoBehaviour
         {
             Flip();
         }
+    }
+
+
+    private void ManageRunSpeed()
+    {
+        currentLerpTime += Time.deltaTime;
+        if (currentLerpTime < accelTime)
+        {
+            float runSpeed;
+            lerpStep = currentLerpTime / accelTime;
+            lerpStep = Mathf.Sin(lerpStep * Mathf.PI * 0.5f);
+            runSpeed = Mathf.Lerp(0f, isSwimming ? swimSpeed : maxRunSpeed, lerpStep);
+            Move(runSpeed);
+        }
+        else
+        {
+            Move(isSwimming ? swimSpeed : maxRunSpeed);
+        }
+    }
+
+    private void Drink()
+    {
+        throw new NotImplementedException();
     }
 
     private void Move(float runSpeed)

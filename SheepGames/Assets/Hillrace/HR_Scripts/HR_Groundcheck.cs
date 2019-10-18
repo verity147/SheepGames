@@ -16,6 +16,8 @@ public class HR_Groundcheck : MonoBehaviour
     private void Update()
     {
         ///add more layers here if the player is supposed to be able to jump from anywhere else
-        player.isGrounded = myCollider.IsTouchingLayers(LayerMask.GetMask("Ground"));
+        player.isGrounded = myCollider.IsTouchingLayers(LayerMask.GetMask("Ground"))|| 
+                            myCollider.IsTouchingLayers(LayerMask.GetMask("Water"));
+        player.isSwimming = myCollider.IsTouchingLayers(LayerMask.GetMask("Water"));
     }
 }

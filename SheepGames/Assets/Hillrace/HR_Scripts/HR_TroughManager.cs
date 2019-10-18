@@ -20,4 +20,5 @@ public class HR_TroughManager : MonoBehaviour
             trough.player = player;
         }
     }
+
 }

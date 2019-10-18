@@ -5,21 +5,19 @@ using UnityEngine;
 public class HR_Trough : MonoBehaviour
 {
     private Animator animator;
+    internal BoxCollider2D boxCollider;
 
     internal HR_Player player;
 
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
-    //private void OnTriggerStay2D(Collider2D collision)
-    //{
-    //    animator.SetBool("drinking", player.drinking);
-    //}
 
     private void Update()
     {
-        if (player.drinking)
+        if (player.drinking && boxCollider.IsTouchingLayers(LayerMask.GetMask("Player")))
         {
             animator.SetBool("drinking", true);
             if (Input.GetButtonUp("Down"))
@@ -27,8 +25,8 @@ public class HR_Trough : MonoBehaviour
                 animator.SetBool("drinking", false);
 
             }
-        }
-
-       
+        }       
     }
+
+
 }
