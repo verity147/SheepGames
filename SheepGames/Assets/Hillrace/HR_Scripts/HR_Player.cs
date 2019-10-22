@@ -16,8 +16,25 @@ public class HR_Player : MonoBehaviour
     public float maxSwimJumpHeight = 10f;
     public float jumpGravity = 1f;
     public float swimJumpGravity = 1f;
+    public float fallStunTime = 0.5f;
 
-    internal bool isGrounded;
+    private bool isGrounded;
+    public bool IsGrounded
+    {
+        get { return isGrounded;  }
+        set
+        {
+            if(value == isGrounded)
+            {
+                return;
+            }
+            isGrounded = value;
+            if (isGrounded)
+            {
+                fallDuration = 0f;
+            }
+        }
+    }
     internal bool isSwimming;
     internal bool drinkingAllowed = false;
     internal bool drinking = false;
@@ -25,12 +42,14 @@ public class HR_Player : MonoBehaviour
     private Rigidbody2D myRigidbody;
     private Animator myAnimator;
     private bool lookRight = true;
+    private bool stun = false;
+    private bool jump = false;
     private float startY;
     private float normalGravity;
-    private bool jump = false;
     private float currentLerpTime = 0f;
     private float lerpStep;
     private float jumpHeight;
+    private float fallDuration = 0f;
 
     private void Awake()
     {
@@ -54,7 +73,7 @@ public class HR_Player : MonoBehaviour
         }
 
         ///prevent movement while drinking
-        if (!drinking)
+        if (!drinking && !stun)
         {
             if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right"))
             {
@@ -72,7 +91,7 @@ public class HR_Player : MonoBehaviour
                 myRigidbody.velocity = new Vector2(0f, myRigidbody.velocity.y);
             }
 
-            if (Input.GetButtonDown("Jump") && isGrounded)
+            if (Input.GetButtonDown("Jump") && IsGrounded)
             {
                 myAnimator.SetTrigger("Jump");
                 startY = transform.position.y;
@@ -97,6 +116,19 @@ public class HR_Player : MonoBehaviour
             }
         }
 
+        if(myRigidbody.velocity.y < 0 && !IsGrounded)
+        {
+            fallDuration += Time.deltaTime;
+        }
+
+        if (fallDuration >= fallStunTime)
+        {
+            myAnimator.SetBool("fall", true);
+            fallDuration = 0f;
+            stun = true;
+            print("stun");
+        }
+
         if (myRigidbody.velocity.y > maxYspeed)
         {
             myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, maxYspeed);
@@ -118,7 +150,7 @@ public class HR_Player : MonoBehaviour
 
         myAnimator.SetFloat("hSpeed", Mathf.Abs(myRigidbody.velocity.x));
         myAnimator.SetFloat("vSpeed", myRigidbody.velocity.y);
-        myAnimator.SetBool("grounded", isGrounded);
+        myAnimator.SetBool("grounded", IsGrounded);
         myAnimator.SetBool("swimming", isSwimming);
     }
 
@@ -160,11 +192,11 @@ public class HR_Player : MonoBehaviour
 
     private void Move(float runSpeed)
     {
-        if (isGrounded)
+        if (IsGrounded)
         {
             myRigidbody.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * runSpeed, myRigidbody.velocity.y);
         }
-        else if (!isGrounded)
+        else if (!IsGrounded)
         {
             myRigidbody.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * aircontrolSpeed, myRigidbody.velocity.y);
         }
@@ -172,7 +204,7 @@ public class HR_Player : MonoBehaviour
 
     private void Flip()
     {
-        if (!drinking)
+        if (!drinking && !stun)
         {
             lookRight = !lookRight;
             Vector3 scale = transform.localScale;
@@ -181,5 +213,9 @@ public class HR_Player : MonoBehaviour
         }
     }
 
-   
+    private void StunOver()
+    {
+        stun = false;
+        myAnimator.SetBool("fall", false);
+    }
 }
