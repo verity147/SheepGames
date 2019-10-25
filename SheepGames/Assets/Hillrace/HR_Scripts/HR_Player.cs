@@ -7,7 +7,7 @@ public class HR_Player : MonoBehaviour
 {
     public float maxRunSpeed = 10f;
     public float swimSpeed = 4f;
-    public float accelTime = 2f;        //lerpTime
+    public float accelTime = 2f;        ///lerpTime
     public float aircontrolSpeed = 10f;
     public float jumpforce = 10f;
     public float maxYspeed = 10f;
@@ -33,7 +33,7 @@ public class HR_Player : MonoBehaviour
                 fallDuration = 0f;
             }
         }
-    }
+    } ///resets fallDuration on change
     internal bool isSwimming;
     internal bool drinkingAllowed = false;
     internal bool drinking = false;
@@ -49,14 +49,14 @@ public class HR_Player : MonoBehaviour
     private float lerpStep;
     private float jumpHeight;
     private float fallDuration = 0f;
+    private float drinkTime = 0f;
+    private float maxDrinkTime = 2f;
 
     private void Awake()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
         normalGravity = myRigidbody.gravityScale;
-        //face change
-        //GetComponentInChildren<SpriteMeshAnimation>().frame = 1;
     }
 
     private void Start()
@@ -69,6 +69,13 @@ public class HR_Player : MonoBehaviour
         if (drinking)
         {
             myRigidbody.velocity = Vector2.zero;
+            drinkTime += Time.deltaTime;
+            if(drinkTime > maxDrinkTime)
+            {
+                drinkTime = maxDrinkTime;
+            }
+            float perc = drinkTime / maxDrinkTime;
+            GetComponentInChildren<HR_PlayerCanvas>().drinkMeter.value = perc;
         }
 
         ///prevent movement while drinking
@@ -138,13 +145,14 @@ public class HR_Player : MonoBehaviour
             myAnimator.SetTrigger("drink");
             myAnimator.SetBool("drinking", true);
             drinking = true;
-
+            GetComponentInChildren<HR_PlayerCanvas>().Visible();
         }
 
         if (Input.GetButtonUp("Down"))
         {
             myAnimator.SetBool("drinking", false);
             drinking = false;
+            drinkTime = 0f;
         }
 
         myAnimator.SetFloat("hSpeed", Mathf.Abs(myRigidbody.velocity.x));

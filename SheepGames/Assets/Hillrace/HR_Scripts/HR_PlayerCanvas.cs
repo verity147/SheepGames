@@ -1,17 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HR_PlayerCanvas : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    internal float fillValue = 0f;
+
+    internal HR_Player player;
+    internal Slider drinkMeter;
+
+    private void Awake()
     {
-        
+        drinkMeter = GetComponentInChildren<Slider>();
+        player = GetComponentInParent<HR_Player>();
+       
     }
 
-    // Update is called once per frame
-    void Update()
+    internal void Visible()
+    {
+        if (IsTurned())
+        {
+            print("triggered");
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+        }
+    }
+
+    private bool IsTurned()
+    {
+        return player.transform.lossyScale.x < 0 && transform.localScale.x > 0 ||
+               player.transform.lossyScale.x > 0 && transform.localScale.x < 0;
+    }
+
+    private void Update()
     {
         
     }
