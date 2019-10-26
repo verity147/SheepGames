@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HR_Player : MonoBehaviour
+public partial class HR_Player : MonoBehaviour
 {
     public float maxRunSpeed = 10f;
     public float swimSpeed = 4f;
@@ -56,109 +56,32 @@ public class HR_Player : MonoBehaviour
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
-        normalGravity = myRigidbody.gravityScale;
     }
 
     private void Start()
     {
+        normalGravity = myRigidbody.gravityScale;
         jumpHeight = maxJumpHeight;
     }
 
     private void Update()
     {
-        if (drinking)
-        {
-            myRigidbody.velocity = Vector2.zero;
-            drinkTime += Time.deltaTime;
-            if(drinkTime > maxDrinkTime)
-            {
-                drinkTime = maxDrinkTime;
-            }
-            float perc = drinkTime / maxDrinkTime;
-            GetComponentInChildren<HR_PlayerCanvas>().drinkMeter.value = perc;
-        }
+        HandleDrinkingState();
 
-        ///prevent movement while drinking
-        if (!drinking && !stun)
-        {
-            if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right"))
-            {
-                currentLerpTime = 0f;
-            }
+        ///prevents movement while drinking or stunned
+        HandleMovementInput();
 
-            if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.01f)
-            {
-                ManageRunSpeed();
-            }
+        HandleJumping();
 
-            ///stop the player
-            if (Input.GetButtonUp("Left") || Input.GetButtonUp("Right") || Input.GetButton("Left") && Input.GetButton("Right"))
-            {
-                myRigidbody.velocity = new Vector2(0f, myRigidbody.velocity.y);
-            }
+        CalculateFallTime();
 
-            if (Input.GetButtonDown("Jump") && IsGrounded)
-            {
-                myAnimator.SetTrigger("Jump");
-                startY = transform.position.y;
-                myRigidbody.gravityScale = isSwimming ? swimJumpGravity : jumpGravity;
-                jumpHeight = isSwimming ? maxSwimJumpHeight : maxJumpHeight;
-                jump = true;
-            }
+        CheckStunCondition();
 
-        }
+        CapMaxYSpeed();
 
-        if (jump)
-        {
-            if (Input.GetButton("Jump") && transform.position.y <= startY + jumpHeight)
-            {
-                myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * 0.8f, jumpforce);
-            }
+        HandleDrinkingInput();
 
-            if (transform.position.y >= startY + jumpHeight || Input.GetButtonUp("Jump"))
-            {
-                jump = false;
-                myRigidbody.gravityScale = normalGravity;
-            }
-        }
-
-        if(myRigidbody.velocity.y < 0 && !IsGrounded)
-        {
-            fallDuration += Time.deltaTime;
-        }
-
-        if (fallDuration >= fallStunTime)
-        {
-            myAnimator.SetBool("fall", true);
-            fallDuration = 0f;
-            stun = true;
-            print("stun");
-        }
-
-        if (myRigidbody.velocity.y > maxYspeed)
-        {
-            myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, maxYspeed);
-        }
-
-        if (Input.GetButtonDown("Down") && drinkingAllowed)
-        {
-            myAnimator.SetTrigger("drink");
-            myAnimator.SetBool("drinking", true);
-            drinking = true;
-            GetComponentInChildren<HR_PlayerCanvas>().Visible();
-        }
-
-        if (Input.GetButtonUp("Down"))
-        {
-            myAnimator.SetBool("drinking", false);
-            drinking = false;
-            drinkTime = 0f;
-        }
-
-        myAnimator.SetFloat("hSpeed", Mathf.Abs(myRigidbody.velocity.x));
-        myAnimator.SetFloat("vSpeed", myRigidbody.velocity.y);
-        myAnimator.SetBool("grounded", IsGrounded);
-        myAnimator.SetBool("swimming", isSwimming);
+        SetAnimatorParameters();
     }
 
     private void FixedUpdate()
@@ -174,6 +97,71 @@ public class HR_Player : MonoBehaviour
         }
     }
 
+    private void SetAnimatorParameters()
+    {
+        myAnimator.SetFloat("hSpeed", Mathf.Abs(myRigidbody.velocity.x));
+        myAnimator.SetFloat("vSpeed", myRigidbody.velocity.y);
+        myAnimator.SetBool("grounded", IsGrounded);
+        myAnimator.SetBool("swimming", isSwimming);
+    }
+
+    
+    private void CapMaxYSpeed()
+    {
+        if (myRigidbody.velocity.y > maxYspeed)
+        {
+            myRigidbody.velocity = new Vector2(myRigidbody.velocity.x, maxYspeed);
+        }
+    }
+
+    private void CheckStunCondition()
+    {
+        if (fallDuration >= fallStunTime)
+        {
+            myAnimator.SetBool("fall", true);
+            fallDuration = 0f;
+            stun = true;
+        }
+    }
+
+    private void CalculateFallTime()
+    {
+        if (myRigidbody.velocity.y < 0 && !IsGrounded)
+        {
+            fallDuration += Time.deltaTime;
+        }
+    }
+
+    private void HandleJumping()
+    {
+        if (jump)
+        {
+            if (Input.GetButton("Jump") && transform.position.y <= startY + jumpHeight)
+            {
+                myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * 0.8f, jumpforce);
+            }
+
+            if (transform.position.y >= startY + jumpHeight || Input.GetButtonUp("Jump"))
+            {
+                jump = false;
+                myRigidbody.gravityScale = normalGravity;
+            }
+        }
+    }
+  
+    private void HandleDrinkingState()
+    {
+        if (drinking)
+        {
+            drinkTime += Time.deltaTime;
+            if (drinkTime > maxDrinkTime)
+            {
+                drinkTime = maxDrinkTime;
+            }
+            float perc = drinkTime / maxDrinkTime;
+            GetComponentInChildren<HR_PlayerCanvas>().drinkMeter.value = perc;//change
+        }
+    }
 
     private void ManageRunSpeed()
     {
@@ -218,11 +206,18 @@ public class HR_Player : MonoBehaviour
             scale.x *= -1;
             transform.localScale = scale;
         }
+        //flip drinking meter here?
     }
 
-    private void StunOver()
+    private void StunOver() ///called from anim event
     {
         stun = false;
         myAnimator.SetBool("fall", false);
     }
+
+    private void StopPlayer() ///called from anim event
+    {
+        myRigidbody.velocity = Vector2.zero;
+    }
+
 }
