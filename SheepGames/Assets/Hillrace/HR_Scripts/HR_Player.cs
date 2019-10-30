@@ -10,9 +10,10 @@ public partial class HR_Player : MonoBehaviour
     public float accelTime = 2f;        ///lerpTime
     public float aircontrolSpeed = 10f;
     public float jumpforce = 10f;
+    public float jumpBoost = 10f;
     public float maxYspeed = 10f;
-    public float maxJumpHeight = 10f;
-    public float maxSwimJumpHeight = 10f;
+    public float standardJumpHeight = 10f;
+    public float swimJumpHeight = 10f;
     public float jumpGravity = 1f;
     public float swimJumpGravity = 1f;
     public float fallStunTime = 0.5f;
@@ -40,6 +41,7 @@ public partial class HR_Player : MonoBehaviour
 
     private Rigidbody2D myRigidbody;
     private Animator myAnimator;
+    private HR_PlayerCanvas playerCanvas;
     private bool lookRight = true;
     private bool stun = false;
     private bool jump = false;
@@ -56,12 +58,13 @@ public partial class HR_Player : MonoBehaviour
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
+        playerCanvas = GetComponentInChildren<HR_PlayerCanvas>();
     }
 
     private void Start()
     {
         normalGravity = myRigidbody.gravityScale;
-        jumpHeight = maxJumpHeight;
+        jumpHeight = standardJumpHeight;
     }
 
     private void Update()
@@ -71,7 +74,10 @@ public partial class HR_Player : MonoBehaviour
         ///prevents movement while drinking or stunned
         HandleMovementInput();
 
-        HandleJumping();
+        if (jump)
+        {
+            ApplyJumpForce();
+        }
 
         CalculateFallTime();
 
@@ -132,20 +138,17 @@ public partial class HR_Player : MonoBehaviour
         }
     }
 
-    private void HandleJumping()
+    private void ApplyJumpForce()
     {
-        if (jump)
+        if (Input.GetButton("Jump") && transform.position.y <= startY + jumpHeight)
         {
-            if (Input.GetButton("Jump") && transform.position.y <= startY + jumpHeight)
-            {
-                myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * 0.8f, jumpforce);
-            }
+            myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * 0.8f, jumpforce);
+        }
 
-            if (transform.position.y >= startY + jumpHeight || Input.GetButtonUp("Jump"))
-            {
-                jump = false;
-                myRigidbody.gravityScale = normalGravity;
-            }
+        if (transform.position.y >= startY + jumpHeight || Input.GetButtonUp("Jump"))
+        {
+            jump = false;
+            myRigidbody.gravityScale = normalGravity;
         }
     }
   
@@ -158,8 +161,12 @@ public partial class HR_Player : MonoBehaviour
             {
                 drinkTime = maxDrinkTime;
             }
-            float perc = drinkTime / maxDrinkTime;
-            GetComponentInChildren<HR_PlayerCanvas>().drinkMeter.value = perc;//change
+            playerCanvas.drinkMeter.value = drinkTime / maxDrinkTime;
+        }
+        if (!drinking && drinkTime > 0f)
+        {
+            drinkTime -= Time.deltaTime * 0.5f; //timer goes down way too fast
+            playerCanvas.drinkMeter.value = drinkTime / maxDrinkTime;
         }
     }
 
@@ -178,11 +185,6 @@ public partial class HR_Player : MonoBehaviour
         {
             Move(isSwimming ? swimSpeed : maxRunSpeed);
         }
-    }
-
-    private void Drink()
-    {
-        throw new NotImplementedException();
     }
 
     private void Move(float runSpeed)

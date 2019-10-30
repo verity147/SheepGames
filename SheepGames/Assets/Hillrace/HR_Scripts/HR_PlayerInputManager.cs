@@ -18,7 +18,6 @@ public partial class HR_Player : MonoBehaviour
         {
             myAnimator.SetBool("drinking", false);
             drinking = false;
-            drinkTime = 0f;
         }
     }
 
@@ -47,7 +46,17 @@ public partial class HR_Player : MonoBehaviour
                 myAnimator.SetTrigger("Jump");
                 startY = transform.position.y;
                 myRigidbody.gravityScale = isSwimming ? swimJumpGravity : jumpGravity;
-                jumpHeight = isSwimming ? maxSwimJumpHeight : maxJumpHeight;
+                if (isSwimming)
+                {
+                    jumpHeight = swimJumpHeight;
+                }else if(!isSwimming && drinkTime > 0f)
+                {
+                    jumpHeight = standardJumpHeight + jumpBoost;
+                }
+                else
+                {
+                    jumpHeight = standardJumpHeight;
+                }
                 jump = true;
             }
         }

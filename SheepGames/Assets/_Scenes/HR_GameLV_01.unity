@@ -5422,9 +5422,10 @@ MonoBehaviour:
   accelTime: 1.5
   aircontrolSpeed: 5
   jumpforce: 16
+  jumpBoost: 2
   maxYspeed: 10
-  maxJumpHeight: 2.8
-  maxSwimJumpHeight: 1.6
+  standardJumpHeight: 2.8
+  swimJumpHeight: 1.6
   jumpGravity: 1
   swimJumpGravity: 20
   fallStunTime: 0.7
@@ -5497,7 +5498,7 @@ GameObject:
   - component: {fileID: 282085852}
   - component: {fileID: 282085855}
   m_Layer: 5
-  m_Name: HR_WorldCanvas
+  m_Name: HR_PlayerCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6631,7 +6632,6 @@ Transform:
   m_Children:
   - {fileID: 1372805145}
   - {fileID: 2087539926}
-  - {fileID: 1326206832}
   m_Father: {fileID: 1990061486}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7942,12 +7942,6 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 1500682235}
   - {fileID: 687774866}
---- !u!4 &1326206832 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2900416334317842925, guid: 1bc80f31d88737841ad7a887b1caf02d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1531078519}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1328573144
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8519,75 +8513,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1521845041}
   m_CullTransparentMesh: 0
---- !u!1001 &1531078519
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 738523841}
-    m_Modifications:
-    - target: {fileID: 2900416334317842925, guid: 1bc80f31d88737841ad7a887b1caf02d,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -14.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2900416334317842925, guid: 1bc80f31d88737841ad7a887b1caf02d,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -4.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2900416334317842925, guid: 1bc80f31d88737841ad7a887b1caf02d,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2900416334317842925, guid: 1bc80f31d88737841ad7a887b1caf02d,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2900416334317842925, guid: 1bc80f31d88737841ad7a887b1caf02d,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2900416334317842925, guid: 1bc80f31d88737841ad7a887b1caf02d,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2900416334317842925, guid: 1bc80f31d88737841ad7a887b1caf02d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2900416334317842925, guid: 1bc80f31d88737841ad7a887b1caf02d,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2900416334317842925, guid: 1bc80f31d88737841ad7a887b1caf02d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2900416334317842925, guid: 1bc80f31d88737841ad7a887b1caf02d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2900416334317842925, guid: 1bc80f31d88737841ad7a887b1caf02d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2900416334317842926, guid: 1bc80f31d88737841ad7a887b1caf02d,
-        type: 3}
-      propertyPath: m_Name
-      value: HR_Trough
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1bc80f31d88737841ad7a887b1caf02d, type: 3}
 --- !u!1 &1591891525
 GameObject:
   m_ObjectHideFlags: 0
@@ -8923,29 +8848,29 @@ Tilemap:
   - m_RefCount: 0
     m_Data:
       e00: NaN
-      e01: 20537.11
-      e02: 1.4885e-41
+      e01: -8.8454715e+32
+      e02: 3.59e-43
       e03: NaN
       e10: NaN
       e11: 4.5905e-41
-      e12: 9.36e-43
+      e12: 8.4e-43
       e13: NaN
-      e20: 5.770602e+26
-      e21: 640.03766
+      e20: -1.4447186e-22
+      e21: -2.7572892e+31
       e22: 0
       e23: 0
-      e30: 3.53e-43
+      e30: 2.98e-43
       e31: 4.5905e-41
-      e32: NaN
+      e32: 2.2311342e-38
       e33: 1
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: -10.024078, g: -10.024078, b: -10.024078, a: -10.024078}
+    m_Data: {r: 4.892746, g: 4.892746, b: 4.892746, a: 4.892746}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 0.8}
-  m_Origin: {x: -6, y: -4, z: 0}
-  m_Size: {x: 6, y: 5, z: 1}
+  m_Origin: {x: -31, y: -4, z: 0}
+  m_Size: {x: 31, y: 5, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
