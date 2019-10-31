@@ -6,6 +6,7 @@ using UnityEngine;
 public partial class HR_Player : MonoBehaviour
 {
     public float maxRunSpeed = 10f;
+    public float mudRunSpeed = 1f;
     public float swimSpeed = 4f;
     public float accelTime = 2f;        ///lerpTime
     public float aircontrolSpeed = 10f;
@@ -35,6 +36,7 @@ public partial class HR_Player : MonoBehaviour
             }
         }
     } ///resets fallDuration on change
+    internal bool inMud;
     internal bool isSwimming;
     internal bool drinkingAllowed = false;
     internal bool drinking = false;
@@ -109,6 +111,7 @@ public partial class HR_Player : MonoBehaviour
         myAnimator.SetFloat("vSpeed", myRigidbody.velocity.y);
         myAnimator.SetBool("grounded", IsGrounded);
         myAnimator.SetBool("swimming", isSwimming);
+        myAnimator.SetBool("inMud", inMud);
     }
 
     
@@ -178,12 +181,28 @@ public partial class HR_Player : MonoBehaviour
             float runSpeed;
             lerpStep = currentLerpTime / accelTime;
             lerpStep = Mathf.Sin(lerpStep * Mathf.PI * 0.5f);
-            runSpeed = Mathf.Lerp(0f, isSwimming ? swimSpeed : maxRunSpeed, lerpStep);
+            runSpeed = Mathf.Lerp(0f, WhichMoveSpeed(), lerpStep);
             Move(runSpeed);
         }
         else
         {
-            Move(isSwimming ? swimSpeed : maxRunSpeed);
+            Move(WhichMoveSpeed());
+        }
+    }
+
+    private float WhichMoveSpeed()
+    {
+        if (isSwimming)
+        {
+            return swimSpeed;
+        }
+        else if (inMud)
+        {
+            return mudRunSpeed;
+        }
+        else
+        {
+            return maxRunSpeed;
         }
     }
 
