@@ -5,6 +5,8 @@ using UnityEngine;
 
 public partial class HR_Player : MonoBehaviour
 {
+    internal enum Jumpstate { normal, boosted, spring, swimming }
+
     public float maxRunSpeed = 10f;
     public float mudRunSpeed = 1f;
     public float swimSpeed = 4f;
@@ -33,6 +35,7 @@ public partial class HR_Player : MonoBehaviour
             if (isGrounded)
             {
                 fallDuration = 0f;
+                stunImmune = false;
             }
         }
     } ///resets fallDuration on change
@@ -41,12 +44,13 @@ public partial class HR_Player : MonoBehaviour
     internal bool drinkingAllowed = false;
     internal bool drinking = false;
 
+    private bool jump = false;
+    private bool stunImmune = false;
     private Rigidbody2D myRigidbody;
     private Animator myAnimator;
     private HR_PlayerCanvas playerCanvas;
     private bool lookRight = true;
     private bool stun = false;
-    private bool jump = false;
     private float startY;
     private float normalGravity;
     private float currentLerpTime = 0f;
@@ -76,11 +80,6 @@ public partial class HR_Player : MonoBehaviour
         ///prevents movement while drinking or stunned
         HandleMovementInput();
 
-        if (jump)
-        {
-            ApplyJumpForce();
-        }
-
         CalculateFallTime();
 
         CheckStunCondition();
@@ -103,6 +102,10 @@ public partial class HR_Player : MonoBehaviour
         {
             Flip();
         }
+        if (jump)
+        {
+            myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * 0.8f, jumpforce);
+        }        
     }
 
     private void SetAnimatorParameters()
@@ -113,7 +116,6 @@ public partial class HR_Player : MonoBehaviour
         myAnimator.SetBool("swimming", isSwimming);
         myAnimator.SetBool("inMud", inMud);
     }
-
     
     private void CapMaxYSpeed()
     {
@@ -123,9 +125,34 @@ public partial class HR_Player : MonoBehaviour
         }
     }
 
+    internal void PrepareJump(Jumpstate jumpstate)
+    {
+        switch (jumpstate)
+        {
+            case Jumpstate.normal:
+                jumpHeight = standardJumpHeight;
+                break;
+            case Jumpstate.boosted:
+                jumpHeight = standardJumpHeight + jumpBoost;
+                stunImmune = true;
+                break;
+            case Jumpstate.spring:
+                jumpHeight = standardJumpHeight + (jumpBoost * 2f);
+                stunImmune = true;
+                break;
+            case Jumpstate.swimming:
+                jumpHeight = swimJumpHeight;
+                break;
+        }
+        myRigidbody.gravityScale = isSwimming ? swimJumpGravity : jumpGravity;
+        myAnimator.SetTrigger("Jump");
+        startY = transform.position.y;
+        jump = true;
+    }
+
     private void CheckStunCondition()
     {
-        if (fallDuration >= fallStunTime)
+        if (!stunImmune && fallDuration >= fallStunTime)
         {
             myAnimator.SetBool("fall", true);
             fallDuration = 0f;
@@ -141,20 +168,13 @@ public partial class HR_Player : MonoBehaviour
         }
     }
 
-    private void ApplyJumpForce()
+    private IEnumerator ApplyJumpForce()
     {
-        if (Input.GetButton("Jump") && transform.position.y <= startY + jumpHeight)
-        {
-            myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * 0.8f, jumpforce);
-        }
-
-        if (transform.position.y >= startY + jumpHeight || Input.GetButtonUp("Jump"))
-        {
-            jump = false;
-            myRigidbody.gravityScale = normalGravity;
-        }
+        print("applyjumpforce");
+        myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * 0.8f, jumpforce);
+        yield return null;
     }
-  
+
     private void HandleDrinkingState()
     {
         if (drinking)

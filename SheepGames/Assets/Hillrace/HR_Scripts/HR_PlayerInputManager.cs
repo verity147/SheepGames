@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public partial class HR_Player : MonoBehaviour
 {
     private void HandleDrinkingInput()
@@ -43,23 +44,24 @@ public partial class HR_Player : MonoBehaviour
 
             if (Input.GetButtonDown("Jump") && IsGrounded)
             {
-                myAnimator.SetTrigger("Jump");
-                startY = transform.position.y;
-                myRigidbody.gravityScale = isSwimming ? swimJumpGravity : jumpGravity;
                 if (isSwimming)
                 {
-                    jumpHeight = swimJumpHeight;
-                }else if(!isSwimming && drinkTime > 0f)
+                    PrepareJump(Jumpstate.swimming);
+                }
+                else if(!isSwimming && drinkTime > 0f)
                 {
-                    jumpHeight = standardJumpHeight + jumpBoost;
+                    PrepareJump(Jumpstate.boosted);
                 }
                 else
                 {
-                    jumpHeight = standardJumpHeight;
+                    PrepareJump(Jumpstate.normal);
                 }
-                jump = true;
             }
         }
+        if (jump && (transform.position.y >= startY + jumpHeight || Input.GetButtonUp("Jump")))
+        {
+            jump = false;
+            myRigidbody.gravityScale = normalGravity;
+        }
     }
-
 }
