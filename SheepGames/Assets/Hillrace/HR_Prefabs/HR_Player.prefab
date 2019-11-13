@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.4811321, g: 0.19290674, b: 0.19290674, a: 0.8}
-  m_Length: 0.1999998
+  m_Length: 0.2
   m_ChildTransform: {fileID: 1072420855985363607}
   m_AttachedIK: {fileID: 1072420856464783498}
 --- !u!1 &1072420855290274873
@@ -238,7 +238,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1072420855510943330}
-  m_LocalRotation: {x: 0, y: 0, z: 0.39432374, w: 0.9189716}
+  m_LocalRotation: {x: 0, y: 0, z: 0.39432815, w: 0.9189697}
   m_LocalPosition: {x: 0.34162334, y: -0.0000000055879354, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -457,7 +457,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1072420855674133882}
-  m_LocalRotation: {x: 0, y: 0, z: -0.05004853, w: 0.9987468}
+  m_LocalRotation: {x: 0, y: 0, z: -0.050043173, w: 0.99874705}
   m_LocalPosition: {x: 0.55000013, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1260,6 +1260,7 @@ GameObject:
   - component: {fileID: 1072420856261253010}
   - component: {fileID: 1072420856261253011}
   - component: {fileID: 1072420856261253008}
+  - component: {fileID: 1275234223118369160}
   m_Layer: 8
   m_Name: HR_Player
   m_TagString: Player
@@ -1314,10 +1315,10 @@ MonoBehaviour:
   accelTime: 1.5
   aircontrolSpeed: 5
   jumpforce: 16
-  jumpBoost: 2
+  jumpBoost: 1
   maxYspeed: 10
-  standardJumpHeight: 2.8
-  swimJumpHeight: 1.6
+  standardJumpHeight: 2.6
+  swimJumpHeight: 1.5
   jumpGravity: 1
   swimJumpGravity: 20
   fallStunTime: 0.7
@@ -1372,9 +1373,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.2}
-  m_Size: {x: 1.15, y: 1.45}
-  m_Direction: 0
+  m_Offset: {x: -0.019290786, y: -0.8202629}
+  m_Size: {x: 1.1727349, y: 0.20947698}
+  m_Direction: 1
 --- !u!95 &1072420856261253008
 Animator:
   serializedVersion: 3
@@ -1394,6 +1395,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!61 &1275234223118369160
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072420856261253023}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.020773888, y: -0.22258186}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.17243, y: 1.2018075}
+  m_EdgeRadius: 0
 --- !u!1 &1072420856304160732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2171,7 +2198,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1072420856709875343}
-  m_LocalRotation: {x: 0, y: 0, z: -0.80011594, w: 0.5998454}
+  m_LocalRotation: {x: 0, y: 0, z: -0.80011314, w: 0.5998491}
   m_LocalPosition: {x: 0.04963704, y: -0.22417977, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2192,7 +2219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.4811321, g: 0.19290674, b: 0.19290674, a: 0.8}
-  m_Length: 0.5032907
+  m_Length: 0.50329065
   m_ChildTransform: {fileID: 1072420855746191274}
   m_AttachedIK: {fileID: 1072420855290274872}
 --- !u!1 &1072420856796678646
@@ -2425,7 +2452,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1072420857040688657}
-  m_LocalRotation: {x: 0, y: 0, z: -0.67055076, w: 0.7418637}
+  m_LocalRotation: {x: 0, y: 0, z: -0.67055243, w: 0.7418622}
   m_LocalPosition: {x: 0.066279896, y: -0.1235504, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2446,7 +2473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.4811321, g: 0.19290674, b: 0.19290674, a: 0.8}
-  m_Length: 0.5500002
+  m_Length: 0.5500003
   m_ChildTransform: {fileID: 1072420855674133881}
   m_AttachedIK: {fileID: 1072420855579349767}
 --- !u!1 &1072420857053594330
@@ -2619,7 +2646,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1072420857137986204}
-  m_LocalRotation: {x: 0, y: 0, z: -0.80285543, w: 0.59617376}
+  m_LocalRotation: {x: 0, y: 0, z: -0.80285275, w: 0.5961774}
   m_LocalPosition: {x: -0.03418575, y: -0.20851442, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2640,7 +2667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.4811321, g: 0.19290674, b: 0.19290674, a: 0.8}
-  m_Length: 0.48586458
+  m_Length: 0.48586464
   m_ChildTransform: {fileID: 1072420855731504837}
   m_AttachedIK: {fileID: 1072420855322867605}
 --- !u!1 &1072420857159635621
@@ -2688,7 +2715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.4811321, g: 0.19290674, b: 0.19290674, a: 0.8}
-  m_Length: 0.5591106
+  m_Length: 0.55911034
   m_ChildTransform: {fileID: 1072420857191265979}
   m_AttachedIK: {fileID: 1072420856226268341}
 --- !u!1 &1072420857176646600
@@ -2830,7 +2857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.4811321, g: 0.19290674, b: 0.19290674, a: 0.8}
-  m_Length: 0.25000012
+  m_Length: 0.2500002
   m_ChildTransform: {fileID: 1072420857176646607}
   m_AttachedIK: {fileID: 0}
 --- !u!1 &1072420857263949818
@@ -3117,7 +3144,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1072420857409001176}
-  m_LocalRotation: {x: 0, y: 0, z: 0.09185614, w: 0.9957723}
+  m_LocalRotation: {x: 0, y: 0, z: 0.09185275, w: 0.9957726}
   m_LocalPosition: {x: 0.36127633, y: 0.0000000015716068, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3140,6 +3167,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.4811321, g: 0.19290674, b: 0.19290674, a: 0.8}
-  m_Length: 0.34162378
+  m_Length: 0.34162313
   m_ChildTransform: {fileID: 1072420855510943329}
   m_AttachedIK: {fileID: 1072420856907502651}
