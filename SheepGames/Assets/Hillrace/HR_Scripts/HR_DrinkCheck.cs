@@ -13,8 +13,19 @@ public class HR_DrinkCheck : MonoBehaviour
         myCollider = GetComponent<Collider2D>();
     }
 
-    private void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        player.drinkingAllowed = myCollider.IsTouchingLayers(LayerMask.GetMask("HR_Troughs"));
+        if (myCollider.IsTouchingLayers(LayerMask.GetMask("HR_Troughs")))
+        {
+            player.drinkingAllowed = true;
+        }        
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == 18)
+        {
+            player.drinkingAllowed = false;
+        }
     }
 }

@@ -7,24 +7,27 @@ public partial class HR_Player : MonoBehaviour
 {
     private void HandleDrinkingInput()
     {
-        if (Input.GetButtonDown("Down") && drinkingAllowed)
+        if (!Stun)
         {
-            myAnimator.SetTrigger("drink");
-            myAnimator.SetBool("drinking", true);
-            drinking = true;
-            GetComponentInChildren<HR_PlayerCanvas>().Visible();
-        }
+            if (Input.GetButtonDown("Down") && drinkingAllowed)
+            {
+                myAnimator.SetTrigger("drink");
+                myAnimator.SetBool("drinking", true);
+                drinking = true;
+                GetComponentInChildren<HR_PlayerCanvas>().Visible();
+            }
 
-        if (Input.GetButtonUp("Down"))
-        {
-            myAnimator.SetBool("drinking", false);
-            drinking = false;
+            if (Input.GetButtonUp("Down"))
+            {
+                myAnimator.SetBool("drinking", false);
+                drinking = false;
+            }
         }
     }
 
     private void HandleMovementInput()
     {
-        if (!drinking && !stun)
+        if (!drinking && !Stun)
         {
             if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right"))
             {

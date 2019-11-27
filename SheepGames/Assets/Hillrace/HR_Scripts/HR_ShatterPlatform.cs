@@ -12,7 +12,7 @@ public class HR_ShatterPlatform : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        coll = GetComponent<Collider2D>();
+        coll = GetComponent<EdgeCollider2D>();
     }
 
     private void Start()
@@ -22,13 +22,14 @@ public class HR_ShatterPlatform : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == groundcheck.gameObject)
+        if (collision.gameObject == groundcheck.gameObject &&  
+            !anim.GetCurrentAnimatorStateInfo(0).IsName("HR_ShatterPlatform"))
         {
             anim.SetTrigger("shatter");
         }
     }
 
-    public void ToggleCollider()
+    private void ToggleCollider()
     {
         coll.enabled = !coll.enabled;
     }

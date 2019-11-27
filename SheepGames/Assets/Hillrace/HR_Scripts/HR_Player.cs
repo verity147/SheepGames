@@ -50,7 +50,7 @@ public partial class HR_Player : MonoBehaviour
     private Animator myAnimator;
     private HR_PlayerCanvas playerCanvas;
     private bool lookRight = true;
-    private bool stun = false;
+    public bool Stun { get; set; } = false;
     private float startY;
     private float normalGravity;
     private float currentLerpTime = 0f;
@@ -154,9 +154,9 @@ public partial class HR_Player : MonoBehaviour
     {
         if (!stunImmune && fallDuration >= fallStunTime)
         {
-            myAnimator.SetBool("fall", true);
+            myAnimator.SetBool("stun", true);
             fallDuration = 0f;
-            stun = true;
+            Stun = true;
         }
     }
 
@@ -166,13 +166,6 @@ public partial class HR_Player : MonoBehaviour
         {
             fallDuration += Time.deltaTime;
         }
-    }
-
-    private IEnumerator ApplyJumpForce()
-    {
-        print("applyjumpforce");
-        myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * 0.8f, jumpforce);
-        yield return null;
     }
 
     private void HandleDrinkingState()
@@ -188,7 +181,7 @@ public partial class HR_Player : MonoBehaviour
         }
         if (!drinking && drinkTime > 0f)
         {
-            drinkTime -= Time.deltaTime * 0.5f; //timer goes down way too fast
+            drinkTime -= Time.deltaTime * 0.5f; ///timer goes down way too fast otherwise
             playerCanvas.drinkMeter.value = drinkTime / maxDrinkTime;
         }
     }
@@ -240,7 +233,7 @@ public partial class HR_Player : MonoBehaviour
 
     private void Flip()
     {
-        if (!drinking && !stun)
+        if (!drinking && !Stun)
         {
             lookRight = !lookRight;
             Vector3 scale = transform.localScale;
@@ -252,8 +245,8 @@ public partial class HR_Player : MonoBehaviour
 
     private void StunOver() ///called from anim event
     {
-        stun = false;
-        myAnimator.SetBool("fall", false);
+        Stun = false;
+        myAnimator.SetBool("stun", false);
     }
 
     private void StopPlayer() ///called from anim event
