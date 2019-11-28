@@ -7,7 +7,7 @@ public partial class HR_Player : MonoBehaviour
 {
     private void HandleDrinkingInput()
     {
-        if (!Stun)
+        if (!Stunned)
         {
             if (Input.GetButtonDown("Down") && drinkingAllowed)
             {
@@ -27,7 +27,7 @@ public partial class HR_Player : MonoBehaviour
 
     private void HandleMovementInput()
     {
-        if (!drinking && !Stun)
+        if (!drinking && !Stunned)
         {
             if (Input.GetButtonDown("Left") || Input.GetButtonDown("Right"))
             {

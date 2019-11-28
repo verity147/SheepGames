@@ -32,25 +32,21 @@ public partial class HR_Player : MonoBehaviour
                 return;
             }
             isGrounded = value;
-            if (isGrounded)
-            {
-                fallDuration = 0f;
-                stunImmune = false;
-            }
+           
         }
     } ///resets fallDuration on change
+    internal bool onSpring;
     internal bool inMud;
     internal bool isSwimming;
     internal bool drinkingAllowed = false;
     internal bool drinking = false;
 
     private bool jump = false;
-    private bool stunImmune = false;
     private Rigidbody2D myRigidbody;
     private Animator myAnimator;
     private HR_PlayerCanvas playerCanvas;
     private bool lookRight = true;
-    public bool Stun { get; set; } = false;
+    public bool Stunned { get; set; } = false;
     private float startY;
     private float normalGravity;
     private float currentLerpTime = 0f;
@@ -82,7 +78,7 @@ public partial class HR_Player : MonoBehaviour
 
         CalculateFallTime();
 
-        CheckStunCondition();
+        //Stun();
 
         CapMaxYSpeed();
 
@@ -106,6 +102,18 @@ public partial class HR_Player : MonoBehaviour
         {
             myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * 0.8f, jumpforce);
         }        
+    }
+
+    private void OnCollisionEnter2D(Collision2D coll)
+    {
+        if (isGrounded)
+        {
+            if (!isSwimming && !onSpring && fallDuration > fallStunTime)
+            {
+                Stun();
+            }
+            fallDuration = 0;
+        }
     }
 
     private void SetAnimatorParameters()
@@ -134,11 +142,9 @@ public partial class HR_Player : MonoBehaviour
                 break;
             case Jumpstate.boosted:
                 jumpHeight = standardJumpHeight + jumpBoost;
-                stunImmune = true;
                 break;
             case Jumpstate.spring:
                 jumpHeight = standardJumpHeight + (jumpBoost * 2f);
-                stunImmune = true;
                 break;
             case Jumpstate.swimming:
                 jumpHeight = swimJumpHeight;
@@ -150,14 +156,11 @@ public partial class HR_Player : MonoBehaviour
         jump = true;
     }
 
-    private void CheckStunCondition()
+    private void Stun()
     {
-        if (!stunImmune && fallDuration >= fallStunTime)
-        {
-            myAnimator.SetBool("stun", true);
-            fallDuration = 0f;
-            Stun = true;
-        }
+        myAnimator.SetBool("stun", true);
+        fallDuration = 0f;
+        Stunned = true;        
     }
 
     private void CalculateFallTime()
@@ -233,7 +236,7 @@ public partial class HR_Player : MonoBehaviour
 
     private void Flip()
     {
-        if (!drinking && !Stun)
+        if (!drinking && !Stunned)
         {
             lookRight = !lookRight;
             Vector3 scale = transform.localScale;
@@ -245,7 +248,7 @@ public partial class HR_Player : MonoBehaviour
 
     private void StunOver() ///called from anim event
     {
-        Stun = false;
+        Stunned = false;
         myAnimator.SetBool("stun", false);
     }
 
