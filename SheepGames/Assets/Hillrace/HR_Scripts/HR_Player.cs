@@ -35,7 +35,6 @@ public partial class HR_Player : MonoBehaviour
            
         }
     } ///resets fallDuration on change
-    internal bool onSpring;
     internal bool inMud;
     internal bool isSwimming;
     internal bool drinkingAllowed = false;
@@ -78,10 +77,6 @@ public partial class HR_Player : MonoBehaviour
 
         CalculateFallTime();
 
-        //Stun();
-
-        CapMaxYSpeed();
-
         HandleDrinkingInput();
 
         SetAnimatorParameters();
@@ -89,6 +84,12 @@ public partial class HR_Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        CapMaxYSpeed();
+
+        if (Stunned)
+        {
+            myRigidbody.velocity = new Vector2(0f, myRigidbody.velocity.y);
+        }
 
         if (lookRight == false && Input.GetAxisRaw("Horizontal") > 0)
         {
@@ -106,9 +107,10 @@ public partial class HR_Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D coll)
     {
-        if (isGrounded)
+        GameObject collObject = coll.gameObject;
+        if (collObject.layer == 15)
         {
-            if (!isSwimming && !onSpring && fallDuration > fallStunTime)
+            if (!isSwimming && collObject.tag != "Spring" && fallDuration > fallStunTime)
             {
                 Stun();
             }
