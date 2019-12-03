@@ -22,4 +22,9 @@ public class HR_Groundcheck : MonoBehaviour
         player.isSwimming = myCollider.IsTouchingLayers(LayerMask.GetMask("Water"));
         player.inMud = myCollider.IsTouchingLayers(LayerMask.GetMask("HR_Mud"));
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        player.Stun(collision.gameObject);
+    }
 }

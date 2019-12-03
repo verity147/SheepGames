@@ -66,14 +66,11 @@ public partial class HR_Player : MonoBehaviour
     {
         normalGravity = myRigidbody.gravityScale;
         jumpHeight = standardJumpHeight;
-    }
+    }    
 
     private void Update()
     {
         HandleDrinkingState();
-
-        ///prevents movement while drinking or stunned
-        HandleMovementInput();
 
         CalculateFallTime();
 
@@ -84,6 +81,9 @@ public partial class HR_Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        ///prevents movement while drinking or stunned
+        HandleMovementInput();
+
         CapMaxYSpeed();
 
         if (Stunned)
@@ -103,19 +103,6 @@ public partial class HR_Player : MonoBehaviour
         {
             myRigidbody.velocity = new Vector2(myRigidbody.velocity.x * 0.8f, jumpforce);
         }        
-    }
-
-    private void OnCollisionEnter2D(Collision2D coll)
-    {
-        GameObject collObject = coll.gameObject;
-        if (collObject.layer == 15)
-        {
-            if (!isSwimming && collObject.tag != "Spring" && fallDuration > fallStunTime)
-            {
-                Stun();
-            }
-            fallDuration = 0;
-        }
     }
 
     private void SetAnimatorParameters()
@@ -158,11 +145,23 @@ public partial class HR_Player : MonoBehaviour
         jump = true;
     }
 
-    private void Stun()
+    internal void Stun(GameObject other)
     {
-        myAnimator.SetBool("stun", true);
-        fallDuration = 0f;
-        Stunned = true;        
+        if (other.layer == 4 || other.tag == "Spring") /// "water"
+        {
+            fallDuration = 0f;
+            return;
+        }
+        else if (other.layer == 15) ///"Ground" layer
+        {
+            if (fallDuration > fallStunTime)
+            {
+                myAnimator.SetBool("stun", true);
+                fallDuration = 0f;
+                Stunned = true;        
+            }
+            fallDuration = 0;
+        }
     }
 
     private void CalculateFallTime()
