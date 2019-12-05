@@ -77,12 +77,13 @@ public partial class HR_Player : MonoBehaviour
         HandleDrinkingInput();
 
         SetAnimatorParameters();
+
+        HandleMovementInput();
     }
 
     private void FixedUpdate()
     {
         ///prevents movement while drinking or stunned
-        HandleMovementInput();
 
         CapMaxYSpeed();
 
