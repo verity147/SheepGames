@@ -34,7 +34,7 @@ public partial class HR_Player : MonoBehaviour
             isGrounded = value;
            
         }
-    } ///resets fallDuration on change
+    } 
     internal bool inMud;
     internal bool isSwimming;
     internal bool drinkingAllowed = false;
