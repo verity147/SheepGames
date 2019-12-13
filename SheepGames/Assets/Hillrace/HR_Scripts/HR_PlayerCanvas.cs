@@ -9,15 +9,20 @@ public class HR_PlayerCanvas : MonoBehaviour
 
     internal HR_Player player;
     internal Slider drinkMeter;
+    internal bool visible;
 
     private void Awake()
     {
         drinkMeter = GetComponentInChildren<Slider>();
         player = GetComponentInParent<HR_Player>();
-       
     }
 
-    internal void Visible()
+    private void Start()
+    {
+        drinkMeter.gameObject.SetActive(false);
+    }
+
+    internal void FlipDrinkBar()
     {
         if (IsTurned())
         {
@@ -33,8 +38,4 @@ public class HR_PlayerCanvas : MonoBehaviour
                player.transform.lossyScale.x > 0 && transform.localScale.x < 0;
     }
 
-    private void Update()
-    {
-        
-    }
 }

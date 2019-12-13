@@ -9,12 +9,12 @@ public partial class HR_Player : MonoBehaviour
     {
         if (!Stunned)
         {
-            if (Input.GetButtonDown("Down") && drinkingAllowed)
+            if (Input.GetButtonDown("Down") && DrinkingAllowed)
             {
                 myAnimator.SetTrigger("drink");
                 myAnimator.SetBool("drinking", true);
                 drinking = true;
-                GetComponentInChildren<HR_PlayerCanvas>().Visible();
+                playerCanvas.drinkMeter.gameObject.SetActive(true);
             }
 
             if (Input.GetButtonUp("Down"))

@@ -17,7 +17,7 @@ public class HR_DrinkCheck : MonoBehaviour
     {
         if (myCollider.IsTouchingLayers(LayerMask.GetMask("HR_Troughs")))
         {
-            player.drinkingAllowed = true;
+            player.DrinkingAllowed = true;
         }        
     }
 
@@ -25,7 +25,7 @@ public class HR_DrinkCheck : MonoBehaviour
     {
         if(collision.gameObject.layer == 18)
         {
-            player.drinkingAllowed = false;
+            player.DrinkingAllowed = false;
         }
     }
 }

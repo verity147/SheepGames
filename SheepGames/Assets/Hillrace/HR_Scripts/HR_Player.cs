@@ -37,8 +37,25 @@ public partial class HR_Player : MonoBehaviour
     } 
     internal bool inMud;
     internal bool isSwimming;
-    internal bool drinkingAllowed = false;
+    private bool drinkingAllowed = false;
+    public bool DrinkingAllowed
+    {
+        get { return drinkingAllowed; }
+        set
+        {
+            drinkingAllowed = value;
+            if (drinkingAllowed == true)
+            {
+                playerCanvas.drinkMeter.gameObject.SetActive(true);
+            }
+            else if (drinkingAllowed == false && drinkTime <= 0f)
+            {
+                playerCanvas.drinkMeter.gameObject.SetActive(false);
+            }
+        }
+    }
     internal bool drinking = false;
+    internal bool gameRunning;
 
     private bool jump = false;
     private Rigidbody2D myRigidbody;
@@ -74,11 +91,15 @@ public partial class HR_Player : MonoBehaviour
 
         CalculateFallTime();
 
-        HandleDrinkingInput();
+        if (gameRunning)
+        {
+            HandleDrinkingInput();
+            HandleMovementInput();
+        }        
 
         SetAnimatorParameters();
 
-        HandleMovementInput();
+       
     }
 
     private void FixedUpdate()
@@ -189,6 +210,10 @@ public partial class HR_Player : MonoBehaviour
             drinkTime -= Time.deltaTime * 0.5f; ///timer goes down way too fast otherwise
             playerCanvas.drinkMeter.value = drinkTime / maxDrinkTime;
         }
+        if (playerCanvas.drinkMeter.IsActive() && drinkTime <= 0f && !DrinkingAllowed)
+        {
+            playerCanvas.drinkMeter.gameObject.SetActive(false);
+        }
     }
 
     private void ManageRunSpeed()
@@ -238,14 +263,14 @@ public partial class HR_Player : MonoBehaviour
 
     private void Flip()
     {
-        if (!drinking && !Stunned)
+        if (!drinking && !Stunned && gameRunning)
         {
             lookRight = !lookRight;
             Vector3 scale = transform.localScale;
             scale.x *= -1;
             transform.localScale = scale;
         }
-        //flip drinking meter here?
+        playerCanvas.FlipDrinkBar();
     }
 
     private void StunOver() ///called from anim event
