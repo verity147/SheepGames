@@ -55,11 +55,23 @@ public partial class HR_Player : MonoBehaviour
         }
     }
     internal bool drinking = false;
-    internal bool gameRunning;
+    private bool gameRunning = false;
+    public bool GameRunning
+    {
+        get { return gameRunning; }
+        set
+        {
+            gameRunning = value;
+            if (!gameRunning)
+            {
+                myRigidbody.velocity = Vector2.zero;
+            }
+        }
+    }
 
     private bool jump = false;
     private Rigidbody2D myRigidbody;
-    private Animator myAnimator;
+    internal Animator myAnimator;
     private HR_PlayerCanvas playerCanvas;
     private bool lookRight = true;
     public bool Stunned { get; set; } = false;
@@ -273,13 +285,17 @@ public partial class HR_Player : MonoBehaviour
         playerCanvas.FlipDrinkBar();
     }
 
-    private void StunOver() ///called from anim event
+    /// <summary>
+    /// The following events are called from animations.
+    /// </summary>
+
+    private void StunOver() 
     {
         Stunned = false;
         myAnimator.SetBool("stun", false);
     }
 
-    private void StopPlayer() ///called from anim event
+    private void StopPlayer()
     {
         myRigidbody.velocity = Vector2.zero;
     }

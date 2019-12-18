@@ -7,6 +7,8 @@ public class HR_BonbonManager : MonoBehaviour
 {
     public HR_Gamemanager gamemanager;
 
+    internal int childCount;
+
     private List<HR_Bonbon> bonbons;
 
     private void Awake()
@@ -19,6 +21,16 @@ public class HR_BonbonManager : MonoBehaviour
         foreach (HR_Bonbon bonbon in bonbons)
         {
             bonbon.gameManager = gamemanager;
-        }   
+        }
+
+        childCount = bonbons.Count;
+    }
+
+    internal void ResetBonbons()
+    {
+        foreach(HR_Bonbon bonbon in bonbons)
+        {
+            bonbon.gameObject.SetActive(true);
+        }
     }
 }
