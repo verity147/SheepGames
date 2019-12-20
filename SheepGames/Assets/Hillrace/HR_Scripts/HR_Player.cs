@@ -127,11 +127,11 @@ public partial class HR_Player : MonoBehaviour
 
         if (lookRight == false && Input.GetAxisRaw("Horizontal") > 0)
         {
-            Flip();
+            CheckFlip();
         }
         else if (lookRight == true && Input.GetAxisRaw("Horizontal") < 0)
         {
-            Flip();
+            CheckFlip();
         }
         if (jump)
         {
@@ -273,16 +273,21 @@ public partial class HR_Player : MonoBehaviour
         }
     }
 
-    private void Flip()
+    internal void Flip()
+    {
+        lookRight = !lookRight;
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+        playerCanvas.FlipDrinkBar();
+    }
+
+    private void CheckFlip()
     {
         if (!drinking && !Stunned && gameRunning)
         {
-            lookRight = !lookRight;
-            Vector3 scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
+            Flip();
         }
-        playerCanvas.FlipDrinkBar();
     }
 
     /// <summary>

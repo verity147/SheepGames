@@ -1,16 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using TMPro;
-using System;
+using Cinemachine;
 
 public class HR_Gamemanager : MonoBehaviour
 {
     //remember to reset this on restart
 
     public HR_Player player;
+    public CinemachineVirtualCamera virtualCamera;
     public HR_BonbonManager bonbonManager;
     public TMP_Text timeScore;
     public TMP_Text bonbonScore;
@@ -33,7 +35,7 @@ public class HR_Gamemanager : MonoBehaviour
     {
         playerStartPos = player.gameObject.transform.position;
     }
-
+   
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -49,7 +51,7 @@ public class HR_Gamemanager : MonoBehaviour
         if (gameIsRunning)
         {
             gameTimer += Time.deltaTime;
-            timeScore.text = TimeSpan.FromSeconds(gameTimer).ToString(@"mm\:ss\:ff");
+            timeScore.text = TimeSpan.FromSeconds(gameTimer).ToString(@"mm\:ss\:ff"); ///formatting the countdown output
         }
 
         if (gameOver)
@@ -94,7 +96,14 @@ public class HR_Gamemanager : MonoBehaviour
         pointsCollected = 0;
         timeScore.text = "00:00:00";
         bonbonScore.text = "0";
+        Vector3 oldPlayerPos = player.transform.position;
+        Vector3 playerMoveDelta = oldPlayerPos - playerStartPos;
         player.transform.position = playerStartPos;
+        if(player.transform.lossyScale.x < 0)
+        {
+            player.Flip();
+        }
+        virtualCamera.OnTargetObjectWarped(player.transform, playerMoveDelta);
         readyButton.gameObject.SetActive(true);
     }
 
