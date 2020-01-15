@@ -20,6 +20,8 @@ public partial class HR_Player : MonoBehaviour
     public float jumpGravity = 1f;
     public float swimJumpGravity = 1f;
     public float fallStunTime = 0.5f;
+    public ParticleSystem particle;
+    public Transform[] feetPositions;
 
     private bool isGrounded;
     public bool IsGrounded
@@ -305,4 +307,13 @@ public partial class HR_Player : MonoBehaviour
         myRigidbody.velocity = Vector2.zero;
     }
 
+    private void PlayParticle(int footPos)
+    {
+        Instantiate(particle, feetPositions[footPos]); ///cannot put transform reference directly into anim event parameter
+    }
+
+    private void PlayAudio(AudioClip audio)
+    {
+
+    }
 }
