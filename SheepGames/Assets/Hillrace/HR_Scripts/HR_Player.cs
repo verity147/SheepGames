@@ -21,7 +21,7 @@ public partial class HR_Player : MonoBehaviour
     public float swimJumpGravity = 1f;
     public float fallStunTime = 0.5f;
     public ParticleSystem particle;
-    public Transform[] feetPositions;
+    public Transform particleSpawn;
 
     private bool isGrounded;
     public bool IsGrounded
@@ -255,7 +255,7 @@ public partial class HR_Player : MonoBehaviour
         }
         else if (inMud)
         {
-            return mudRunSpeed;
+            return mudRunSpeed; //reset acceleration time after leaving mud to avoid speed boost
         }
         else
         {
@@ -307,9 +307,9 @@ public partial class HR_Player : MonoBehaviour
         myRigidbody.velocity = Vector2.zero;
     }
 
-    private void PlayParticle(int footPos)
+    private void PlayParticle()
     {
-        Instantiate(particle, feetPositions[footPos]); ///cannot put transform reference directly into anim event parameter
+        Instantiate(particle, particleSpawn.position, Quaternion.identity, particleSpawn); ///cannot put transform reference directly into anim event parameter
     }
 
     private void PlayAudio(AudioClip audio)
