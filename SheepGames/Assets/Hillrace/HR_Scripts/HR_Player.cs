@@ -233,7 +233,7 @@ public partial class HR_Player : MonoBehaviour
     private void ManageRunSpeed()
     {
         currentLerpTime += Time.deltaTime;
-        if (currentLerpTime < accelTime)
+        if (currentLerpTime < accelTime && !inMud)
         {
             float runSpeed;
             lerpStep = currentLerpTime / accelTime;

@@ -9,10 +9,10 @@ public class HR_Bonbon : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.tag == "Player")
+        if (coll.GetType()==typeof(BoxCollider2D) && coll.gameObject.tag == "Player") ///only trigger on one of the player's colliders
         {
             gameManager.CollectPoint();
             gameObject.SetActive(false);
         }
-    }
+    }   
 }
