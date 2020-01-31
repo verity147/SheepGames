@@ -6,10 +6,10 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using TMPro;
 using Cinemachine;
+using UnityEngine.SceneManagement;
 
 public class HR_Gamemanager : MonoBehaviour
 {
-    //remember to reset this on restart
 
     public HR_Player player;
     public CinemachineVirtualCamera virtualCamera;
@@ -20,6 +20,7 @@ public class HR_Gamemanager : MonoBehaviour
     public Button continueButton;
     public Image pauseMenu;
     public Vector3 goalPosition;
+    public SpectatorHandler spectatorHandler;
     public float goalAnimTime = 1f;
 
     private int pointsCollected = 0;
@@ -55,7 +56,10 @@ public class HR_Gamemanager : MonoBehaviour
         }
 
         if (gameOver)
+        {
             MovePlayerInGoal();
+            spectatorHandler.EndOfGameReaction(WinState.Win);
+        }
     }
 
     internal void CollectPoint()
@@ -90,21 +94,8 @@ public class HR_Gamemanager : MonoBehaviour
     }
 
     public void ResetGame()
-    {
-        bonbonManager.ResetBonbons();
-        gameTimer = 0f;
-        pointsCollected = 0;
-        timeScore.text = "00:00:00";
-        bonbonScore.text = "0";
-        Vector3 oldPlayerPos = player.transform.position;
-        Vector3 playerMoveDelta = oldPlayerPos - playerStartPos;
-        player.transform.position = playerStartPos;
-        if(player.transform.lossyScale.x < 0)
-        {
-            player.Flip();
-        }
-        virtualCamera.OnTargetObjectWarped(player.transform, playerMoveDelta);
-        readyButton.gameObject.SetActive(true);
+    {       
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

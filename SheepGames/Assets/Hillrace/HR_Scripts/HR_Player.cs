@@ -141,6 +141,11 @@ public partial class HR_Player : MonoBehaviour
         }        
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        print(collision.otherCollider.gameObject.name);
+    }
+
     private void SetAnimatorParameters()
     {
         myAnimator.SetFloat("hSpeed", Mathf.Abs(myRigidbody.velocity.x));
