@@ -141,9 +141,13 @@ public partial class HR_Player : MonoBehaviour
         }        
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D coll)
     {
-        print(collision.otherCollider.gameObject.name);
+        if (coll.gameObject.tag == "Ground" && coll.otherCollider.GetType() == typeof(BoxCollider2D))
+        {
+            jump = false;
+            myRigidbody.gravityScale = normalGravity;
+        }
     }
 
     private void SetAnimatorParameters()
