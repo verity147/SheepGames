@@ -15,9 +15,11 @@ public class PW_SheepMovement : MonoBehaviour {
     public Vector3 enemyLossPos;
     public AnimationClip clashAnim;
     public AnimationClip lossFallAnim;
+    public AudioClip clashAudio;
 
     private Animator anim;
     private Rigidbody2D rBody;
+    private AudioSource audioSource;
     private bool gameIsOn = false;
     private PW_InputManager inputManager;
 
@@ -27,6 +29,7 @@ public class PW_SheepMovement : MonoBehaviour {
     {
         rBody = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         inputManager = FindObjectOfType<PW_InputManager>();
     }
 
@@ -114,6 +117,10 @@ public class PW_SheepMovement : MonoBehaviour {
             time += Time.deltaTime / duration;
             transform.position = Vector3.Lerp(startPos, targetPos, time);
         }
+        if (audioSource)
+        {
+            audioSource.PlayOneShot(clashAudio);
+        }
         yield return null;
     }
 	
@@ -175,5 +182,11 @@ public class PW_SheepMovement : MonoBehaviour {
     public void PlayParticles()
     {
         GetComponentInChildren<ParticleHandler>().RunParticleSystem();
+    }
+
+    public void PlaySound(AudioClip clip)
+    {
+        if(audioSource)
+            audioSource.PlayOneShot(clip);
     }
 }
