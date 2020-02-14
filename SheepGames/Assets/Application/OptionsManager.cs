@@ -19,24 +19,24 @@ public class OptionsManager : MonoBehaviour {
     {
         if (PlayerPrefs.HasKey("musicVolume"))
         {
-            audioMixer.SetFloat("MusicVolume", PlayerPrefsManager.GetMusicVolume());
+            ChangeMusicVolume(PlayerPrefsManager.GetMusicVolume());
         }
         if (PlayerPrefs.HasKey("sfxVolume"))
         {
-            audioMixer.SetFloat("SFXVolume", PlayerPrefsManager.GetSfxVolume());
+            ChangeSfxVolume(PlayerPrefsManager.GetSfxVolume());
         }
     }
 
-    private void Update()
-    {
-        if (SceneHandler.GetSceneName() != "04_MainMenu")
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                sceneHandler.LoadLevel("04_MainMenu");
-            }
-        }
-    }
+    //private void Update()
+    //{
+    //    if (SceneHandler.GetSceneName() != "04_MainMenu")
+    //    {
+    //        if (Input.GetKeyDown(KeyCode.Escape))
+    //        {
+    //            sceneHandler.LoadLevel("04_MainMenu");
+    //        }
+    //    }
+    //}
 
     internal List<string> BuildResolutionsList()
     {
@@ -59,14 +59,16 @@ public class OptionsManager : MonoBehaviour {
 
     public void ChangeMusicVolume(float volume)
     {
-        audioMixer.SetFloat("MusicVolume", volume);
         PlayerPrefsManager.SetMusicVolume(volume);
+        volume = Mathf.Log10(volume) * 20;
+        audioMixer.SetFloat("MusicVolume", volume);
     }
 
     public void ChangeSfxVolume(float volume)
     {
-        audioMixer.SetFloat("SFXVolume", volume);
         PlayerPrefsManager.SetSfxVolume(volume);
+        volume = Mathf.Log10(volume) * 20;
+        audioMixer.SetFloat("SFXVolume", volume);
     }
 
     public void ChangeResolutionIndex(int index)

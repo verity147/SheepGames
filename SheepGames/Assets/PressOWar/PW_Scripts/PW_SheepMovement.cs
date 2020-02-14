@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SoundList { Clash, Victory, Step, Splash }
+
 public class PW_SheepMovement : MonoBehaviour {
 
     public float pushForce;
@@ -16,10 +18,13 @@ public class PW_SheepMovement : MonoBehaviour {
     public AnimationClip clashAnim;
     public AnimationClip lossFallAnim;
     public AudioClip clashAudio;
+    public AudioClip victoryAudio;
+    public AudioClip stepSound;
+    public AudioClip splashAudio;
+    public AudioSource[] audioSources;
 
     private Animator anim;
     private Rigidbody2D rBody;
-    private AudioSource audioSource;
     private bool gameIsOn = false;
     private PW_InputManager inputManager;
 
@@ -29,7 +34,6 @@ public class PW_SheepMovement : MonoBehaviour {
     {
         rBody = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
         inputManager = FindObjectOfType<PW_InputManager>();
     }
 
@@ -117,10 +121,6 @@ public class PW_SheepMovement : MonoBehaviour {
             time += Time.deltaTime / duration;
             transform.position = Vector3.Lerp(startPos, targetPos, time);
         }
-        if (audioSource)
-        {
-            audioSource.PlayOneShot(clashAudio);
-        }
         yield return null;
     }
 	
@@ -184,9 +184,30 @@ public class PW_SheepMovement : MonoBehaviour {
         GetComponentInChildren<ParticleHandler>().RunParticleSystem();
     }
 
-    public void PlaySound(AudioClip clip)
+    private void PlaySound(AudioClip clip, int source)
     {
-        if(audioSource)
-            audioSource.PlayOneShot(clip);
+        audioSources[source].PlayOneShot(clip);
+    }
+
+    public void TriggerSound(SoundList sound)
+    {
+        if (audioSources.Length > 0)
+            switch (sound)/// 0 is the normal audioSource, 1 is lower volume
+            {
+                case SoundList.Clash:
+                    PlaySound(clashAudio, 0);
+                    break;
+                case SoundList.Victory:
+                    PlaySound(victoryAudio, 0);
+                    break;
+                case SoundList.Step:
+                    PlaySound(stepSound, 1);
+                    break;
+                case SoundList.Splash:
+                    PlaySound(splashAudio, 0);
+                    break;
+                default:
+                    return;
+            }
     }
 }

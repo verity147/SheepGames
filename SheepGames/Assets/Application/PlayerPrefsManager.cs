@@ -10,7 +10,6 @@ public static class PlayerPrefsManager  {
     const string RESOLUTION_WIDTH_KEY = "resolutionWidth";
     const string RESOLUTION_HEIGHT_KEY = "resolutionHeight";
     const string LANGUAGE_KEY = "language";
-    //add language
 
     public static void SetMusicVolume(float volume)
     {

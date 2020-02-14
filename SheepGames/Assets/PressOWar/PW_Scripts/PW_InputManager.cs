@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+enum FeedbackSounds { correct, wrong }
+
 public class PW_InputManager : MonoBehaviour {
 
     private BoxCollider2D boxCollider;
@@ -10,6 +12,7 @@ public class PW_InputManager : MonoBehaviour {
     private PW_ScoreManager scoreManager;
     private PW_DirectionsSpawner directionsSpawner;
     private PW_Timer timer;
+    private AudioSource audioSource;
 
     public float boostTime = 10f;
     public float boostFull = 10f;
@@ -20,6 +23,8 @@ public class PW_InputManager : MonoBehaviour {
     public Slider pBar;
     public GameObject continueButton;
     public SpectatorHandler spectatorHandler;
+    public AudioClip correctSound;
+    public AudioClip wrongSound;
 
     private float currentTurnTime = 0;
     private float currentPrecBonus = 0;
@@ -37,6 +42,7 @@ public class PW_InputManager : MonoBehaviour {
         directionsSpawner = FindObjectOfType<PW_DirectionsSpawner>();
         timer = FindObjectOfType<PW_Timer>();
         boxCollider = GetComponent<BoxCollider2D>();
+        audioSource = GetComponent<AudioSource>();
         contactFilter = new ContactFilter2D
         {
             layerMask = 9
@@ -121,15 +127,16 @@ public class PW_InputManager : MonoBehaviour {
 
         if (colliderAmount == 1 && touchingColliders[0] != null)
         {
-            //print("Currently registered collider: " + touchingColliders[0].gameObject);
-            if(inputDir == touchingColliders[0].GetComponent<PW_Direction>().direction)
+            if(inputDir == touchingColliders[0].GetComponent<PW_Direction>().direction)///correct button pressed
             {
+                audioSource.PlayOneShot(correctSound);
                 PrecisionCheck(touchingColliders[0].gameObject);
                 lastPrecCheck = true;
             }
-            else
+            else///wrong button pressed
             {
                 scoreManager.SubstractScore(ScoreMalus.WrongDirPressed);
+                audioSource.PlayOneShot(wrongSound);
                 lastPrecCheck = false;
                 enemy.EnemyPushHelper();
             }
@@ -146,7 +153,7 @@ public class PW_InputManager : MonoBehaviour {
             ///did not hit any direction
             scoreManager.SubstractScore(ScoreMalus.PressedNoDir);
             print("pressed a button but there was no direction");
-            //do an effect
+            audioSource.PlayOneShot(wrongSound);
         }
     }
 
@@ -213,10 +220,10 @@ public class PW_InputManager : MonoBehaviour {
     private void OnTriggerExit2D(Collider2D collision)
     {
         GameObject collidedObject = collision.gameObject;
-        //do effect to show the direction was missed
         if (collidedObject.activeInHierarchy)
         {
             collidedObject.SetActive(false);
+            audioSource.PlayOneShot(wrongSound);
             scoreManager.SubstractScore(ScoreMalus.DirMissed);
             enemy.EnemyPushHelper();
         }

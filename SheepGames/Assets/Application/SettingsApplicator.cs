@@ -20,6 +20,15 @@ public class SettingsApplicator : MonoBehaviour {
         {
             Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
         }
+
+        if (!PlayerPrefs.HasKey("musicVolume"))
+        {
+            PlayerPrefsManager.SetMusicVolume(0.8f);
+        }
+        if (!PlayerPrefs.HasKey("sfxVolume"))
+        {
+            PlayerPrefsManager.SetSfxVolume(0.8f);
+        }
         StartCoroutine(ShowLogos());
     }
 
