@@ -27,11 +27,13 @@ public class PP_GameManager : MonoBehaviour {
     private readonly int scoreBonus = 20;
     private readonly int[] rotations = { 0, 90, 180, 270 };
     private Bounds holdingAreaBounds;
+    private AudioSource audioSource;
 
 
     private void Awake()
     {
         holdingAreaBounds = holdingArea.GetComponent<CompositeCollider2D>().bounds;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
