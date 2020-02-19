@@ -15,9 +15,11 @@ public class PP_GameManager : MonoBehaviour {
     public PP_UIHandler uIHandler;
     public GameObject tutorialEndMenu;
     public GameObject mouseFollowHelper;
+    public AudioClip correctAudio;
+    public AudioClip errorAudio;
+    public AudioClip finishedAudio;
 
     internal GameObject[] parts;
-    //private BoxCollider2D holdingArea;
     private int correctParts = 0;
     private int numberOfTries = 0;
     private int numberOfFalseTries = 0;
@@ -28,7 +30,6 @@ public class PP_GameManager : MonoBehaviour {
     private readonly int[] rotations = { 0, 90, 180, 270 };
     private Bounds holdingAreaBounds;
     private AudioSource audioSource;
-
 
     private void Awake()
     {
@@ -123,15 +124,18 @@ public class PP_GameManager : MonoBehaviour {
                     ///stop the piece from being moved again
                     puzzlePart.GetComponent<Collider2D>().enabled = false;
                     correctParts++;
+                    audioSource.PlayOneShot(correctAudio);
                     winParticle.transform.position = puzzlePart.transform.position;
                     winParticle.Play();
                     if (correctParts >= parts.Length)
                     {
+                        audioSource.PlayOneShot(finishedAudio);
                         GameFinished();
                     }
                 }
                 else
                 {
+                    audioSource.PlayOneShot(errorAudio);
                     print("wrong position");
                     ///count to false tries
                     numberOfFalseTries++;
@@ -142,6 +146,7 @@ public class PP_GameManager : MonoBehaviour {
             ///if the piece lies incorrect, put back in Holding Area
             else
             {
+                audioSource.PlayOneShot(errorAudio);
                 print("rotated incorrectly");
                 ///count to false tries
                 numberOfFalseTries++;
