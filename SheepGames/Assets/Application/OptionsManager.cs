@@ -7,6 +7,7 @@ public class OptionsManager : MonoBehaviour {
 
     public AudioMixer audioMixer;  
     public SceneHandler sceneHandler;
+    public float musicFadeIn = 1f;
 
     private Resolution[] resolutions;
     internal List<string> resolutionsList;
@@ -19,24 +20,19 @@ public class OptionsManager : MonoBehaviour {
     {
         if (PlayerPrefs.HasKey("musicVolume"))
         {
-            ChangeMusicVolume(PlayerPrefsManager.GetMusicVolume());
+            print(PlayerPrefsManager.GetMusicVolume());
+            audioMixer.SetFloat("MusicVolume", Mathf.Log10(0.0001f) * 20); ///so the fade-in actually starts from silence
+            StartCoroutine(FadeMixerGroup.StartFade(audioMixer, "MusicVolume", musicFadeIn, PlayerPrefsManager.GetMusicVolume()));
+        }
+        else
+        {
+            StartCoroutine(FadeMixerGroup.StartFade(audioMixer, "MusicVolume", musicFadeIn, 1f));
         }
         if (PlayerPrefs.HasKey("sfxVolume"))
         {
             ChangeSfxVolume(PlayerPrefsManager.GetSfxVolume());
         }
     }
-
-    //private void Update()
-    //{
-    //    if (SceneHandler.GetSceneName() != "04_MainMenu")
-    //    {
-    //        if (Input.GetKeyDown(KeyCode.Escape))
-    //        {
-    //            sceneHandler.LoadLevel("04_MainMenu");
-    //        }
-    //    }
-    //}
 
     internal List<string> BuildResolutionsList()
     {

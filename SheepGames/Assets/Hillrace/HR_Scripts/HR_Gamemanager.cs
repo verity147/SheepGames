@@ -107,13 +107,3 @@ public class HR_Gamemanager : MonoBehaviour
         }
     }
 }
-//press start/ready button +
-//countdown
-//enable player control +
-//start timer +
-//touch finishline +
-//disable player control + 
-//stop timer + 
-//show button to display highscore
-
-//make escape show pause menu

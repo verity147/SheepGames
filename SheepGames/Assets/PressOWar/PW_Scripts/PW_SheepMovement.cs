@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SoundList { Clash, Victory, Step, Loss }
+public enum PW_SoundList { Clash, Victory, Step, Loss }
 
 public class PW_SheepMovement : MonoBehaviour {
 
@@ -189,21 +189,21 @@ public class PW_SheepMovement : MonoBehaviour {
         audioSources[source].PlayOneShot(clip);
     }
 
-    public void TriggerSound(SoundList sound)
+    public void TriggerSound(PW_SoundList sound)
     {
         if (audioSources.Length > 0)
             switch (sound)/// 0 is the normal audioSource, 1 is lower volume, 2 is louder
             {
-                case SoundList.Clash:
+                case PW_SoundList.Clash:
                     PlaySound(clashAudio, 2);
                     break;
-                case SoundList.Victory:
+                case PW_SoundList.Victory:
                     PlaySound(victoryAudio, 0);
                     break;
-                case SoundList.Step:
+                case PW_SoundList.Step:
                     PlaySound(stepSound, 1);
                     break;
-                case SoundList.Loss:
+                case PW_SoundList.Loss:
                     PlaySound(splashAudio, 2);
                     break;
                 default:

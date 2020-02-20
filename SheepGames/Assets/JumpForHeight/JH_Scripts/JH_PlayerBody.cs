@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum JH_SoundList { Step, Step2, Flight }
+
+
 public class JH_PlayerBody : MonoBehaviour
 {
     public float maxRunwayDist;
@@ -101,12 +104,6 @@ public class JH_PlayerBody : MonoBehaviour
         }
     }
 
-    public void PlayAudio(int clipIndex)
-    {
-        audioSource.clip = audioClips[clipIndex];
-        audioSource.Play();
-    }
-
     public void PlayDustParticles(int position)
     {
         Instantiate(dustParticle, feetPositions[position]);
@@ -175,9 +172,6 @@ public class JH_PlayerBody : MonoBehaviour
     {
         ///speed and physics are applied 
         anim.SetTrigger("fly");
-        audioSource.Stop();
-        PlayAudio(2);
-        audioSource.loop = true;
         playerRB.isKinematic = false;
         playerRB.AddForce(jumpForce, ForceMode2D.Impulse);
         gameController.SwitchCamera();
@@ -231,6 +225,29 @@ public class JH_PlayerBody : MonoBehaviour
             anim.SetBool("success", false);
             anim.SetBool("lost", false);
             spectatorHandler.EndOfGameReaction(WinState.Neutral);
+        }
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
+    }
+
+    private void TriggerSound (JH_SoundList soundList)
+    {
+        switch (soundList)
+        {
+            case JH_SoundList.Step:
+                PlaySound( audioClips[0]);
+                break;
+            case JH_SoundList.Step2:
+                PlaySound( audioClips[1]);
+                break;
+            case JH_SoundList.Flight:
+                PlaySound( audioClips[2]);
+                break;
+            default:
+                return;
         }
     }
 
