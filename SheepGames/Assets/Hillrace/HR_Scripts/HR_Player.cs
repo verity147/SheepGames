@@ -7,6 +7,8 @@ public partial class HR_Player : MonoBehaviour
 {
     internal enum Jumpstate { normal, boosted, spring, swimming }
 
+    internal enum HR_SoundList { step, jump, drink, fall, swim, splash }
+
     public float maxRunSpeed = 10f;
     public float mudRunSpeed = 1f;
     public float swimSpeed = 4f;
@@ -22,6 +24,7 @@ public partial class HR_Player : MonoBehaviour
     public float fallStunTime = 0.5f;
     public ParticleSystem particle;
     public Transform particleSpawn;
+    public AudioSource[] audioSources;
 
     private bool isGrounded;
     public bool IsGrounded
@@ -301,9 +304,36 @@ public partial class HR_Player : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// The following events are called from animations.
-    /// </summary>
+    private void PlayAudio(AudioClip clip, int sourceNo)
+    {
+        audioSources[sourceNo].PlayOneShot(clip);
+    }
+
+    private void TriggerSound(HR_SoundList sound)
+    {
+        switch (sound)
+        {
+            case HR_SoundList.step:
+                break;
+            case HR_SoundList.jump:
+                break;
+            case HR_SoundList.drink:
+                break;
+            case HR_SoundList.fall:
+                break;
+            case HR_SoundList.swim:
+                break;
+            case HR_SoundList.splash:
+                break;
+            default:
+                Debug.LogWarning("Could not find sound effect!");
+                return;
+        }
+    }
+
+        /// <summary>
+        /// The following events are called from animations.
+        /// </summary>
 
     private void StunOver() 
     {
@@ -325,4 +355,4 @@ public partial class HR_Player : MonoBehaviour
     {
 
     }
-}
+    }
