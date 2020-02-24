@@ -29,12 +29,10 @@ public class SettingsApplicator : MonoBehaviour {
         {
             PlayerPrefsManager.SetSfxVolume(0.8f);
         }
-        StartCoroutine(ShowLogos());
     }
 
-    private IEnumerator ShowLogos()
+    public void ShowLogos()
     {
-        yield return new WaitForSecondsRealtime(2);
         sceneHandler.LoadLevel("02_Intro");
     }
 }
