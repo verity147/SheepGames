@@ -10,12 +10,20 @@ public class HR_StarterSheep : MonoBehaviour
 
     private HR_Gamemanager gamemanager;
     private Animator anim;
+    private AudioSource audioSource;
     private int countHelper = 3;
 
     private void Awake()
     {
         gamemanager = GetComponentInParent<HR_Gamemanager>();
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    public void StartGame()
+    {
+        anim.SetTrigger("startGame");
+        countHelper = counterSteps;
     }
 
     public void Countdown( string counter)
@@ -28,9 +36,8 @@ public class HR_StarterSheep : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    private void PlayAudio()
     {
-        anim.SetTrigger("startGame");
-        countHelper = counterSteps;
+        audioSource.Play();
     }
 }

@@ -31,7 +31,7 @@ public class SettingsApplicator : MonoBehaviour {
         }
     }
 
-    public void ShowLogos()
+    public void LoadIntro()
     {
         sceneHandler.LoadLevel("02_Intro");
     }

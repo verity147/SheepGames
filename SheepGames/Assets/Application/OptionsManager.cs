@@ -20,7 +20,6 @@ public class OptionsManager : MonoBehaviour {
     {
         if (PlayerPrefs.HasKey("musicVolume"))
         {
-            print(PlayerPrefsManager.GetMusicVolume());
             audioMixer.SetFloat("MusicVolume", Mathf.Log10(0.0001f) * 20); ///so the fade-in actually starts from silence
             StartCoroutine(FadeMixerGroup.StartFade(audioMixer, "MusicVolume", musicFadeIn, PlayerPrefsManager.GetMusicVolume()));
         }

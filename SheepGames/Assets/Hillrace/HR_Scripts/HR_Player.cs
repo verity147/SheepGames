@@ -7,7 +7,7 @@ public partial class HR_Player : MonoBehaviour
 {
     internal enum Jumpstate { normal, boosted, spring, swimming }
 
-    internal enum HR_SoundList { step, jump, drink, fall, swim, splash }
+    internal enum HR_SoundList { step, jump, drink, fall, swim, splash, boostEnd, score }
 
     public float maxRunSpeed = 10f;
     public float mudRunSpeed = 1f;
@@ -25,6 +25,14 @@ public partial class HR_Player : MonoBehaviour
     public ParticleSystem particle;
     public Transform particleSpawn;
     public AudioSource[] audioSources;
+    public AudioClip stepSound;
+    public AudioClip jumpSound;
+    public AudioClip drinkSound;
+    public AudioClip fallSound;
+    public AudioClip swimSound;
+    public AudioClip splashSound;
+    public AudioClip boostEndSound;
+    public AudioClip scoreSound;
 
     private bool isGrounded;
     public bool IsGrounded
@@ -41,7 +49,24 @@ public partial class HR_Player : MonoBehaviour
         }
     } 
     internal bool inMud;
-    internal bool isSwimming;
+    private bool isSwimming;
+    public bool IsSwimming
+    {
+        get { return isSwimming;  }
+        set
+        {
+            if(value == isSwimming)
+            {
+                return;
+            }
+            if (value == true)
+            {
+                TriggerSound(HR_SoundList.splash);
+            }
+            isSwimming = value;
+           
+        }
+    } 
     private bool drinkingAllowed = false;
     public bool DrinkingAllowed
     {
@@ -239,6 +264,7 @@ public partial class HR_Player : MonoBehaviour
         if (playerCanvas.drinkMeter.IsActive() && drinkTime <= 0f && !DrinkingAllowed)
         {
             playerCanvas.drinkMeter.gameObject.SetActive(false);
+            TriggerSound(HR_SoundList.boostEnd);
         }
     }
 
@@ -309,24 +335,36 @@ public partial class HR_Player : MonoBehaviour
         audioSources[sourceNo].PlayOneShot(clip);
     }
 
-    private void TriggerSound(HR_SoundList sound)
+    internal void TriggerSound(HR_SoundList sound)
     {
-        switch (sound)
+        switch (sound)  ///0 is normal, 1 is low volume, 2 is loud
         {
             case HR_SoundList.step:
+                PlayAudio(stepSound, 0);
                 break;
             case HR_SoundList.jump:
+                PlayAudio(jumpSound, 2);
                 break;
             case HR_SoundList.drink:
+                PlayAudio(drinkSound, 2);
                 break;
             case HR_SoundList.fall:
+                PlayAudio(fallSound, 2);
                 break;
             case HR_SoundList.swim:
+                PlayAudio(swimSound, 0);
                 break;
             case HR_SoundList.splash:
+                PlayAudio(splashSound, 0);
+                break;
+            case HR_SoundList.boostEnd:
+                PlayAudio(boostEndSound, 1);
+                break;
+            case HR_SoundList.score:
+                PlayAudio(scoreSound, 0);
                 break;
             default:
-                Debug.LogWarning("Could not find sound effect!");
+                Debug.LogWarning("Could not find sound effect for " + sound.ToString() + "!");
                 return;
         }
     }

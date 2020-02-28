@@ -8,11 +8,16 @@ public class HR_ShatterPlatform : MonoBehaviour
     private Collider2D coll;
     internal HR_Player player;
     private HR_Groundcheck groundcheck;
+    private AudioSource audioSource;
+
+    public AudioClip crumbleAudio;
+    public AudioClip rebuildAudio;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
         coll = GetComponent<EdgeCollider2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -32,5 +37,10 @@ public class HR_ShatterPlatform : MonoBehaviour
     private void ToggleCollider()
     {
         coll.enabled = !coll.enabled;
+    }
+
+    private void PlayAudio(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
     }
 }

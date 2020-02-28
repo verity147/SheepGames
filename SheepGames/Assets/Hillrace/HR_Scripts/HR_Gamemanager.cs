@@ -65,6 +65,7 @@ public class HR_Gamemanager : MonoBehaviour
     internal void CollectPoint()
     {
         pointsCollected += 1;
+        player.TriggerSound(HR_Player.HR_SoundList.score);
         bonbonScore.text = string.Format("{0} / {1}", pointsCollected, bonbonManager.childCount);
     }
 

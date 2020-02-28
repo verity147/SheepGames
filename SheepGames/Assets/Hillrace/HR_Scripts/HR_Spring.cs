@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HR_Spring : MonoBehaviour
 {
-    internal HR_Player player;
+    internal HR_Player player;    
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
