@@ -35,6 +35,8 @@ public class PW_InputManager : MonoBehaviour {
     private float playerCurrentDist;
 
     internal bool gameIsRunning = false;
+    private bool cursorMoving = false;
+    private float cursorFadeTimer = 0f;
 
     private void Awake()
     {
@@ -57,7 +59,7 @@ public class PW_InputManager : MonoBehaviour {
     private void Update()
     {
         if (!gameIsRunning)
-                return;
+            return;
         currentTurnTime += Time.deltaTime;
         pBar.value = Mathf.Abs(player.transform.position.x - player.losePosX) / playerMoveDist;
         if (Input.GetButtonDown("Left"))
@@ -76,6 +78,26 @@ public class PW_InputManager : MonoBehaviour {
         {
             CheckForDirection(Direction.Down);
         }
+
+        cursorMoving = Input.GetAxis("Mouse X") < 0 || (Input.GetAxis("Mouse X") > 0);
+        ManageCursorVisibility();
+    }
+
+    private void ManageCursorVisibility()
+    {
+        if (cursorMoving && !Cursor.visible)
+        {
+            Cursor.visible = true;
+        }
+        if (!cursorMoving && Cursor.visible)
+        {
+            cursorFadeTimer += Time.deltaTime;
+            if (cursorFadeTimer >= 1f)
+            {
+                Cursor.visible = false;
+                cursorFadeTimer = 0f;
+            }
+        }
     }
 
     internal void StartGame()
@@ -85,11 +107,13 @@ public class PW_InputManager : MonoBehaviour {
         enemy.StartGame();
         directionsSpawner.StartSpawnEngine();
         timer.SetUpTimer();
+        Cursor.visible = false;
     }
 
     internal void EndGame(WinState winState)
     {
         gameIsRunning = false;
+        Cursor.visible = true;
         //evaluate Score, and trigger corresponding win/lose messages
 
         int timeRemaining = Mathf.RoundToInt(timer.turnTimeInSec - currentTurnTime);

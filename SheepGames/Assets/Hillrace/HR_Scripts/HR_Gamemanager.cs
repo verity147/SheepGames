@@ -30,7 +30,8 @@ public class HR_Gamemanager : MonoBehaviour
     private bool gameOver = false;
     private float goalMoveTimer = 0f;
     private Vector3 playerGoalStartPos;
-
+    private bool cursorMoving = false;
+    private float cursorFadeTimer = 0f;
 
     private void Start()
     {
@@ -49,16 +50,37 @@ public class HR_Gamemanager : MonoBehaviour
             StopGame(); ///makes sure the timer can't go over one hour
             ResetGame();
         }
+
+        cursorMoving = Input.GetAxis("Mouse X") < 0 || (Input.GetAxis("Mouse X") > 0);
+
         if (gameIsRunning)
         {
             gameTimer += Time.deltaTime;
             timeScore.text = TimeSpan.FromSeconds(gameTimer).ToString(@"mm\:ss\:ff"); ///formatting the countdown output
+            ManageCursorVisibility();
         }
-
         if (gameOver)
         {
+            print("game over");
             MovePlayerInGoal();
             spectatorHandler.EndOfGameReaction(WinState.Win);
+        }
+    }
+
+    private void ManageCursorVisibility()
+    {
+        if (cursorMoving && !Cursor.visible)
+        {
+            Cursor.visible = true;
+        }
+        if (!cursorMoving && Cursor.visible)
+        {
+            cursorFadeTimer += Time.deltaTime;
+            if (cursorFadeTimer >= 1f)
+            {
+                Cursor.visible = false;
+                cursorFadeTimer = 0f;
+            }
         }
     }
 
@@ -73,6 +95,7 @@ public class HR_Gamemanager : MonoBehaviour
     {
         gameIsRunning = go;
         player.GameRunning = gameIsRunning;
+        Cursor.visible = !go;
     }
 
     private void MovePlayerInGoal()

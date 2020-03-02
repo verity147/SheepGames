@@ -7,7 +7,7 @@ public partial class HR_Player : MonoBehaviour
 {
     internal enum Jumpstate { normal, boosted, spring, swimming }
 
-    internal enum HR_SoundList { step, jump, drink, fall, swim, splash, boostEnd, score }
+    internal enum HR_SoundList { step, jump, drink, fall, swim, splash, score }
 
     public float maxRunSpeed = 10f;
     public float mudRunSpeed = 1f;
@@ -31,7 +31,6 @@ public partial class HR_Player : MonoBehaviour
     public AudioClip fallSound;
     public AudioClip swimSound;
     public AudioClip splashSound;
-    public AudioClip boostEndSound;
     public AudioClip scoreSound;
 
     private bool isGrounded;
@@ -264,7 +263,6 @@ public partial class HR_Player : MonoBehaviour
         if (playerCanvas.drinkMeter.IsActive() && drinkTime <= 0f && !DrinkingAllowed)
         {
             playerCanvas.drinkMeter.gameObject.SetActive(false);
-            TriggerSound(HR_SoundList.boostEnd);
         }
     }
 
@@ -356,9 +354,6 @@ public partial class HR_Player : MonoBehaviour
                 break;
             case HR_SoundList.splash:
                 PlayAudio(splashSound, 0);
-                break;
-            case HR_SoundList.boostEnd:
-                PlayAudio(boostEndSound, 1);
                 break;
             case HR_SoundList.score:
                 PlayAudio(scoreSound, 0);
