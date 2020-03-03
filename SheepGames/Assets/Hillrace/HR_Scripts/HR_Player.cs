@@ -7,7 +7,7 @@ public partial class HR_Player : MonoBehaviour
 {
     internal enum Jumpstate { normal, boosted, spring, swimming }
 
-    internal enum HR_SoundList { step, jump, drink, fall, swim, splash, score }
+    internal enum HR_SoundList { step, win, drink, fall, swim, splash, score }
 
     public float maxRunSpeed = 10f;
     public float mudRunSpeed = 1f;
@@ -26,7 +26,7 @@ public partial class HR_Player : MonoBehaviour
     public Transform particleSpawn;
     public AudioSource[] audioSources;
     public AudioClip stepSound;
-    public AudioClip jumpSound;
+    public AudioClip winSound;
     public AudioClip drinkSound;
     public AudioClip fallSound;
     public AudioClip swimSound;
@@ -340,8 +340,8 @@ public partial class HR_Player : MonoBehaviour
             case HR_SoundList.step:
                 PlayAudio(stepSound, 0);
                 break;
-            case HR_SoundList.jump:
-                PlayAudio(jumpSound, 2);
+            case HR_SoundList.win:
+                PlayAudio(winSound, 2);
                 break;
             case HR_SoundList.drink:
                 PlayAudio(drinkSound, 2);

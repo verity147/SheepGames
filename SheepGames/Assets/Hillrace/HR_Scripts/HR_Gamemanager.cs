@@ -19,6 +19,7 @@ public class HR_Gamemanager : MonoBehaviour
     public Button readyButton;
     public Button continueButton;
     public Image pauseMenu;
+    public Animator goalSheep;
     public Vector3 goalPosition;
     public SpectatorHandler spectatorHandler;
     public float goalAnimTime = 1f;
@@ -113,6 +114,7 @@ public class HR_Gamemanager : MonoBehaviour
     {
         StartPauseGame(false);
         player.myAnimator.SetTrigger("goal");
+        goalSheep.SetTrigger("wave");
         playerGoalStartPos = player.transform.position;
         gameOver = true;
     }
