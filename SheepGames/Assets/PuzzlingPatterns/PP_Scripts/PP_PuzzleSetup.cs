@@ -14,11 +14,10 @@ public class PP_PuzzleSetup : MonoBehaviour {
     
     [Tooltip("Needs to be the top left tile of the puzzle area")]
     public Vector2 startingTile;
-    [Tooltip("Requires Sprite in multiple sprite mode, rows and columns matching the puzzlesize!")]
-    public string pictureName;
     public GameObject part;
+    [Tooltip("Requires Sprite in multiple sprite mode, rows and columns matching the puzzlesize!")]
+    public Sprite[] puzzlePicture;
 
-    private Sprite[] puzzlePicture;
     private Tilemap puzzleArea;    
     private PP_GameManager gameManager;
     private Vector2 puzzleSize;
@@ -26,7 +25,6 @@ public class PP_PuzzleSetup : MonoBehaviour {
 
     private void Awake()
     {
-        puzzlePicture = Resources.LoadAll<Sprite>(pictureName);
         gameManager = FindObjectOfType<PP_GameManager>();
         puzzleArea = gameManager.puzzleArea;
         parts = new List<GameObject>();

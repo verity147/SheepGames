@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class PP_GameManager : MonoBehaviour {
 
@@ -18,6 +19,7 @@ public class PP_GameManager : MonoBehaviour {
     public AudioClip correctAudio;
     public AudioClip errorAudio;
     public AudioClip finishedAudio;
+    public OptionsManager optionsManager;
 
     internal GameObject[] parts;
     private int correctParts = 0;
@@ -53,7 +55,7 @@ public class PP_GameManager : MonoBehaviour {
             FindPosInHoldingArea(parts[i].transform);
             ///give the part a random rotation
             Vector3 euler = parts[i].transform.eulerAngles;
-            euler.z = rotations[Random.Range(0, rotations.Length)];
+            euler.z = rotations[UnityEngine.Random.Range(0, rotations.Length)];
             parts[i].transform.eulerAngles = euler;
         }    
     }
@@ -63,8 +65,8 @@ public class PP_GameManager : MonoBehaviour {
         ///get random point in bounds
         Vector3 collExtents = holdingAreaBounds.extents;
         ///z needs to be in front of background and gamemanager because clicks don't get properly registered otherwise
-        Vector3 newPos = new Vector3(Random.Range(-collExtents.x, collExtents.x), 
-                                     Random.Range(-collExtents.y, collExtents.y), -1f);
+        Vector3 newPos = new Vector3(UnityEngine.Random.Range(-collExtents.x, collExtents.x),
+                                     UnityEngine.Random.Range(-collExtents.y, collExtents.y), -1f);
         newPos.x += holdingAreaBounds.center.x;
         newPos.y += holdingAreaBounds.center.y;
         part.position = newPos;
@@ -121,15 +123,26 @@ public class PP_GameManager : MonoBehaviour {
                 if (newPos == puzzlePart.GetComponent<PP_PuzzlePartDisplay>().correctPosition)
                 {
                     print("correct");
-                    ///stop the piece from being moved again
+                    ///stop the piece from being moved again and move it behind the active piece
                     puzzlePart.GetComponent<Collider2D>().enabled = false;
+                    puzzlePart.GetComponent<SpriteRenderer>().sortingOrder = 0;
                     correctParts++;
                     audioSource.PlayOneShot(correctAudio);
                     winParticle.transform.position = puzzlePart.transform.position;
                     winParticle.Play();
                     if (correctParts >= parts.Length)
                     {
-                        audioSource.PlayOneShot(finishedAudio);
+                        if (PlayerPrefsManager.GetMusicVolume() > 0.1f)
+                        {
+                            float rememberVolume = PlayerPrefsManager.GetMusicVolume();
+                            optionsManager.ChangeMusicVolume(0.1f);
+                            audioSource.PlayOneShot(finishedAudio);
+                            StartCoroutine(WaitForSound(finishedAudio, rememberVolume));
+                        }
+                        else
+                        {
+                            audioSource.PlayOneShot(finishedAudio);
+                        }
                         GameFinished();
                     }
                 }
@@ -163,6 +176,12 @@ public class PP_GameManager : MonoBehaviour {
             print("not in puzzleArea or holding area");
             FindPosInHoldingArea(puzzlePart);
         }
+    }
+
+    private IEnumerator WaitForSound(AudioClip finishedAudio, float volume)
+    {
+        yield return new WaitForSeconds(finishedAudio.length);
+        optionsManager.ChangeMusicVolume(volume);
     }
 
     private Vector3 CellCenterFromClick(Vector3 mousePos)
