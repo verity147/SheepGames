@@ -11,11 +11,6 @@ public class ParticleHandler : MonoBehaviour {
         partSys = GetComponent<ParticleSystem>();
     }
 
-    private void OnEnable()
-    {
-        RunParticleSystem();
-    }
-
     public void RunParticleSystem()
     {
         if (partSys.isPlaying)

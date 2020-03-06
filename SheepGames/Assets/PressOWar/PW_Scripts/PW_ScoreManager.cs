@@ -67,8 +67,8 @@ public class PW_ScoreManager : MonoBehaviour {
 
     internal void UpdateScore(int addScore)
     {
-        int scoreInt = Mathf.RoundToInt(currentScore) + addScore;
+        int scoreInt = Mathf.RoundToInt(currentScore + addScore);
         uiHandler.score.text = scoreInt.ToString();
-        DataCollector.UpdateScore(Mathf.RoundToInt(scoreInt));
+        DataCollector.UpdateScore(scoreInt);
     }
 }

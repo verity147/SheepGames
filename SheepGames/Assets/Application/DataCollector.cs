@@ -57,7 +57,7 @@ public static class DataCollector
                     ///...and add each template player with a certain score to a new dictionary...
                     for (int j = 0; j < exampleNames.Length; j++)
                     {
-                        int newScore = Mathf.RoundToInt((Random.Range(100, 900)) / 100) * 100;
+                        int newScore = Random.Range(100, 900);  //change arbitrary scores to match reality
                         scoreDict.Add(exampleNames[j], newScore);
                     }
                     ///...then add this new dictionary to the actual savegame data and save

@@ -18,6 +18,7 @@ public class PW_InputManager : MonoBehaviour {
     public float boostFull = 10f;
     public float precisionBonus = 1;
     public float boostForce = 5f;
+    public int lossPenalty = -100;
     public PW_SheepMovement player;
     public PW_SheepMovement enemy;
     public Slider pBar;
@@ -32,11 +33,14 @@ public class PW_InputManager : MonoBehaviour {
     private bool lastPrecCheck = false;
     private bool boostIsRunning = false;
     private float playerMoveDist;
-    private float playerCurrentDist;
 
     internal bool gameIsRunning = false;
     private bool cursorMoving = false;
     private float cursorFadeTimer = 0f;
+
+    private readonly string winTextKey = "Win_T";
+    private readonly string loseTextKey = "Loss_T";
+    private readonly string outOfTimeTextKey = "TimeUp_T";
 
     private void Awake()
     {
@@ -123,15 +127,20 @@ public class PW_InputManager : MonoBehaviour {
             case WinState.Loss:
                 player.StopGame(WinState.Loss);
                 enemy.StopGame(WinState.Win);
+                scoreManager.UpdateScore(lossPenalty);
+                continueButton.GetComponentInChildren<LocalizedText>().key = loseTextKey;
                 break;
             case WinState.Win:
                 player.StopGame(WinState.Win);
                 enemy.StopGame(WinState.Loss);
                 scoreManager.UpdateScore(timeRemaining * 10);
+                continueButton.GetComponentInChildren<LocalizedText>().key = winTextKey;
                 break;
             case WinState.Neutral:
                 player.StopGame(WinState.Neutral);
                 enemy.StopGame(WinState.Neutral);
+                scoreManager.UpdateScore(0);    ///running out of time incurs neither bonus nor penalty
+                continueButton.GetComponentInChildren<LocalizedText>().key = outOfTimeTextKey;
                 break;
             default:
                 break;
