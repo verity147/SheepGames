@@ -329,7 +329,7 @@ PrefabInstance:
     - target: {fileID: 224875783259960400, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 224875783259960400, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 3}
@@ -7813,9 +7813,9 @@ RectTransform:
   - {fileID: 2047755612}
   - {fileID: 170627719}
   - {fileID: 458719750}
-  - {fileID: 1257599931}
   - {fileID: 1897010987}
   - {fileID: 74333937}
+  - {fileID: 1257599931}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8251,7 +8251,7 @@ RectTransform:
   m_Children:
   - {fileID: 328288860}
   m_Father: {fileID: 1020448035}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -10906,12 +10906,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc81305e2be47ac429e688691f8d4f11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxScoreMult: 2
+  maxScoreMult: 2.5
   scoreBonus: 10
-  wrongDirPressed: 10
-  dirMissed: 5
+  wrongDirPressed: 12
+  dirMissed: 8
   pressedNoDir: 5
-  malus: 0
 --- !u!4 &1887876382
 Transform:
   m_ObjectHideFlags: 0
@@ -10957,7 +10956,7 @@ RectTransform:
   m_Children:
   - {fileID: 1284140193}
   m_Father: {fileID: 1020448035}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

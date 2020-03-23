@@ -17,7 +17,6 @@ public class PW_ScoreManager : MonoBehaviour {
     public int dirMissed = 5;
     public int pressedNoDir = 5;
 
-    public ScoreMalus malus;
 
     internal float currentScore = 0;
 
