@@ -66,8 +66,11 @@ public class PW_ScoreManager : MonoBehaviour {
 
     internal void UpdateScore(int addScore)
     {
+        print("Score1: " + currentScore);
+
         int scoreInt = Mathf.RoundToInt(currentScore + addScore);
         uiHandler.score.text = scoreInt.ToString();
         DataCollector.UpdateScore(scoreInt);
+        print("Score: " + scoreInt);
     }
 }

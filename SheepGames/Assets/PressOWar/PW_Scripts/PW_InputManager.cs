@@ -133,6 +133,7 @@ public class PW_InputManager : MonoBehaviour {
             case WinState.Win:
                 player.StopGame(WinState.Win);
                 enemy.StopGame(WinState.Loss);
+                print(timeRemaining);
                 scoreManager.UpdateScore(timeRemaining * 10);
                 continueButton.GetComponentInChildren<LocalizedText>().key = winTextKey;
                 break;

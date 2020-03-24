@@ -7,9 +7,9 @@ public class JH_ScoreCalculator : MonoBehaviour {
     
     internal int score = 0;
     private readonly int stonePointPenaltyStart = 30;
-    private int obstacleSheepPenalty = 250;
+    private readonly int obstacleSheepPenalty = 250;
     internal int stonePointPenalty = 30;
-    internal int winPointBonus = 300;
+    internal readonly int winPointBonus = 300;
     private List<GameObject> countedObjects;
 
     void Start () {
