@@ -6,7 +6,6 @@ using UnityEngine.UI;
 enum FeedbackSounds { correct, wrong }
 
 public class PW_InputManager : MonoBehaviour {
-
     private BoxCollider2D boxCollider;
     private ContactFilter2D contactFilter;
     private PW_ScoreManager scoreManager;
@@ -19,6 +18,7 @@ public class PW_InputManager : MonoBehaviour {
     public float precisionBonus = 1;
     public float boostForce = 5f;
     public int lossPenalty = -100;
+    public int timeBonusMult = 10;
     public PW_SheepMovement player;
     public PW_SheepMovement enemy;
     public Slider pBar;
@@ -134,7 +134,7 @@ public class PW_InputManager : MonoBehaviour {
                 player.StopGame(WinState.Win);
                 enemy.StopGame(WinState.Loss);
                 print(timeRemaining);
-                scoreManager.UpdateScore(timeRemaining * 10);
+                scoreManager.UpdateScore(timeRemaining * timeBonusMult);
                 continueButton.GetComponentInChildren<LocalizedText>().key = winTextKey;
                 break;
             case WinState.Neutral:

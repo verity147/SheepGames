@@ -10906,11 +10906,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc81305e2be47ac429e688691f8d4f11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxScoreMult: 2.5
-  scoreBonus: 10
-  wrongDirPressed: 12
-  dirMissed: 8
-  pressedNoDir: 5
+  maxScoreMult: 2.2
+  scoreBonus: 4
+  wrongDirPressed: 5
+  dirMissed: 4
+  pressedNoDir: 2
 --- !u!4 &1887876382
 Transform:
   m_ObjectHideFlags: 0
@@ -11935,6 +11935,11 @@ PrefabInstance:
       propertyPath: spectatorHandler
       value: 
       objectReference: {fileID: 271134149}
+    - target: {fileID: 8592046103036984969, guid: eca726dd7144aff499bb5320eff6731a,
+        type: 3}
+      propertyPath: timeBonusMult
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8592046103036984975, guid: eca726dd7144aff499bb5320eff6731a,
         type: 3}
       propertyPath: m_LocalPosition.x

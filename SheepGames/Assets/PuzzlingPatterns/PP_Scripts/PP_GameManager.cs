@@ -27,8 +27,9 @@ public class PP_GameManager : MonoBehaviour {
     private int numberOfFalseTries = 0;
     private ContactFilter2D contactFilter;
     private LayerMask layerMask = 12;
-    private readonly int scorePenalty = 12;
-    private readonly int scoreBonus = 20;
+    private readonly int scorePenalty = 5;
+    private readonly int scoreBonus = 8;
+    private readonly int flawlessBonus = 100;
     private readonly int[] rotations = { 0, 90, 180, 270 };
     private Bounds holdingAreaBounds;
     private AudioSource audioSource;
@@ -79,7 +80,7 @@ public class PP_GameManager : MonoBehaviour {
     ///give bonus points for a flawless game, otherwise substract the mistakes
     private int CalculateScore()
     {
-        return numberOfFalseTries == 0 ? (numberOfTries + 5) * scoreBonus : 
+        return numberOfFalseTries == 0 ? flawlessBonus : 
                 ((numberOfTries - numberOfFalseTries) * scoreBonus) -(numberOfFalseTries * scorePenalty);
     }
 
