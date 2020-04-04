@@ -180,14 +180,13 @@ public class JH_PlayerBody : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        audioSource.Stop();
         anim.SetTrigger("collided");
     }
     
     internal void ShowEndAnimation()
     {
         uIManager.gameEndButton.SetActive(true);
-        int currentScore = gameController.GetComponentInChildren<JH_ScoreCalculator>().score;
+        int currentScore = gameController.GetComponentInChildren<JH_ScoreCalculator>().CalculateEndScore();
         uIManager.ShowScore(currentScore);
         if(DataCollector.currentPlayer != null)
         {

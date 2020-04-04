@@ -23,16 +23,28 @@ public class HR_Gamemanager : MonoBehaviour
     public Vector3 goalPosition;
     public SpectatorHandler spectatorHandler;
     public float goalAnimTime = 1f;
+    public GameObject scoreTextObject;
+    public GameObject endOfGameMenu;
+    public PopulateHighscore populateHighscore;
 
     private int pointsCollected = 0;
     private float gameTimer = 0;
     private bool gameIsRunning = false;
     private Vector3 playerStartPos;
     private bool gameOver = false;
+    private int newScore;
     private float goalMoveTimer = 0f;
     private Vector3 playerGoalStartPos;
     private bool cursorMoving = false;
     private float cursorFadeTimer = 0f;
+    private HighscoreHandler highscoreHandler;
+    private readonly float maxTimeScore = 1350f; ///score should be slightly over 1k for perfect play, 
+                                                 ///this value seems to do the trick
+
+    private void Awake()
+    {
+        highscoreHandler = FindObjectOfType<HighscoreHandler>();
+    }
 
     private void Start()
     {
@@ -62,7 +74,6 @@ public class HR_Gamemanager : MonoBehaviour
         }
         if (gameOver)
         {
-            print("game over");
             MovePlayerInGoal();
             spectatorHandler.EndOfGameReaction(WinState.Win);
         }
@@ -117,6 +128,17 @@ public class HR_Gamemanager : MonoBehaviour
         goalSheep.SetTrigger("wave");
         playerGoalStartPos = player.transform.position;
         gameOver = true;
+        newScore = Mathf.RoundToInt(maxTimeScore - gameTimer) + pointsCollected;
+        DataCollector.UpdateScore(newScore);
+    }
+
+    ///called from button press
+    public void BuildLevelEndMenu()
+    {
+        endOfGameMenu.SetActive(true);
+        populateHighscore.NewGrid();
+        populateHighscore.NewLevelScore(SceneHandler.GetSceneName());
+        scoreTextObject.GetComponent<TMP_Text>().text = highscoreHandler.GetHighscoreText();
     }
 
     public void ResetGame()
