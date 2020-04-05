@@ -80,8 +80,8 @@ public class PP_GameManager : MonoBehaviour {
     ///give bonus points for a flawless game, otherwise substract the mistakes
     private int CalculateScore()
     {
-        return numberOfFalseTries == 0 ? flawlessBonus : 
-                ((numberOfTries - numberOfFalseTries) * scoreBonus) -(numberOfFalseTries * scorePenalty);
+        return numberOfFalseTries == 0 ? numberOfTries * scoreBonus + flawlessBonus : 
+                ((numberOfTries - numberOfFalseTries) * scoreBonus) - (numberOfFalseTries * scorePenalty);
     }
 
     private void GameFinished()

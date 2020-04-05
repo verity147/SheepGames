@@ -28,7 +28,7 @@ public static class DataCollector
     internal static string[] jh_Levels = { "JH_GameLV_01", "JH_GameLV_02", "JH_GameLV_03" };
     private static string[] pp_Levels = { "PP_GameLV_01", "PP_GameLV_02", "PP_GameLV_03" };
     private static string[] pw_Levels = { "PW_GameLV_01", "PW_GameLV_02", "PW_GameLV_03" };
-    private static string[] hr_Levels = { "HR_GameLV_01", "HR_GameLV_02", "HR_GameLV_03" };
+    private static string[] hr_Levels = { "HR_GameLV_01" };
 
     public static Dictionary<string, string[]> gameLevels = new Dictionary<string, string[]>()
     {
@@ -44,34 +44,62 @@ public static class DataCollector
         {
             SaveLoadManager.Load();
             return;
-        }else{
+        }else
+        {
             Debug.Log("A new savefile is being written.");
-            tempPlayerDict = new Dictionary<string, Dictionary<string, int>>();
+            tempPlayerDict = new Dictionary<string, Dictionary<string, int>>(); ///level, scoreDict
 
-            ///for each game...
-            foreach(KeyValuePair<string,string[]> levelNames in gameLevels)
-            {
-                ///...take every level of that game...
-                for (int k = 0; k < levelNames.Value.Length; k++)
-                {
-                    Dictionary<string, int> scoreDict = new Dictionary<string, int>();
-                    ///...and add each template player with a certain score to a new dictionary...
-                    for (int j = 0; j < exampleNames.Length; j++)
-                    {
-                        int newScore = Random.Range(100, 900);  //change arbitrary scores to match reality
-                        scoreDict.Add(exampleNames[j], newScore);
-                    }
-                    ///...then add this new dictionary to the actual savegame data and save
-                    tempPlayerDict.Add(levelNames.Value[k], scoreDict);
-                }
-            }
+            GenerateExampleScorePerLevel(2, 24, jh_Levels[0]);
+            GenerateExampleScorePerLevel(8, 43, jh_Levels[1]);
+            GenerateExampleScorePerLevel(15, 63, jh_Levels[2]);
+            GenerateExampleScorePerLevel(10, 25, pp_Levels[0]);
+            GenerateExampleScorePerLevel(16, 33, pp_Levels[1]);
+            GenerateExampleScorePerLevel(21, 44, pp_Levels[2]);
+            GenerateExampleScorePerLevel(12, 31, pw_Levels[0]);
+            GenerateExampleScorePerLevel(16, 33, pw_Levels[1]);
+            GenerateExampleScorePerLevel(18, 36, pw_Levels[2]);
+            GenerateExampleScorePerLevel(43, 98, hr_Levels[0]);
+
+            /////for each game...
+            //foreach (KeyValuePair<string, string[]> levelNames in gameLevels)
+            //{
+            //    ///...take every level of that game...
+            //    if (levelNames.Key != "Hillrace")
+            //    {
+            //        for (int k = 0; k < levelNames.Value.Length; k++)
+            //        {
+            //            Dictionary<string, int> scoreDict = new Dictionary<string, int>();
+            //            ///...and add each template player with a certain score to a new dictionary...
+            //            for (int j = 0; j < exampleNames.Length; j++)
+            //            {
+            //                int newScore = Random.Range(100, 900);  //change arbitrary scores to match reality
+            //                scoreDict.Add(exampleNames[j], newScore);
+            //            }
+            //            ///...then add this new dictionary to the actual savegame data and save
+            //            tempPlayerDict.Add(levelNames.Value[k], scoreDict);
+            //        }
+            //    }
+            //}
+
             SaveLoadManager.Save();
         }
     }
 
+    private static void GenerateExampleScorePerLevel(int min, int max, string level)
+    {
+        Dictionary<string, int> scoreDict = new Dictionary<string, int>(); ///playername, score
+
+        foreach (string name in exampleNames)
+        {
+            int newScore = Random.Range(min, max);
+            newScore *= 10;
+            scoreDict.Add(name, newScore);
+        }
+        tempPlayerDict.Add(level, scoreDict);
+    }
+
     public static void UpdateScore(int newScore)
     {
-        Debug.LogError("updateScore");
         currentLevel = SceneManager.GetActiveScene().name;
         CheckForSaveFile();
         oldScore = defaultScore;
@@ -82,8 +110,6 @@ public static class DataCollector
             ///...check if he's played before...
             if (tempPlayerDict[currentLevel].ContainsKey(currentPlayer))
             {
-                Debug.LogWarning("name: " + currentPlayer);
-                Debug.LogWarning("level: " + currentLevel);
                 oldScore = tempPlayerDict[currentLevel][currentPlayer];
                 ///...and test if the new score is a new best
                 if (newScore > oldScore)
@@ -107,21 +133,20 @@ public static class DataCollector
         }
 
         #region DEBUG ONLY
-        foreach (KeyValuePair<string, Dictionary<string, int>> kvp in tempPlayerDict)
-        {
-            string player = kvp.Key;
-            //print(player);
-            ICollection coll = kvp.Value;
-            foreach (KeyValuePair<string, int> item in coll)
-            {
-                Debug.Log("level: " + player + "; player: " + item.Key + ": " + item.Value);
-            }
-        }
-        List<KeyValuePair<string, int>> test = SortScore(currentLevel);
-        foreach (var item in test)
-        {
-            Debug.Log(item);
-        }
+        //foreach (KeyValuePair<string, Dictionary<string, int>> kvp in tempPlayerDict)
+        //{
+        //    string player = kvp.Key;
+        //    ICollection coll = kvp.Value;
+        //    foreach (KeyValuePair<string, int> item in coll)
+        //    {
+        //        Debug.Log("level: " + player + "; player: " + item.Key + ": " + item.Value);
+        //    }
+        //}
+        //List<KeyValuePair<string, int>> test = SortScore(currentLevel);
+        //foreach (var item in test)
+        //{
+        //    Debug.Log(item);
+        //}
         #endregion
     }
 
@@ -175,15 +200,15 @@ public static class DataCollector
         ///list for the future results
         List<KeyValuePair<string, int>> totals = new List<KeyValuePair<string, int>>();
 
-        Dictionary<string, int>[] gameTotals = { jhTotal, pwTotal, ppTotal, hrTotal };
+        Dictionary<string, int>[] gameTotals = { jhTotal, pwTotal, ppTotal, hrTotal }; //find shortest game total
 
-        /// for each entry in the longest dictionary ( = the level with the most different players)
+        /// for each entry in one of the dictionary
         for (int i = 0; i < jhTotal.Count; i++)
         {
             ///one player is chosen from the highscorelist for one game...
             ///if someone has not played one of the games, he's not qualified for the highscore anyways
             string player = jhTotalList[i].Key;
-            int score = jhTotalList[i].Value;
+            int score = 0;
             bool addToTotal = true;
             
             foreach (Dictionary<string, int> list in gameTotals)

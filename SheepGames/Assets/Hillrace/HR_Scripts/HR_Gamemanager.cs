@@ -123,11 +123,9 @@ public class HR_Gamemanager : MonoBehaviour
 
     private void StopGame()
     {
-        StartPauseGame(false);
         player.myAnimator.SetTrigger("goal");
         goalSheep.SetTrigger("wave");
         playerGoalStartPos = player.transform.position;
-        gameOver = true;
         newScore = Mathf.RoundToInt(maxTimeScore - gameTimer) + pointsCollected;
         DataCollector.UpdateScore(newScore);
     }
@@ -148,8 +146,10 @@ public class HR_Gamemanager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == player.gameObject)
+        if (collision.gameObject == player.gameObject && !gameOver)
         {
+            gameOver = true;
+            StartPauseGame(false);
             StopGame();
             continueButton.gameObject.SetActive(true);
         }

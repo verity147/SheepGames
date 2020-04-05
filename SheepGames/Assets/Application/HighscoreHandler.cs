@@ -38,7 +38,6 @@ public class HighscoreHandler : MonoBehaviour
     {
         oldScore = DataCollector.oldScore;
         newScore = DataCollector.currentScore;
-        print("old: " + oldScore + " new: " + newScore);
         string bestScoreText = "";
 
         if (oldScore == newScore)
