@@ -19,7 +19,8 @@ public static class DataCollector
     public static int currentGameTotal;
     public const string TOTAL_SCORE = "ALL_Total";
 
-    internal static int oldScore = -1000000;
+    private static readonly int defaultScore = -1000000;
+    internal static int oldScore;
     private static int oldGameTotal;
     private static int oldTotal;
 
@@ -70,8 +71,10 @@ public static class DataCollector
 
     public static void UpdateScore(int newScore)
     {
+        Debug.LogError("updateScore");
         currentLevel = SceneManager.GetActiveScene().name;
         CheckForSaveFile();
+        oldScore = defaultScore;
         ///if there is a valid player name...
         if (!string.IsNullOrEmpty(currentPlayer))
         {
@@ -79,6 +82,8 @@ public static class DataCollector
             ///...check if he's played before...
             if (tempPlayerDict[currentLevel].ContainsKey(currentPlayer))
             {
+                Debug.LogWarning("name: " + currentPlayer);
+                Debug.LogWarning("level: " + currentLevel);
                 oldScore = tempPlayerDict[currentLevel][currentPlayer];
                 ///...and test if the new score is a new best
                 if (newScore > oldScore)
@@ -102,22 +107,21 @@ public static class DataCollector
         }
 
         #region DEBUG ONLY
-        //foreach (KeyValuePair<string, Dictionary<string, int>> kvp in tempPlayerDict)
-        //{
-        //    string player = kvp.Key;
-        //    //print(player);
-        //    ICollection coll = kvp.Value;
-        //    foreach (KeyValuePair<string, int> item in coll)
-        //    {
-        //        Debug.Log("Level: " + player + "; Player: " + item.Key + ": " + item.Value);
-        //    }
-        //}
-        //List<KeyValuePair<string, int>> test = SortScoreboard(currentLevel);
-        //foreach(var item in test)
-        //{
-        //    Debug.Log(item);
-        //}
-        //Debug.Log("Name: " + currentPlayer);
+        foreach (KeyValuePair<string, Dictionary<string, int>> kvp in tempPlayerDict)
+        {
+            string player = kvp.Key;
+            //print(player);
+            ICollection coll = kvp.Value;
+            foreach (KeyValuePair<string, int> item in coll)
+            {
+                Debug.Log("level: " + player + "; player: " + item.Key + ": " + item.Value);
+            }
+        }
+        List<KeyValuePair<string, int>> test = SortScore(currentLevel);
+        foreach (var item in test)
+        {
+            Debug.Log(item);
+        }
         #endregion
     }
 

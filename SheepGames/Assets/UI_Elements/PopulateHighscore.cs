@@ -30,13 +30,6 @@ public class PopulateHighscore : MonoBehaviour {
         GetComponent<ScrollRect>().content = grid.gameObject.GetComponent<RectTransform>();
     }
 
-    ///sorts score PER GAME
-    public void NewGameScore(string game)
-    {
-        result = new List<KeyValuePair<string, int>>(DataCollector.GetGameTotals(DataCollector.gameLevels[game]));
-        PopulateGrid(result);
-    }
-
     ///sorts score PER LEVEL
     public void NewLevelScore(string level)
     {
