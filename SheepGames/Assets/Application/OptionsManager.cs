@@ -37,17 +37,25 @@ public class OptionsManager : MonoBehaviour {
     {
         resolutions = Screen.resolutions;
         resolutionsList = new List<string>();
+        float width;
+        float height;
 
         for (int i = 0; i < resolutions.Length; i++)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
-            resolutionsList.Add(option);
-
-            if (resolutions[i].width == Screen.currentResolution.width &&
-               resolutions[i].height == Screen.currentResolution.height)
+            width = resolutions[i].width;
+            height = resolutions[i].height;
+            if(Mathf.Approximately(width/height, 16f / 9f))
             {
-                currentResIndex = i;
+                string option = resolutions[i].width + " x " + resolutions[i].height;
+                resolutionsList.Add(option);
+
+                if (resolutions[i].width == Screen.currentResolution.width &&
+                   resolutions[i].height == Screen.currentResolution.height)
+                {
+                    currentResIndex = i;
+                }
             }
+
         }
         return resolutionsList;
     }

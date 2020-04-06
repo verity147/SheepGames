@@ -53,7 +53,6 @@ public class MainMenuController : MonoBehaviour {
             resolutionDrop.value = optManager.currentResIndex;
             resolutionDrop.RefreshShownValue();
 
-            //languageDrop.value = 
             soundSlider.value = PlayerPrefsManager.GetSfxVolume();
             musicSlider.value = PlayerPrefsManager.GetMusicVolume();
         }else if (menu == highscoreMenu)
