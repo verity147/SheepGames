@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class PartyManager : MonoBehaviour
 {
-    public SceneHandler sceneHandler;
+    public GameObject menu;
 
-    private void OnEnable()
+    public void Awake()
     {
-        sceneHandler.LoadLevel("04_MainMenu");
+        PopulateHighscore populateHighscore = menu.GetComponentInChildren<PopulateHighscore>();
+        populateHighscore.NewGrid();
+        populateHighscore.PopulateTotal();
     }
 }
