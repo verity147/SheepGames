@@ -12,6 +12,8 @@ public class JH_ObstacleSheep : MonoBehaviour {
     public LayerMask groundLayerMask;
     public AnimationClip walkLeftClip;
 
+    internal JH_ScoreCalculator scoreCalculator;
+
     private Animator anim;
     private Rigidbody2D rigidb;
     private AudioSource audioSource;
@@ -70,9 +72,9 @@ public class JH_ObstacleSheep : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Player")
         {
-            print("hit player");
             anim.SetTrigger("collision");
             gameObject.layer = 16; //collide with ground only
+            scoreCalculator.ObstacleSheepHit();
         }
     }
 

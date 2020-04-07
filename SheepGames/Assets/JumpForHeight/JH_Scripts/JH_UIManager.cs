@@ -10,19 +10,19 @@ using TMPro;
 public class JH_UIManager : MonoBehaviour
 {
     public GameObject speechBubble;
-    public GameObject scoreTextObject;
-    public GameObject scoreTextObject_T;
     public SceneHandler sceneHandler;
     public GameObject retryButton;
-    public GameObject endOfGameMenu;
-    public GameObject endOfGameMenu_T;
+    //public GameObject scoreTextObject;
+    //public GameObject scoreTextObject_T;
+    //public GameObject endOfGameMenu;
+    //public GameObject endOfGameMenu_T;
     public GameObject showScore;
     public GameObject gameEndButton;
     public TMP_Text tutorialMenuText;
 
     private LocalizationManager localizationManager;
-    private HighscoreHandler highscoreHandler;
-    private PopulateHighscore populateHighscore;
+    //private HighscoreHandler highscoreHandler;
+    //private PopulateHighscore populateHighscore;
     private JH_ScoreCalculator scoreCalculator;
     private int tries = 0;
     private readonly int maxTries = 3;
@@ -33,9 +33,9 @@ public class JH_UIManager : MonoBehaviour
     private void Awake()
     {
         localizationManager = FindObjectOfType<LocalizationManager>();
-        highscoreHandler = FindObjectOfType<HighscoreHandler>();
+        //highscoreHandler = FindObjectOfType<HighscoreHandler>();
         scoreCalculator = FindObjectOfType<JH_ScoreCalculator>();
-        populateHighscore = GetComponentInChildren<PopulateHighscore> (true);
+        //populateHighscore = GetComponentInChildren<PopulateHighscore> (true);
     }
     private void Start()
     {
@@ -72,21 +72,21 @@ public class JH_UIManager : MonoBehaviour
         showScore.GetComponent<TMP_Text>().text = scoreText;
     }
 
-    public void BuildLevelEndMenu()
-    {
-        if (TournamentTracker.IsTournamentRunning())
-        {
-            endOfGameMenu_T.SetActive(true);
-            populateHighscore = endOfGameMenu_T.GetComponentInChildren<PopulateHighscore>();
-            scoreTextObject_T.GetComponent<TMP_Text>().text = highscoreHandler.GetHighscoreText();
-        }
-        else
-        {
-            endOfGameMenu.SetActive(true);
-            populateHighscore = endOfGameMenu.GetComponentInChildren<PopulateHighscore>();
-            scoreTextObject.GetComponent<TMP_Text>().text = highscoreHandler.GetHighscoreText();
-        }
-        populateHighscore.NewGrid();
-        populateHighscore.NewLevelScore(SceneHandler.GetSceneName());
-    }
+    //public void BuildLevelEndMenu()
+    //{
+    //    if (TournamentTracker.IsTournamentRunning())
+    //    {
+    //        endOfGameMenu_T.SetActive(true);
+    //        populateHighscore = endOfGameMenu_T.GetComponentInChildren<PopulateHighscore>();
+    //        scoreTextObject_T.GetComponent<TMP_Text>().text = highscoreHandler.GetHighscoreText();
+    //    }
+    //    else
+    //    {
+    //        endOfGameMenu.SetActive(true);
+    //        populateHighscore = endOfGameMenu.GetComponentInChildren<PopulateHighscore>();
+    //        scoreTextObject.GetComponent<TMP_Text>().text = highscoreHandler.GetHighscoreText();
+    //    }
+    //    populateHighscore.NewGrid();
+    //    populateHighscore.NewLevelScore(SceneHandler.GetSceneName());
+    //}
 }

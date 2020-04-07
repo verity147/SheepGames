@@ -41,11 +41,6 @@ public class JH_ScoreCalculator : MonoBehaviour {
             {
                 score += winPointBonus;
             }
-            else if (obj.tag == "Obstacle")
-            {
-                score -= obstacleSheepPenalty;
-                flawless = false;
-            }
         }
         //paint all counted stones red for clarification/testing
         //if (obj.GetComponent<SpriteRenderer>())
@@ -53,6 +48,12 @@ public class JH_ScoreCalculator : MonoBehaviour {
         //    obj.GetComponent<SpriteRenderer>().color = Color.red;
         //}
 
+    }
+
+    public void ObstacleSheepHit()
+    {
+        score -= obstacleSheepPenalty;
+        flawless = false;
     }
 
     internal int CalculateEndScore()

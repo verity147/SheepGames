@@ -13,13 +13,15 @@ public class PP_GameManager : MonoBehaviour {
     public int prePlaceParts = 0;
     public TMP_Text scoreText;
     public ParticleSystem winParticle;
-    public PP_UIHandler uIHandler;
+    public ShowScoreMenu scoreMenu;
     public GameObject tutorialEndMenu;
     public GameObject mouseFollowHelper;
+    public GameObject tournamentConfirmQuit;
     public AudioClip correctAudio;
     public AudioClip errorAudio;
     public AudioClip finishedAudio;
     public OptionsManager optionsManager;
+    public SceneHandler sceneHandler;
 
     internal GameObject[] parts;
     private int correctParts = 0;
@@ -92,9 +94,9 @@ public class PP_GameManager : MonoBehaviour {
             return;
         }
         DataCollector.UpdateScore(CalculateScore());
-        if(uIHandler != null)
+        if(scoreMenu != null)
         {
-            uIHandler.BuildLevelEndMenu();
+            scoreMenu.BuildLevelEndMenu();
             mouseFollowHelper.SetActive(false);
         }
     }
@@ -202,5 +204,17 @@ public class PP_GameManager : MonoBehaviour {
             FindPosInHoldingArea(part.transform);
         }
         numberOfTries = 0;
+    }
+
+    public void TournamentConfirmQuitMenu()
+    {
+        if (TournamentTracker.IsTournamentRunning())
+        {
+            tournamentConfirmQuit.SetActive(true);
+        }
+        else
+        {
+            sceneHandler.LoadLevel("04_MainMenu");
+        }
     }
 }

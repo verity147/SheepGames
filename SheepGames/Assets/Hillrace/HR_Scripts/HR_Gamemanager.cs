@@ -19,13 +19,11 @@ public class HR_Gamemanager : MonoBehaviour
     public Button readyButton;
     public Button continueButton;
     public Image pauseMenu;
+    public Image pauseMenu_T;
     public Animator goalSheep;
     public Vector3 goalPosition;
     public SpectatorHandler spectatorHandler;
     public float goalAnimTime = 1f;
-    public GameObject scoreTextObject;
-    public GameObject endOfGameMenu;
-    public PopulateHighscore populateHighscore;
 
     private int pointsCollected = 0;
     private float gameTimer = 0;
@@ -37,14 +35,8 @@ public class HR_Gamemanager : MonoBehaviour
     private Vector3 playerGoalStartPos;
     private bool cursorMoving = false;
     private float cursorFadeTimer = 0f;
-    private HighscoreHandler highscoreHandler;
     private readonly float maxTimeScore = 1350f; ///score should be slightly over 1k for perfect play, 
                                                  ///this value seems to do the trick
-
-    private void Awake()
-    {
-        highscoreHandler = FindObjectOfType<HighscoreHandler>();
-    }
 
     private void Start()
     {
@@ -55,8 +47,15 @@ public class HR_Gamemanager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            pauseMenu.gameObject.SetActive(true);
             StartPauseGame(false);
+            if (TournamentTracker.IsTournamentRunning())
+            {
+                pauseMenu_T.gameObject.SetActive(true);
+            }
+            else
+            {
+                pauseMenu.gameObject.SetActive(true);
+            }
         }
         if (gameTimer > 3550f)
         {
@@ -128,15 +127,6 @@ public class HR_Gamemanager : MonoBehaviour
         playerGoalStartPos = player.transform.position;
         newScore = Mathf.RoundToInt(maxTimeScore - gameTimer) + pointsCollected;
         DataCollector.UpdateScore(newScore);
-    }
-
-    ///called from button press
-    public void BuildLevelEndMenu()
-    {
-        endOfGameMenu.SetActive(true);
-        populateHighscore.NewGrid();
-        populateHighscore.NewLevelScore(SceneHandler.GetSceneName());
-        scoreTextObject.GetComponent<TMP_Text>().text = highscoreHandler.GetHighscoreText();
     }
 
     public void ResetGame()

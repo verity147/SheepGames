@@ -20,6 +20,7 @@ public class JH_GameController : MonoBehaviour {
     public int numberOfTrajPoints = 4;
     public bool spawnObstacleSheep = false;
 
+    private JH_ScoreCalculator scoreCalculator;
     private Vector2 playerJumpForce;
     private Vector3 wallPos;
     private Vector3 prevCamPos;
@@ -37,6 +38,11 @@ public class JH_GameController : MonoBehaviour {
     internal bool drawNow = false;
     private Vector2[] trajPositions;
     private int level;
+
+    private void Awake()
+    {
+        scoreCalculator = GetComponentInChildren<JH_ScoreCalculator>();
+    }
 
     private void Start()
     {
@@ -160,6 +166,7 @@ public class JH_GameController : MonoBehaviour {
         if (spawnObstacleSheep)
         {
             tempOsheep = Instantiate(obstacleSheepPrefab, obstacleSheepPrefab.position, Quaternion.identity);
+            tempOsheep.GetComponent<JH_ObstacleSheep>().scoreCalculator = scoreCalculator;
         }
         tempPlayer = Instantiate(playerPrefab, playerPrefab.transform.position, Quaternion.identity, transform);
         tempWall = Instantiate(wallPrefabs[level], wallPos, Quaternion.identity);
