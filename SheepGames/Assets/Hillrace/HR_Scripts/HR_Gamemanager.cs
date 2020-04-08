@@ -35,8 +35,7 @@ public class HR_Gamemanager : MonoBehaviour
     private Vector3 playerGoalStartPos;
     private bool cursorMoving = false;
     private float cursorFadeTimer = 0f;
-    private readonly float maxTimeScore = 1350f; ///score should be slightly over 1k for perfect play, 
-                                                 ///this value seems to do the trick
+    private readonly float maxTimeScore = 1350f; ///score should be slightly over 1k for perfect play
 
     private void Start()
     {
@@ -45,7 +44,7 @@ public class HR_Gamemanager : MonoBehaviour
    
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && gameIsRunning)
         {
             StartPauseGame(false);
             if (TournamentTracker.IsTournamentRunning())

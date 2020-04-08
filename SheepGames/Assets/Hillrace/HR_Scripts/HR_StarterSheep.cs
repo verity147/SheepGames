@@ -6,7 +6,6 @@ using TMPro;
 public class HR_StarterSheep : MonoBehaviour
 {
     public TMP_Text countDownText;
-    public int counterSteps;
 
     private HR_Gamemanager gamemanager;
     private Animator anim;
@@ -23,17 +22,16 @@ public class HR_StarterSheep : MonoBehaviour
     public void StartGame()
     {
         anim.SetTrigger("startGame");
-        countHelper = counterSteps;
     }
 
     public void Countdown( string counter)
     {
-        countHelper--;
         countDownText.text = counter;
         if (countHelper < 1)
         {
             gamemanager.StartPauseGame(true);
         }
+        countHelper--;
     }
 
     private void PlayAudio()

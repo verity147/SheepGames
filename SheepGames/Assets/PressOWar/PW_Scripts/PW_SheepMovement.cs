@@ -198,7 +198,7 @@ public class PW_SheepMovement : MonoBehaviour {
                     PlaySound(clashAudio, 2);
                     break;
                 case PW_SoundList.Victory:
-                    PlaySound(victoryAudio, 0);
+                    PlaySound(victoryAudio, 1);
                     break;
                 case PW_SoundList.Step:
                     PlaySound(stepSound, 1);
