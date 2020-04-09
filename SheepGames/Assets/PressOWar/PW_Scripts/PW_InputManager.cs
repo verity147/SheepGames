@@ -22,6 +22,7 @@ public class PW_InputManager : MonoBehaviour {
     public PW_SheepMovement player;
     public PW_SheepMovement enemy;
     public Slider pBar;
+    public GameObject feedback;
     public GameObject continueButton;
     public SpectatorHandler spectatorHandler;
     public AudioClip correctSound;
@@ -128,20 +129,20 @@ public class PW_InputManager : MonoBehaviour {
                 player.StopGame(WinState.Loss);
                 enemy.StopGame(WinState.Win);
                 scoreManager.UpdateScore(lossPenalty);
-                continueButton.GetComponentInChildren<LocalizedText>().key = loseTextKey;
+                feedback.GetComponentInChildren<LocalizedText>().key = loseTextKey;
                 break;
             case WinState.Win:
                 player.StopGame(WinState.Win);
                 enemy.StopGame(WinState.Loss);
                 print(timeRemaining);
                 scoreManager.UpdateScore(timeRemaining * timeBonusMult);
-                continueButton.GetComponentInChildren<LocalizedText>().key = winTextKey;
+                feedback.GetComponentInChildren<LocalizedText>().key = winTextKey;
                 break;
             case WinState.Neutral:
                 player.StopGame(WinState.Neutral);
                 enemy.StopGame(WinState.Neutral);
                 scoreManager.UpdateScore(0);    ///running out of time incurs neither bonus nor penalty
-                continueButton.GetComponentInChildren<LocalizedText>().key = outOfTimeTextKey;
+                feedback.GetComponentInChildren<LocalizedText>().key = outOfTimeTextKey;
                 break;
             default:
                 break;
@@ -150,6 +151,7 @@ public class PW_InputManager : MonoBehaviour {
         directionsSpawner.StopAllCoroutines();
         timer.StopAllCoroutines();
         timer.gameStarted = false;
+        feedback.SetActive(true);
         continueButton.SetActive(true);
         spectatorHandler.EndOfGameReaction(winState);
     }

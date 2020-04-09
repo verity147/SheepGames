@@ -7,6 +7,7 @@ public class PP_DoorSceneLoad : MonoBehaviour
     private AudioSource audioSource;
     public string scene;
     public SceneHandler sceneHandler;
+    public TournamentTracker tournamentTracker;
 
     private void Awake()
     {
@@ -21,6 +22,13 @@ public class PP_DoorSceneLoad : MonoBehaviour
     IEnumerator WaitForSound()
     {
         yield return new WaitForSeconds(audioSource.clip.length);
-        sceneHandler.LoadLevel(scene);
+        if (TournamentTracker.IsTournamentRunning())
+        {
+            tournamentTracker.NextLevel();
+        }
+        else
+        {
+            sceneHandler.LoadLevel(scene);
+        }
     }
 }

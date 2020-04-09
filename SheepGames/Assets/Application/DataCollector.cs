@@ -55,10 +55,10 @@ public static class DataCollector
             GenerateExampleScorePerLevel(10, 25, pp_Levels[0]);
             GenerateExampleScorePerLevel(16, 33, pp_Levels[1]);
             GenerateExampleScorePerLevel(21, 44, pp_Levels[2]);
-            GenerateExampleScorePerLevel(12, 31, pw_Levels[0]);
-            GenerateExampleScorePerLevel(16, 33, pw_Levels[1]);
-            GenerateExampleScorePerLevel(18, 36, pw_Levels[2]);
-            GenerateExampleScorePerLevel(43, 98, hr_Levels[0]);
+            GenerateExampleScorePerLevel(14, 31, pw_Levels[0]);
+            GenerateExampleScorePerLevel(18, 33, pw_Levels[1]);
+            GenerateExampleScorePerLevel(21, 36, pw_Levels[2]);
+            GenerateExampleScorePerLevel(55, 98, hr_Levels[0]);
 
             /////for each game...
             //foreach (KeyValuePair<string, string[]> levelNames in gameLevels)
