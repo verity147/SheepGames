@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class PP_GameManager : MonoBehaviour {
 
@@ -12,26 +13,33 @@ public class PP_GameManager : MonoBehaviour {
     public int prePlaceParts = 0;
     public TMP_Text scoreText;
     public ParticleSystem winParticle;
-    public PP_UIHandler uIHandler;
+    public ShowScoreMenu scoreMenu;
     public GameObject tutorialEndMenu;
     public GameObject mouseFollowHelper;
+    public GameObject tournamentConfirmQuit;
+    public AudioClip correctAudio;
+    public AudioClip errorAudio;
+    public AudioClip finishedAudio;
+    public OptionsManager optionsManager;
+    public SceneHandler sceneHandler;
 
     internal GameObject[] parts;
-    //private BoxCollider2D holdingArea;
     private int correctParts = 0;
     private int numberOfTries = 0;
     private int numberOfFalseTries = 0;
     private ContactFilter2D contactFilter;
     private LayerMask layerMask = 12;
-    private readonly int scorePenalty = 8;
-    private readonly int scoreBonus = 24; /// three wrong tries will negate one correct try
+    private readonly int scorePenalty = 5;
+    private readonly int scoreBonus = 8;
+    private readonly int flawlessBonus = 100;
     private readonly int[] rotations = { 0, 90, 180, 270 };
     private Bounds holdingAreaBounds;
-
+    private AudioSource audioSource;
 
     private void Awake()
     {
         holdingAreaBounds = holdingArea.GetComponent<CompositeCollider2D>().bounds;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -50,7 +58,7 @@ public class PP_GameManager : MonoBehaviour {
             FindPosInHoldingArea(parts[i].transform);
             ///give the part a random rotation
             Vector3 euler = parts[i].transform.eulerAngles;
-            euler.z = rotations[Random.Range(0, rotations.Length)];
+            euler.z = rotations[UnityEngine.Random.Range(0, rotations.Length)];
             parts[i].transform.eulerAngles = euler;
         }    
     }
@@ -60,8 +68,8 @@ public class PP_GameManager : MonoBehaviour {
         ///get random point in bounds
         Vector3 collExtents = holdingAreaBounds.extents;
         ///z needs to be in front of background and gamemanager because clicks don't get properly registered otherwise
-        Vector3 newPos = new Vector3(Random.Range(-collExtents.x, collExtents.x), 
-                                     Random.Range(-collExtents.y, collExtents.y), -1f);
+        Vector3 newPos = new Vector3(UnityEngine.Random.Range(-collExtents.x, collExtents.x),
+                                     UnityEngine.Random.Range(-collExtents.y, collExtents.y), -1f);
         newPos.x += holdingAreaBounds.center.x;
         newPos.y += holdingAreaBounds.center.y;
         part.position = newPos;
@@ -71,11 +79,11 @@ public class PP_GameManager : MonoBehaviour {
         }
     }
 
+    ///give bonus points for a flawless game, otherwise substract the mistakes
     private int CalculateScore()
     {
-        print(numberOfTries);
-        print(numberOfFalseTries);
-        return ((numberOfTries-numberOfFalseTries) * scoreBonus) - (numberOfFalseTries * scorePenalty);
+        return numberOfFalseTries == 0 ? numberOfTries * scoreBonus + flawlessBonus : 
+                ((numberOfTries - numberOfFalseTries) * scoreBonus) - (numberOfFalseTries * scorePenalty);
     }
 
     private void GameFinished()
@@ -86,9 +94,9 @@ public class PP_GameManager : MonoBehaviour {
             return;
         }
         DataCollector.UpdateScore(CalculateScore());
-        if(uIHandler != null)
+        if(scoreMenu != null)
         {
-            uIHandler.BuildLevelEndMenu();
+            scoreMenu.BuildLevelEndMenu();
             mouseFollowHelper.SetActive(false);
         }
     }
@@ -118,18 +126,32 @@ public class PP_GameManager : MonoBehaviour {
                 if (newPos == puzzlePart.GetComponent<PP_PuzzlePartDisplay>().correctPosition)
                 {
                     print("correct");
-                    ///stop the piece from being moved again
+                    ///stop the piece from being moved again and move it behind the active piece
                     puzzlePart.GetComponent<Collider2D>().enabled = false;
+                    puzzlePart.GetComponent<SpriteRenderer>().sortingOrder = 0;
                     correctParts++;
+                    audioSource.PlayOneShot(correctAudio);
                     winParticle.transform.position = puzzlePart.transform.position;
                     winParticle.Play();
                     if (correctParts >= parts.Length)
                     {
+                        if (PlayerPrefsManager.GetMusicVolume() > 0.1f)
+                        {
+                            float rememberVolume = PlayerPrefsManager.GetMusicVolume();
+                            optionsManager.ChangeMusicVolume(0.1f);
+                            audioSource.PlayOneShot(finishedAudio);
+                            StartCoroutine(WaitForSound(finishedAudio, rememberVolume));
+                        }
+                        else
+                        {
+                            audioSource.PlayOneShot(finishedAudio);
+                        }
                         GameFinished();
                     }
                 }
                 else
                 {
+                    audioSource.PlayOneShot(errorAudio);
                     print("wrong position");
                     ///count to false tries
                     numberOfFalseTries++;
@@ -140,6 +162,7 @@ public class PP_GameManager : MonoBehaviour {
             ///if the piece lies incorrect, put back in Holding Area
             else
             {
+                audioSource.PlayOneShot(errorAudio);
                 print("rotated incorrectly");
                 ///count to false tries
                 numberOfFalseTries++;
@@ -156,6 +179,12 @@ public class PP_GameManager : MonoBehaviour {
             print("not in puzzleArea or holding area");
             FindPosInHoldingArea(puzzlePart);
         }
+    }
+
+    private IEnumerator WaitForSound(AudioClip finishedAudio, float volume)
+    {
+        yield return new WaitForSeconds(finishedAudio.length);
+        optionsManager.ChangeMusicVolume(volume);
     }
 
     private Vector3 CellCenterFromClick(Vector3 mousePos)
@@ -175,5 +204,17 @@ public class PP_GameManager : MonoBehaviour {
             FindPosInHoldingArea(part.transform);
         }
         numberOfTries = 0;
+    }
+
+    public void TournamentConfirmQuitMenu()
+    {
+        if (TournamentTracker.IsTournamentRunning())
+        {
+            tournamentConfirmQuit.SetActive(true);
+        }
+        else
+        {
+            sceneHandler.LoadLevel("04_MainMenu");
+        }
     }
 }

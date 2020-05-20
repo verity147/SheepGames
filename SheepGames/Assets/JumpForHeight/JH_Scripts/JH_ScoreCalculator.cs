@@ -6,20 +6,22 @@ using UnityEngine.UI;
 public class JH_ScoreCalculator : MonoBehaviour {
     
     internal int score = 0;
-    private readonly int stonePointPenaltyStart = 30;
-    private int obstacleSheepPenalty = 250;
-    internal int stonePointPenalty = 30;
-    internal int winPointBonus = 300;
+    private readonly int obstacleSheepPenalty = 250;
+    internal int stonePointPenalty = 20;
+    internal readonly int winPointBonus = 200;
+    private readonly int flawlessBonus = 50;
     private List<GameObject> countedObjects;
+    private bool flawless = true;
 
-    void Start () {
-        stonePointPenalty = stonePointPenaltyStart;
+    private void Start()
+    {
         countedObjects = new List<GameObject>();
     }
+
     public void ResetScore()
     {
         score = 0;
-        stonePointPenalty = stonePointPenaltyStart;
+        flawless = true;
         countedObjects.Clear();
         countedObjects.TrimExcess();
     }
@@ -33,14 +35,11 @@ public class JH_ScoreCalculator : MonoBehaviour {
             if(obj.tag == "JH_Stone")
             {
                 score -= stonePointPenalty;
+                flawless = false;
             }
             else if(obj.tag == "JH_Heather")
             {
                 score += winPointBonus;
-            }
-            else if (obj.tag == "Obstacle")
-            {
-                score -= obstacleSheepPenalty;
             }
         }
         //paint all counted stones red for clarification/testing
@@ -51,5 +50,16 @@ public class JH_ScoreCalculator : MonoBehaviour {
 
     }
 
+    public void ObstacleSheepHit()
+    {
+        score -= obstacleSheepPenalty;
+        flawless = false;
+    }
 
+    internal int CalculateEndScore()
+    {
+        if (score == 0)
+            flawless = false;
+        return flawless == true ? score + flawlessBonus : score;
+    }
 }

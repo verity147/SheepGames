@@ -14,11 +14,13 @@ public class PW_Timer : MonoBehaviour {
     private float stateDuration;
     private int currentState = 0;
     private Vector3 startPos;
+    private AudioSource audioSource;
 
     internal bool gameStarted = false;
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         inputManager = FindObjectOfType<PW_InputManager>();
     }
 
@@ -56,6 +58,7 @@ public class PW_Timer : MonoBehaviour {
     {
         yield return new WaitForSeconds(stateDuration);
         currentState++;
+        audioSource.Play();
         sRenderer.sprite = sprites[currentState];
         if(sRenderer.sprite == sprites[sprites.GetUpperBound(0)])
         {

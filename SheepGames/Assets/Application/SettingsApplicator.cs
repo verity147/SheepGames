@@ -20,12 +20,19 @@ public class SettingsApplicator : MonoBehaviour {
         {
             Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
         }
-        StartCoroutine(ShowLogos());
+
+        if (!PlayerPrefs.HasKey("musicVolume"))
+        {
+            PlayerPrefsManager.SetMusicVolume(0.8f);
+        }
+        if (!PlayerPrefs.HasKey("sfxVolume"))
+        {
+            PlayerPrefsManager.SetSfxVolume(0.8f);
+        }
     }
 
-    private IEnumerator ShowLogos()
+    public void LoadIntro()
     {
-        yield return new WaitForSecondsRealtime(2);
         sceneHandler.LoadLevel("02_Intro");
     }
 }

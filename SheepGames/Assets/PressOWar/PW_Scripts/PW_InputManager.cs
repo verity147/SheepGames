@@ -3,23 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PW_InputManager : MonoBehaviour {
+enum FeedbackSounds { correct, wrong }
 
+public class PW_InputManager : MonoBehaviour {
     private BoxCollider2D boxCollider;
     private ContactFilter2D contactFilter;
     private PW_ScoreManager scoreManager;
     private PW_DirectionsSpawner directionsSpawner;
     private PW_Timer timer;
+    private AudioSource audioSource;
 
     public float boostTime = 10f;
     public float boostFull = 10f;
     public float precisionBonus = 1;
     public float boostForce = 5f;
+    public int lossPenalty = -100;
+    public int timeBonusMult = 10;
     public PW_SheepMovement player;
     public PW_SheepMovement enemy;
     public Slider pBar;
+    public GameObject feedback;
     public GameObject continueButton;
     public SpectatorHandler spectatorHandler;
+    public AudioClip correctSound;
+    public AudioClip wrongSound;
 
     private float currentTurnTime = 0;
     private float currentPrecBonus = 0;
@@ -27,9 +34,14 @@ public class PW_InputManager : MonoBehaviour {
     private bool lastPrecCheck = false;
     private bool boostIsRunning = false;
     private float playerMoveDist;
-    private float playerCurrentDist;
 
     internal bool gameIsRunning = false;
+    private bool cursorMoving = false;
+    private float cursorFadeTimer = 0f;
+
+    private readonly string winTextKey = "Win_T";
+    private readonly string loseTextKey = "Loss_T";
+    private readonly string outOfTimeTextKey = "TimeUp_T";
 
     private void Awake()
     {
@@ -37,6 +49,7 @@ public class PW_InputManager : MonoBehaviour {
         directionsSpawner = FindObjectOfType<PW_DirectionsSpawner>();
         timer = FindObjectOfType<PW_Timer>();
         boxCollider = GetComponent<BoxCollider2D>();
+        audioSource = GetComponent<AudioSource>();
         contactFilter = new ContactFilter2D
         {
             layerMask = 9
@@ -51,7 +64,7 @@ public class PW_InputManager : MonoBehaviour {
     private void Update()
     {
         if (!gameIsRunning)
-                return;
+            return;
         currentTurnTime += Time.deltaTime;
         pBar.value = Mathf.Abs(player.transform.position.x - player.losePosX) / playerMoveDist;
         if (Input.GetButtonDown("Left"))
@@ -70,6 +83,26 @@ public class PW_InputManager : MonoBehaviour {
         {
             CheckForDirection(Direction.Down);
         }
+
+        cursorMoving = Input.GetAxis("Mouse X") < 0 || (Input.GetAxis("Mouse X") > 0);
+        ManageCursorVisibility();
+    }
+
+    private void ManageCursorVisibility()
+    {
+        if (cursorMoving && !Cursor.visible)
+        {
+            Cursor.visible = true;
+        }
+        if (!cursorMoving && Cursor.visible)
+        {
+            cursorFadeTimer += Time.deltaTime;
+            if (cursorFadeTimer >= 1f)
+            {
+                Cursor.visible = false;
+                cursorFadeTimer = 0f;
+            }
+        }
     }
 
     internal void StartGame()
@@ -79,11 +112,13 @@ public class PW_InputManager : MonoBehaviour {
         enemy.StartGame();
         directionsSpawner.StartSpawnEngine();
         timer.SetUpTimer();
+        Cursor.visible = false;
     }
 
     internal void EndGame(WinState winState)
     {
         gameIsRunning = false;
+        Cursor.visible = true;
         //evaluate Score, and trigger corresponding win/lose messages
 
         int timeRemaining = Mathf.RoundToInt(timer.turnTimeInSec - currentTurnTime);
@@ -93,15 +128,21 @@ public class PW_InputManager : MonoBehaviour {
             case WinState.Loss:
                 player.StopGame(WinState.Loss);
                 enemy.StopGame(WinState.Win);
+                scoreManager.UpdateScore(lossPenalty);
+                feedback.GetComponentInChildren<LocalizedText>().key = loseTextKey;
                 break;
             case WinState.Win:
                 player.StopGame(WinState.Win);
                 enemy.StopGame(WinState.Loss);
-                scoreManager.UpdateScore(timeRemaining * 10);
+                print(timeRemaining);
+                scoreManager.UpdateScore(timeRemaining * timeBonusMult);
+                feedback.GetComponentInChildren<LocalizedText>().key = winTextKey;
                 break;
             case WinState.Neutral:
                 player.StopGame(WinState.Neutral);
                 enemy.StopGame(WinState.Neutral);
+                scoreManager.UpdateScore(0);    ///running out of time incurs neither bonus nor penalty
+                feedback.GetComponentInChildren<LocalizedText>().key = outOfTimeTextKey;
                 break;
             default:
                 break;
@@ -110,6 +151,7 @@ public class PW_InputManager : MonoBehaviour {
         directionsSpawner.StopAllCoroutines();
         timer.StopAllCoroutines();
         timer.gameStarted = false;
+        feedback.SetActive(true);
         continueButton.SetActive(true);
         spectatorHandler.EndOfGameReaction(winState);
     }
@@ -121,15 +163,16 @@ public class PW_InputManager : MonoBehaviour {
 
         if (colliderAmount == 1 && touchingColliders[0] != null)
         {
-            //print("Currently registered collider: " + touchingColliders[0].gameObject);
-            if(inputDir == touchingColliders[0].GetComponent<PW_Direction>().direction)
+            if(inputDir == touchingColliders[0].GetComponent<PW_Direction>().direction)///correct button pressed
             {
+                audioSource.PlayOneShot(correctSound);
                 PrecisionCheck(touchingColliders[0].gameObject);
                 lastPrecCheck = true;
             }
-            else
+            else///wrong button pressed
             {
                 scoreManager.SubstractScore(ScoreMalus.WrongDirPressed);
+                audioSource.PlayOneShot(wrongSound);
                 lastPrecCheck = false;
                 enemy.EnemyPushHelper();
             }
@@ -146,7 +189,7 @@ public class PW_InputManager : MonoBehaviour {
             ///did not hit any direction
             scoreManager.SubstractScore(ScoreMalus.PressedNoDir);
             print("pressed a button but there was no direction");
-            //do an effect
+            audioSource.PlayOneShot(wrongSound);
         }
     }
 
@@ -213,10 +256,10 @@ public class PW_InputManager : MonoBehaviour {
     private void OnTriggerExit2D(Collider2D collision)
     {
         GameObject collidedObject = collision.gameObject;
-        //do effect to show the direction was missed
         if (collidedObject.activeInHierarchy)
         {
             collidedObject.SetActive(false);
+            audioSource.PlayOneShot(wrongSound);
             scoreManager.SubstractScore(ScoreMalus.DirMissed);
             enemy.EnemyPushHelper();
         }

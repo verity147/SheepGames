@@ -36,6 +36,7 @@ public class LocalizationManager : MonoBehaviour {
 
     public void LoadLocalization(string fileName)
     {
+        print("trying to load " + fileName);
         StartCoroutine(LocalizationReady());
         localizedText = new Dictionary<string, string>();
         string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
@@ -77,6 +78,7 @@ public class LocalizationManager : MonoBehaviour {
         {
             yield return null;
         }
+        isLoaded = false;
         sceneHandler.LoadLevel("04_MainMenu");
     }
 

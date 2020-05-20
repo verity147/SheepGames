@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PW_SoundList { Clash, Victory, Step, Loss }
+
 public class PW_SheepMovement : MonoBehaviour {
 
     public float pushForce;
@@ -15,6 +17,11 @@ public class PW_SheepMovement : MonoBehaviour {
     public Vector3 enemyLossPos;
     public AnimationClip clashAnim;
     public AnimationClip lossFallAnim;
+    public AudioClip clashAudio;
+    public AudioClip victoryAudio;
+    public AudioClip stepSound;
+    public AudioClip splashAudio;
+    public AudioSource[] audioSources;
 
     private Animator anim;
     private Rigidbody2D rBody;
@@ -175,5 +182,32 @@ public class PW_SheepMovement : MonoBehaviour {
     public void PlayParticles()
     {
         GetComponentInChildren<ParticleHandler>().RunParticleSystem();
+    }
+
+    private void PlaySound(AudioClip clip, int source)
+    {
+        audioSources[source].PlayOneShot(clip);
+    }
+
+    public void TriggerSound(PW_SoundList sound)
+    {
+        if (audioSources.Length > 0)
+            switch (sound)/// 0 is the normal audioSource, 1 is lower volume, 2 is louder
+            {
+                case PW_SoundList.Clash:
+                    PlaySound(clashAudio, 2);
+                    break;
+                case PW_SoundList.Victory:
+                    PlaySound(victoryAudio, 1);
+                    break;
+                case PW_SoundList.Step:
+                    PlaySound(stepSound, 1);
+                    break;
+                case PW_SoundList.Loss:
+                    PlaySound(splashAudio, 2);
+                    break;
+                default:
+                    return;
+            }
     }
 }

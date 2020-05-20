@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using TMPro;
 
 public class LocalizedText : MonoBehaviour {
@@ -7,6 +8,17 @@ public class LocalizedText : MonoBehaviour {
 
 	void Start () {
         TMP_Text text = GetComponent<TMP_Text>();
-        text.text = LocalizationManager.localizationManager.GetLocalizedText(key);
+
+        if (!LocalizationManager.localizationManager)
+        {
+            Debug.LogError("The LocalizationManager is not loaded!");
+            return;
+
+        }
+
+        if(string.IsNullOrEmpty(LocalizationManager.localizationManager.GetLocalizedText(key)))
+            Debug.LogWarning(gameObject.name.ToString() + " could not find translation file for " + key);
+        else
+            text.text = LocalizationManager.localizationManager.GetLocalizedText(key);       
 	}
 }

@@ -17,7 +17,6 @@ public class PW_ScoreManager : MonoBehaviour {
     public int dirMissed = 5;
     public int pressedNoDir = 5;
 
-    public ScoreMalus malus;
 
     internal float currentScore = 0;
 
@@ -67,8 +66,8 @@ public class PW_ScoreManager : MonoBehaviour {
 
     internal void UpdateScore(int addScore)
     {
-        int scoreInt = Mathf.RoundToInt(currentScore) + addScore;
+        int scoreInt = Mathf.RoundToInt(currentScore + addScore);
         uiHandler.score.text = scoreInt.ToString();
-        DataCollector.UpdateScore(Mathf.RoundToInt(scoreInt));
+        DataCollector.UpdateScore(scoreInt);
     }
 }

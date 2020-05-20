@@ -10,8 +10,8 @@ public class PW_UIHandler : MonoBehaviour {
     public GameObject scoreTextObject;
     public TMP_Text score;
     public GameObject drummer;
-
     public GameObject endOfGameMenu;
+
     private PW_InputManager inputManager;
     private LocalizationManager localizationManager;
     private HighscoreHandler highscoreHandler;
@@ -61,11 +61,5 @@ public class PW_UIHandler : MonoBehaviour {
         StartCoroutine(Countdown());
     }
 
-    public void BuildLevelEndMenu()
-    {
-        endOfGameMenu.SetActive(true);
-        populateHighscore.NewGrid();
-        populateHighscore.NewLevelScore(SceneHandler.GetSceneName());
-        scoreTextObject.GetComponent<TMP_Text>().text = highscoreHandler.GetHighscoreText();
-    }
+ 
 }

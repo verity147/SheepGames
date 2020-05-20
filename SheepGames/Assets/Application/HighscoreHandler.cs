@@ -16,6 +16,9 @@ public class HighscoreHandler : MonoBehaviour
     [HideInInspector]
     public HighscoreHandler highscorehandler;
 
+    public int oldScore;
+    public int newScore;
+
     private void Awake()
     {
         ///Highscore Handler is needed in every game scene,
@@ -33,8 +36,8 @@ public class HighscoreHandler : MonoBehaviour
 
     public string GetHighscoreText()
     {
-        int oldScore = DataCollector.oldScore;
-        int newScore = DataCollector.currentScore;
+        oldScore = DataCollector.oldScore;
+        newScore = DataCollector.currentScore;
         string bestScoreText = "";
 
         if (oldScore == newScore)
