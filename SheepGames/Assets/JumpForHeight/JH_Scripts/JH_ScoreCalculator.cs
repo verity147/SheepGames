@@ -7,8 +7,8 @@ public class JH_ScoreCalculator : MonoBehaviour {
     
     internal int score = 0;
     private readonly int obstacleSheepPenalty = 250;
-    internal int stonePointPenalty = 20;
-    internal readonly int winPointBonus = 200;
+    internal int stonePointPenalty = 25;
+    internal readonly int winPointBonus = 150;
     private readonly int flawlessBonus = 50;
     private List<GameObject> countedObjects;
     private bool flawless = true;
@@ -59,7 +59,10 @@ public class JH_ScoreCalculator : MonoBehaviour {
     internal int CalculateEndScore()
     {
         if (score == 0)
+        {
             flawless = false;
+        }
+
         return flawless == true ? score + flawlessBonus : score;
     }
 }
