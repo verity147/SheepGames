@@ -2560,7 +2560,7 @@ PrefabInstance:
     - target: {fileID: 224875783259960400, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 960.00006
+      value: 960.0001
       objectReference: {fileID: 0}
     - target: {fileID: 224875783259960400, guid: f2ccbf1c0d34ed14a9e29886d9e66e4b,
         type: 3}
@@ -4619,8 +4619,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 711332838}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalScale: {x: 0.010000001, y: 0.010000001, z: 0.010000001}
   m_Children:
   - {fileID: 718312554}
   - {fileID: 1590716565}
@@ -4630,8 +4630,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 1079.9999}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &711332843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8295,6 +8295,7 @@ MonoBehaviour:
   highscoreMenu: {fileID: 941699775}
   confirmQuitMenu: {fileID: 1674191920}
   welcomeText: {fileID: 1590716564}
+  menuButtons: {fileID: 1801051948}
 --- !u!4 &1083868149
 Transform:
   m_ObjectHideFlags: 0
@@ -14833,7 +14834,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 0a48d7b5aee7f9f4d88d985b256c6c97, type: 3}
+      objectReference: {fileID: 8300000, guid: 6041ff115c405734c80ddd4083c72daa, type: 3}
     - target: {fileID: 82352871512155074, guid: 01468cacb0136b24599c19e240a64cb0,
         type: 3}
       propertyPath: Loop

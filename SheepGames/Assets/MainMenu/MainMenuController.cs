@@ -17,6 +17,7 @@ public class MainMenuController : MonoBehaviour {
     public GameObject highscoreMenu;
     public GameObject confirmQuitMenu;
     public GameObject welcomeText;
+    public GameObject menuButtons;
 
     private GameObject[] menus;
     private OptionsManager optManager;
@@ -31,6 +32,7 @@ public class MainMenuController : MonoBehaviour {
         else
         {
             welcomeText.SetActive(true);
+            menuButtons.SetActive(true);
         }
     }
 

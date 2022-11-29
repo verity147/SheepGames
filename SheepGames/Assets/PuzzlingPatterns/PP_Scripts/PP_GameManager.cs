@@ -86,16 +86,17 @@ public class PP_GameManager : MonoBehaviour {
                 ((numberOfTries - numberOfFalseTries) * scoreBonus) - (numberOfFalseTries * scorePenalty);
     }
 
-    private void GameFinished()
+    private IEnumerator GameFinished()
     {
         if (SceneHandler.GetSceneName() == "PP_GameLV_00")
         {
             tutorialEndMenu.SetActive(true);
-            return;
+            yield return null;
         }
         DataCollector.UpdateScore(CalculateScore());
         if(scoreMenu != null)
         {
+            yield return new WaitForSeconds(1f);
             scoreMenu.BuildLevelEndMenu();
             mouseFollowHelper.SetActive(false);
         }
@@ -146,7 +147,7 @@ public class PP_GameManager : MonoBehaviour {
                         {
                             audioSource.PlayOneShot(finishedAudio);
                         }
-                        GameFinished();
+                        StartCoroutine(GameFinished());
                     }
                 }
                 else

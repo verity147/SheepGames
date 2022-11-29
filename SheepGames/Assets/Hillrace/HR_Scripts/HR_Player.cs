@@ -14,16 +14,19 @@ public partial class HR_Player : MonoBehaviour
     public float swimSpeed = 4f;
     public float accelTime = 2f;        ///lerpTime
     public float aircontrolSpeed = 10f;
+    public float maxYspeed = 10f;
     public float jumpforce = 10f;
     public float jumpBoost = 10f;
-    public float maxYspeed = 10f;
+    public float jumpBoostLength = 1f;
     public float standardJumpHeight = 10f;
-    public float swimJumpHeight = 10f;
     public float jumpGravity = 1f;
     public float swimJumpGravity = 1f;
+    public float swimJumpHeight = 10f;
     public float fallStunTime = 0.5f;
+    [Space]
     public ParticleSystem particle;
     public Transform particleSpawn;
+    [Header("Audioclips")]
     public AudioSource[] audioSources;
     public AudioClip stepSound;
     public AudioClip winSound;
@@ -104,6 +107,7 @@ public partial class HR_Player : MonoBehaviour
     private HR_PlayerCanvas playerCanvas;
     private bool lookRight = true;
     public bool Stunned { get; set; } = false;
+
     private float startY;
     private float normalGravity;
     private float currentLerpTime = 0f;
@@ -257,7 +261,7 @@ public partial class HR_Player : MonoBehaviour
         }
         if (!drinking && drinkTime > 0f)
         {
-            drinkTime -= Time.deltaTime * 0.5f; ///timer goes down way too fast otherwise
+            drinkTime -= Time.deltaTime * jumpBoostLength;
             playerCanvas.drinkMeter.value = drinkTime / maxDrinkTime;
         }
         if (playerCanvas.drinkMeter.IsActive() && drinkTime <= 0f && !DrinkingAllowed)

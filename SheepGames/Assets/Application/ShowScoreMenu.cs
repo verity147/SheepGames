@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class ShowScoreMenu : MonoBehaviour
 {
@@ -35,4 +36,5 @@ public class ShowScoreMenu : MonoBehaviour
         populateHighscore.NewGrid();
         populateHighscore.NewLevelScore(SceneHandler.GetSceneName());
     }
+
 }

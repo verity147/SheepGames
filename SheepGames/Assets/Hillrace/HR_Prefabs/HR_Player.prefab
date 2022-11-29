@@ -1318,13 +1318,14 @@ MonoBehaviour:
   swimSpeed: 4
   accelTime: 1.5
   aircontrolSpeed: 5
+  maxYspeed: 10
   jumpforce: 16
   jumpBoost: 1
-  maxYspeed: 10
+  jumpBoostLength: 0.3
   standardJumpHeight: 2.55
-  swimJumpHeight: 1.3
   jumpGravity: 1
   swimJumpGravity: 20
+  swimJumpHeight: 1.3
   fallStunTime: 0.6
   particle: {fileID: 1776441818162322665, guid: 6a94d0e3fc0007b47881fe489a6f8dd7,
     type: 3}
@@ -1334,13 +1335,12 @@ MonoBehaviour:
   - {fileID: 3885429668890054474}
   - {fileID: 8867755643593608775}
   stepSound: {fileID: 8300000, guid: ec5f20e757f4ead4c91dcc32e06759c8, type: 3}
-  jumpSound: {fileID: 0}
-  drinkSound: {fileID: 8300000, guid: 2c09f467f2e4ab24daa96086def43039, type: 3}
-  fallSound: {fileID: 8300000, guid: 826773393fafbb14f98588ac2e7b1995, type: 3}
+  winSound: {fileID: 8300000, guid: 58fc414acfeeb4d42a48617755a64604, type: 3}
+  drinkSound: {fileID: 8300000, guid: f89237515ecc6a349aaa73135f5606d9, type: 3}
+  fallSound: {fileID: 8300000, guid: ab510c7aabf613c4083747147efc3c6e, type: 3}
   swimSound: {fileID: 8300000, guid: d9f4223f3c8f95547bc5a27ec016d1aa, type: 3}
   splashSound: {fileID: 8300000, guid: 97e3994709fa0b14996fbc261a96ec60, type: 3}
-  boostEndSound: {fileID: 8300000, guid: 707459eaa5449eb4da88afe2b0074a41, type: 3}
-  scoreSound: {fileID: 8300000, guid: d8223cd2c0fa09246971f7a8dba12183, type: 3}
+  scoreSound: {fileID: 8300000, guid: 641fa85bb5c956245a1a9da31d3d9a7b, type: 3}
 --- !u!114 &1072420856261253021
 MonoBehaviour:
   m_ObjectHideFlags: 0
