@@ -6,6 +6,9 @@ using TMPro;
 
 public class PW_UIHandler : MonoBehaviour {
 
+    public bool automaticStartGame = false;
+    public float countdownWaitSeconds = 1.2f;
+    [Space]
     public TMP_Text countDown;
     public GameObject scoreTextObject;
     public TMP_Text score;
@@ -18,7 +21,7 @@ public class PW_UIHandler : MonoBehaviour {
     private PopulateHighscore populateHighscore;
     private int countdownCounter = 3;
 
-    #region LOCALIZATION KEYS
+    #region SCORE LOCALIZATION KEYS
     private readonly string scoresEqualKey = "EqualScore_T";
     private readonly string noPreviousScoreKey = "FirstScore_T";
     private readonly string newScoreBetterKey = "newScoreBetter_T";
@@ -36,11 +39,13 @@ public class PW_UIHandler : MonoBehaviour {
     private void Start()
     {
         countDown.text = countdownCounter.ToString();
+        if(automaticStartGame)
+            StartCoroutine(Countdown());
     }
 
     private IEnumerator Countdown()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(countdownWaitSeconds);
         countdownCounter--;
         countDown.text = countdownCounter.ToString();
         if (countdownCounter < 1)
@@ -56,6 +61,7 @@ public class PW_UIHandler : MonoBehaviour {
         StartCoroutine(Countdown());
     }
 
+    ///needed because you can't start a coroutine from a ui button 
     public void ExecuteGameStart()
     {
         StartCoroutine(Countdown());
