@@ -30,9 +30,4 @@ public class SettingsApplicator : MonoBehaviour {
             PlayerPrefsManager.SetSfxVolume(0.8f);
         }
     }
-
-    public void LoadIntro()
-    {
-        sceneHandler.LoadLevel("02_Intro");
-    }
 }

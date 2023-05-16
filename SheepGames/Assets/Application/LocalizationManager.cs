@@ -22,13 +22,16 @@ public class LocalizationManager : MonoBehaviour {
 
     private void Awake()
     {
+        print("another one");
         ///Localization Manager is needed by every element that holds localized text, 
         ///so it uses a singleton pattern to ensure it is always available and exists only once
         if(localizationManager == null)
         {
+            print("+1");
             localizationManager = this;
         }else if (localizationManager !=this)
         {
+            print("destroy");
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);

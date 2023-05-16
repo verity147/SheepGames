@@ -7,6 +7,7 @@ public class IntroLoadHelper : MonoBehaviour {
 
     public SceneHandler sceneHandler;
 
+    ///triggerd from Anim Event
     public void NotifySceneHandler()
     {
         LocalizationManager.localizationManager.enabled = true;
